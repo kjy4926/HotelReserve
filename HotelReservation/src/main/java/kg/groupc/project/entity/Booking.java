@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +24,8 @@ public class Booking {
 	@Column(updatable = false)
 	private long seq;
 	
+	@ManyToOne
+	@JoinColumn(name = "room_seq")
 	@Column(nullable = false)
 	private long room;
 	
