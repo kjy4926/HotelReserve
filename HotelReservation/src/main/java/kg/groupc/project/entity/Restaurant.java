@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+// 맛집
 @Entity
 @Getter
 @Setter
@@ -19,15 +20,19 @@ public class Restaurant {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long seq;
 	
+	// 점포 이름
 	@Column(nullable = false, length = 50)
 	private String name;
 	
+	// 점포 주소
 	@Column(nullable = false, length = 100)
 	private String address;
 	
+	// 점포 전화번호
 	@Column(nullable = false, length = 20)
 	private String phone;
 	
+	// 점포 이미지
 	@Column(nullable = true, length = 255)
 	private String img;
 }

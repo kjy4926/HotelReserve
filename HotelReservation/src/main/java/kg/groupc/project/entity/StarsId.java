@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// 찜하기 복합키 Idclass
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

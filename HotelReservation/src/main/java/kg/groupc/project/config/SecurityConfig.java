@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfig {
-	@Autowired
+//	@Autowired
 //	AccountService accountService;
 	
 	@Bean

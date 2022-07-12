@@ -1,5 +1,9 @@
 package kg.groupc.project.repository;
 
-public interface RoomRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import kg.groupc.project.entity.Room;
+
+public interface RoomRepository extends JpaRepository<Room, Long>{
 
 }

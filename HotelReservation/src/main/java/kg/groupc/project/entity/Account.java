@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+// 계정
 @Entity
 @Getter
 @Setter

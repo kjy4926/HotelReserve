@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+// 호텔
 @Entity
 @Getter
 @Setter
