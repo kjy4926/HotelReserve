@@ -15,5 +15,5 @@ public class Stars {
 	@Id
 	private String userId;
 	@Id
-	private String restaurant;
+	private long restaurant;
 }
