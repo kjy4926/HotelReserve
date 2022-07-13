@@ -15,44 +15,35 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-// 예약
 @Entity
 @Getter
 @Setter
 @ToString
-public class Booking {
+public class InquireReply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false)
 	private long seq;
 	
-	// 방 id(외래키)
-	@ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "room")
-	private long room;
+	// 문의글 id(외래키)
+	@ManyToOne(optional = false, targetEntity = Inquire.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "inquire")
+	private long inquire;
 	
-	// 예약자(외래키)
+	// 작성자(관리자, 외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "reserver")
-	private String reserver;
+	@JoinColumn(name = "admin")
+	private String admin;
 	
-	// 예약일
+	// 제목
+	@Column(nullable = false, length = 30)
+	private String title;
+	
+	// 내용
+	@Column(nullable = false, length = 1000)
+	private String description;
+	
+	// 작성일
 	@Column(nullable = false)
-	private Date reserveDate;
-	
-	// 예약 종료일
-	@Column(nullable = false)
-	private Date reserveEndDate;
-	
-	// 예약 상태
-	@Column(nullable = false, columnDefinition = "number(1) default 1")
-	private long status;
-	
-	// 가격
-	@Column(nullable = false)
-	private long price;
-	
-	// 인원 수
-	@Column(nullable = false)
-	private long people;
+	private Date day;
 }

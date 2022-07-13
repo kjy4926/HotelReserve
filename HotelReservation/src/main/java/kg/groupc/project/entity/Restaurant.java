@@ -35,4 +35,12 @@ public class Restaurant {
 	// 점포 이미지
 	@Column(nullable = true, length = 255)
 	private String img;
+	
+	// 점포 상태
+	@Column(nullable = false, columnDefinition = "number(1) default 1")
+	private long status;
+	
+	// 점포 설명
+	@Column(nullable = true, length = 1000)
+	private String description;
 }

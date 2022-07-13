@@ -42,7 +42,7 @@ public class Room {
 	private long people;
 	
 	// 방 정보
-	@Column(nullable = true, length = 500)
+	@Column(nullable = true, length = 1000)
 	private String description;
 	
 	// 방 이미지

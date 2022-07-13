@@ -40,7 +40,7 @@ public class RestaurantScore {
 	private long score;
 	
 	// 리뷰 내용
-	@Column(nullable = true)
+	@Column(nullable = true, length = 1000)
 	private String description;
 	
 	// 작성일

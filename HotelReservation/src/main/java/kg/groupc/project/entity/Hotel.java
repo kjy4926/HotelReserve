@@ -34,7 +34,7 @@ public class Hotel {
 	private String address;
 	
 	// 호텔 설명
-	@Column(nullable = true, length = 500)
+	@Column(nullable = true, length = 1000)
 	private String description;
 	
 	// 호텔 이미지
@@ -42,6 +42,6 @@ public class Hotel {
 	private String img;
 	
 	// 호텔 상태(0 = 폐점), 기본적으로 1
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private long status;
 }

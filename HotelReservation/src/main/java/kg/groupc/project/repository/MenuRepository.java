@@ -1,6 +1,10 @@
 package kg.groupc.project.repository;
 
-// 차후 구현 예정
-public interface MenuRepository {
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import kg.groupc.project.entity.Menu;
+
+public interface MenuRepository extends JpaRepository<Menu, Long> {
 
 }

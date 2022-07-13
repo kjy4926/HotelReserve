@@ -1,6 +1,9 @@
 package kg.groupc.project.repository;
 
-// 차후 구현 예정
-public interface InquireReplyRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import kg.groupc.project.entity.InquireReply;
+
+public interface InquireReplyRepository extends JpaRepository<InquireReply, Long>{
 
 }

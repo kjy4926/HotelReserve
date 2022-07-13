@@ -41,7 +41,7 @@ public class HotelScore {
 	private long score;
 	
 	// 리뷰 글 내용
-	@Column(nullable = true, length = 500)
+	@Column(nullable = true, length = 1000)
 	private String description;
 	
 	// 작성일

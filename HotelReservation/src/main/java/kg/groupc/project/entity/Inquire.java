@@ -41,7 +41,7 @@ public class Inquire {
 	private String title;
 	
 	// 문의글 내용
-	@Column(nullable = false)
+	@Column(nullable = false, length = 1000)
 	private String description;
 	
 	// 작성일
@@ -51,4 +51,7 @@ public class Inquire {
 	// 카테고리
 	@Column(nullable = false)
 	private String category;
+
+	@Column(nullable = false, columnDefinition = "number(1) default 1")
+	private long status;
 }
