@@ -15,8 +15,9 @@
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
 	
-	    <div class="collapse navbar-collapse" id="navbarColor02">
-	      <ul class="navbar-nav container-fluid justify-content-around">
+	    <div class="collapse navbar-collapse justify-content-between" id="navbarColor02">
+<!-- 	      <ul class="navbar-nav container-fluid justify-content-around"> -->
+	      <ul class="navbar-nav">
 	        <li class="nav-item">
 	          <a class="nav-link" href="${pageContext.request.contextPath}/">Home
 	            <span class="visually-hidden">(current)</span>
