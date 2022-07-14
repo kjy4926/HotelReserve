@@ -14,10 +14,11 @@
   - 호텔 및 맛집에 대하여 리뷰 기능을 제공한다.
 
 ## Develop Enviroment
-  - JDK(1.8)
+  - Java(jdk 1.8)
   - Eclipse 2020-06
   - Oracle 21c
   - Spring boot
+  - HTML, CSS, JavaScript
   
 ## API & Library
   - Spring Security
@@ -27,7 +28,9 @@
   - JQuery(and ajax)
   - JSP(and EL, jstl)
   - Google Maps Flatform(가능할 시)
-  - Kakao Local(주소 검색)
+  - Kakao Daum Postcode Serivce(주소 검색)
+  - Bootstrap(v5.1)
+    - CSS Template : https://bootswatch.com/flatly/
 
 ## 역할 분담
 
