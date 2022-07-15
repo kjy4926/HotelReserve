@@ -1,6 +1,7 @@
-/**
- * 
- */
+function getContextPath() {
+    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+}
 function autoHypenPhone(str){
 	str = str.replace(/[^0-9]/g, '');
 	var tmp = '';
@@ -43,4 +44,68 @@ function searchAddress(){
 	        	document.getElementById('address').value = roadAddress
 	        }
 	    }).open();
+}
+function idDuplicateCheck(input){
+	var dupck = document.getElementById('dupck')
+	
+	$.ajax({
+		url:`${getContextPath()}/dupCheck`,
+		type:"POST",
+		data:{userId: input.value},
+		success: function(result){
+			if(result == true){
+				dupck.value = 1
+				input.className = "form-control is-valid"
+			}else{
+				dupck.value = 0
+				input.className = "form-control is-invalid"
+			}
+		}
+	});
+}
+function idValidCheck(input){
+	var regex = /^[a-z][a-z0-9]{7,15}$/;
+	var idcheckBtn = document.getElementById('idcheck')
+	var dupck = document.getElementById('dupck')
+	
+	if(regex.test(input.value)){
+		input.className = 'form-control is-valid'
+		idcheckBtn.className = 'btn btn-dark btn-sm'
+	}else if(input.value.length == 0){
+		input.className = 'form-control'
+		idcheckBtn.className = 'btn btn-dark btn-sm disabled'
+	}else{
+		input.className = 'form-control is-invalid'
+		idcheckBtn.className = 'btn btn-dark btn-sm disabled'
+	}
+	dupck.value = 0
+}
+function passwordValid(input){
+	var password = document.getElementById('password')
+	var regex = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,20}$/;
+	console.log(input.value)
+	if(regex.test(input.value)){
+		input.className = 'form-control is-valid'
+		return true
+	}else if(input.value.length == 0){
+		input.className = 'form-control'
+	}else{
+		input.className = 'form-control is-invalid'
+	}
+	return false
+}
+function passwordCheckValid(input){
+	var password = document.getElementById('password')
+	
+	if(passwordValid(input)){
+		if(password.value != input.value){
+			input.className = 'form-control is-invalid'
+		}else{
+			input.className = 'form-control is-valid'
+		}
+	}else if(input.value.length == 0){
+		input.className = 'form-control'
+	}else{
+		input.className = 'form-control is-invalid'
+	}
 }

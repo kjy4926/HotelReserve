@@ -1,5 +1,6 @@
 package kg.groupc.project.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -14,27 +15,29 @@ public class SignupFormDto {
 	private String userId;
 	
 	@NotBlank(message = "비밀번호는 필수 입력사항입니다.")
-	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{12,20}$$",
-			message = "올바르지 않은 비밀번호입니다.")
+	@Pattern(regexp = "^^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{12,20}$", message = "올바르지 않은 비밀번호입니다.")
 	private String password;
 	
-	@NotBlank(message = "비밀번호 확인은 필수 입력사항입니다.")
+	@NotBlank(message = "비밀번호 확인을 입력해주세요.")
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{12,20}$$",
-			message = "비밀번호 확인 입력이 잘못되었습니다.")
+			message = "비밀번호 확인이 잘못되었습니다.")
 	private String passwordCheck;
 	
-	@NotBlank
+	@NotBlank(message = "이메일을 입력해주세요.")
+	@Email(message = "이메일 형식이 올바르지 않습니다.")
 	private String email;
 	
-	@NotBlank
+	@NotBlank(message = "핸드폰 번호를 입력해주세요.")
+	@Pattern(regexp = "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$", message = "핸드폰 번호 형식이 잘못되었습니다.")
 	private String phone;
 	
-	@NotBlank
+	@NotBlank(message = "주소를 검색해주세요.")
 	private String address;
 	
-	@NotBlank
+	@NotBlank(message = "세부 주소를 입력해주세요.")
 	private String addressDetail;
 	
-	@NotBlank
+	@NotBlank(message = "생년월일을 입력해주세요.")
+	@Pattern(regexp = "^(19[0-9][0-9]|20\\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$", message = "yyyymmdd 형식으로 입력해주세요. ex) 20220101")
 	private String birth;
 }

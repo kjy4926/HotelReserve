@@ -24,6 +24,14 @@ public class AccountService implements UserDetailsService{
 	public Account saveAccount(Account account) {
 		return accountRepository.save(account);
 	}
+	
+	public boolean idDuplicateCheck(String userId) {
+		Account account = accountRepository.findByUserId(userId);
+		if(account == null) 
+			return true;
+		else 
+			return false;
+	}
 
 	public Map<String, String> validateHandling(Errors errors){
 		Map<String, String> validatorResult = new HashMap<>();
