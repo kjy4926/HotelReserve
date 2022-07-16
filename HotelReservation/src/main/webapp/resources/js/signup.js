@@ -38,52 +38,63 @@ function setPhoneForm(phone){
 function searchAddress(){
 	 new daum.Postcode({
 	        oncomplete: function(data) {
-	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-	            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
 	        	var roadAddress = data.roadAddress
 	        	document.getElementById('address').value = roadAddress
 	        }
 	    }).open();
 }
-function idDuplicateCheck(input){
+// 아이디 중복 검사
+function idDuplicateCheck(){
 	var dupck = document.getElementById('dupck')
-	
-	$.ajax({
-		url:`${getContextPath()}/dupCheck`,
-		type:"POST",
-		data:{userId: input.value},
-		success: function(result){
-			if(result == true){
-				dupck.value = 1
-				input.className = "form-control is-valid"
-			}else{
-				dupck.value = 0
-				input.className = "form-control is-invalid"
+	var input = document.getElementById('userId')
+	var idResult = document.getElementById('idResultValid')
+	var idResult2 = document.getElementById('idResultInvalid')
+	if(idValidCheck(input)){
+		$.ajax({
+			url:`${getContextPath()}/signup/dupCheck`,
+			type:'POST',
+			data:{userId: input.value},
+			success: function(result){
+				if(result == true){
+					dupck.value = 1
+					input.className = 'form-control is-valid'
+					idResult.innerText = '사용 가능한 ID입니다.'
+				}else{
+					dupck.value = 0
+					input.className = 'form-control is-invalid'
+					idResult2.innerText = '이미 존재하는 ID입니다.'
+				}
 			}
-		}
-	});
+		});
+	}
 }
+// id 유효성 검증
 function idValidCheck(input){
 	var regex = /^[a-z][a-z0-9]{7,15}$/;
 	var idcheckBtn = document.getElementById('idcheck')
 	var dupck = document.getElementById('dupck')
-	
+	var idResult = document.getElementById('idResultValid')
+	var idResult2 = document.getElementById('idResultInvalid')
+	dupck.value = 0
 	if(regex.test(input.value)){
 		input.className = 'form-control is-valid'
 		idcheckBtn.className = 'btn btn-dark btn-sm'
+		idResult.innerText = '올바른 아이디입니다.'
+		return true
 	}else if(input.value.length == 0){
 		input.className = 'form-control'
 		idcheckBtn.className = 'btn btn-dark btn-sm disabled'
 	}else{
 		input.className = 'form-control is-invalid'
 		idcheckBtn.className = 'btn btn-dark btn-sm disabled'
+		idResult2.innerText = '잘못된 아이디입니다.'
 	}
-	dupck.value = 0
+	return false
 }
+// 비밀번호 유효성 검증
 function passwordValid(input){
 	var password = document.getElementById('password')
 	var regex = /^^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,20}$/;
-	console.log(input.value)
 	if(regex.test(input.value)){
 		input.className = 'form-control is-valid'
 		return true
@@ -94,6 +105,7 @@ function passwordValid(input){
 	}
 	return false
 }
+// 비밀번호, 비밀번호 확인 검사
 function passwordCheckValid(input){
 	var password = document.getElementById('password')
 	
@@ -107,5 +119,14 @@ function passwordCheckValid(input){
 		input.className = 'form-control'
 	}else{
 		input.className = 'form-control is-invalid'
+	}
+}
+function dupCheckStatus(dupck){
+	if(dupck.value == '1') {
+		return true
+	}
+	else {
+		alert("ID 중복 검사를 수행해주세요.")
+		return false
 	}
 }
