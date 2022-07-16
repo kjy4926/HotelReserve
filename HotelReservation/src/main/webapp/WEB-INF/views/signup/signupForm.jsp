@@ -10,7 +10,6 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/signup.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<!-- Kakao daum postcode -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<style type="text/css">
@@ -19,27 +18,20 @@
 		.error-msg{color:red;}
 	</style>
 </head>
-<body onload="idDuplicateCheck()">
+<body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
-	<form class="signup-form" method="post" action="${pageContext.request.contextPath}/signup"
-			onsubmit="return dupCheckStatus(this.dupck)">
-	  <fieldset>
+	<form method="post" actoun="${pageContext.request.contextPath}/nav">
+	  <fieldset class="signup-form">
 		<br><legend>Sign Up</legend>
-			<div class="form-group">
-				<input type="text" placeholder="Name" class="form-control" id="username" name="username" value="${signupFormDto.username}">
-				<c:if test="${valid_username ne null}">
-					<small id="userId-error-msg" class="form-text error-msg">${valid_username}</small>
-				</c:if>
-			</div>
 			<div class="form-group has-danger has-success">
 				<label class="form-label mt-4" for="inputID">ID</label>
 				<div class="input-group">
 					<input type="text" placeholder="ID input" class="form-control" id="userId" name="userId" oninput="idValidCheck(this)" value="${signupFormDto.userId}">
 					<button type="button" class="btn btn-dark btn-sm disabled" name="idcheck" id="idcheck"
 						onclick="idDuplicateCheck()" style="float:right;">중복 검사</button>
-					<div class="invalid-feedback"><span id="idResultInvalid">잘못된 아이디입니다.</span></div>
-					<div class="valid-feedback"><span id="idResultValid">올바른 아이디입니다.</span></div>
+					<div class="invalid-feedback"><span id="idResultInValid">잘못된 아이디</span></div>
+					<div class="valid-feedback"><span id="idResultValid">올바른 아이디</span></div>
 				</div>
 				<small id="idHelp" class="form-text text-muted">ID는 8자부터 16자까지 영어소문자 및 숫자만 사용 가능합니다.</small>
 				<c:if test="${valid_userId ne null}">
@@ -113,6 +105,9 @@
 			<br><br><br><br>
 		</fieldset>
 	</form>
+	
+	
+	
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

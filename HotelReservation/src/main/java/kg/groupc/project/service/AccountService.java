@@ -22,19 +22,15 @@ public class AccountService implements UserDetailsService{
 	private final AccountRepository accountRepository;
 	
 	public Account saveAccount(Account account) {
-		if(!idDuplicateCheck(account.getUserId())) {
-			return accountRepository.save(account);
-		}else {
-			return null;
-		}
+		return accountRepository.save(account);
 	}
 	
 	public boolean idDuplicateCheck(String userId) {
 		Account account = accountRepository.findByUserId(userId);
 		if(account == null) 
-			return false;
-		else 
 			return true;
+		else 
+			return false;
 	}
 
 	public Map<String, String> validateHandling(Errors errors){

@@ -10,10 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import kg.groupc.project.dto.SignupFormDto;
-import kg.groupc.project.entity.Account;
 import kg.groupc.project.service.AccountService;
 import lombok.RequiredArgsConstructor;
 
@@ -41,16 +40,12 @@ public class SignupController {
 			}
 			return "/signup/signupForm";
 		}
-		Account account = Account.createAccount(signupFormDto, passwordEncoder);
-		System.out.println(account);
-		accountService.saveAccount(account);
 		return "redirect:/";
 	}
 	
-	@PostMapping("/signup/dupCheck")
-	@ResponseBody
-	public boolean dupCheck(String userId, boolean result) {
-		if(!accountService.idDuplicateCheck(userId)) {
+	@PostMapping("/dupCheck")
+	public boolean dupCheck(String userId, @RequestBody boolean result) {
+		if(accountService.idDuplicateCheck(userId)) {
 			return true;
 		}
 		return false;

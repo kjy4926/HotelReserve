@@ -10,20 +10,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SignupFormDto {
-	@NotBlank(message = "이름을 입력해주세요.")
-	private String username;
-	
 	@NotBlank(message = "아이디는 필수 입력사항입니다.")
-	@Pattern(regexp = "^[a-z][a-z0-9]{7,15}$", message = "아이디가 올바르지 않습니다. 다시 입력해주세요.")
+	@Pattern(regexp = "^[a-z][a-z0-9]{7,15}$", message = "올바르지 않은 아이디입니다.")
 	private String userId;
 	
 	@NotBlank(message = "비밀번호는 필수 입력사항입니다.")
-	@Pattern(regexp = "^^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{12,20}$", message = "올바르지 않은 비밀번호입니다. 다시 입력해주세요.")
+	@Pattern(regexp = "^^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{12,20}$", message = "올바르지 않은 비밀번호입니다.")
 	private String password;
 	
 	@NotBlank(message = "비밀번호 확인을 입력해주세요.")
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{12,20}$$",
-			message = "비밀번호 확인이 잘못되었습니다. 다시 입력해주세요.")
+			message = "비밀번호 확인이 잘못되었습니다.")
 	private String passwordCheck;
 	
 	@NotBlank(message = "이메일을 입력해주세요.")

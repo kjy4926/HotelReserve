@@ -8,10 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import kg.groupc.project.constant.Role;
-import kg.groupc.project.dto.SignupFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,6 +20,7 @@ import lombok.ToString;
 @ToString
 public class Account {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(length=20, updatable = false)
 	private String userId;
 	
@@ -59,17 +57,8 @@ public class Account {
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private long status;
 	
-	public static Account createAccount(SignupFormDto signupFormDto, PasswordEncoder passwordEncoder) {
-		Account account = new Account();
-		account.setUserId(signupFormDto.getUserId());
-		account.setPassword(passwordEncoder.encode(signupFormDto.getPassword()));
-		account.setName(signupFormDto.getUsername());
-		account.setEmail(signupFormDto.getEmail());
-		account.setPhone(signupFormDto.getPhone());
-		account.setAddress((signupFormDto.getAddress() + " " + signupFormDto.getAddressDetail()));
-		account.setBirth(signupFormDto.getBirth());
-		account.setRole(Role.CLIENT);
-		account.setStatus(1);
-		return account;
+	public static Account createAccount() {
+		
+		return null;
 	}
 }
