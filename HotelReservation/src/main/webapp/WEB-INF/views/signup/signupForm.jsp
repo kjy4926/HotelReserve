@@ -72,7 +72,6 @@
 			<div class="form-group">
 				<label for="email" class="form-label mt-4">Email Address</label>
 				<input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" value="${signupFormDto.email}">
-				<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 				<c:if test="${valid_email ne null}">
 					<br><small id="userId-error-msg" class="form-text error-msg">${valid_email}</small>
 				</c:if>

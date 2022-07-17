@@ -17,7 +17,7 @@
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
-	<form class="login-form" method="post" action="${pageContext.request.contextPath}/loginProc">
+	<form class="login-form" method="post" action="${pageContext.request.contextPath}/login/loginProc">
 		<fieldset>
 			<legend>Login</legend>
 			<div class="form-group has-danger has-success">
@@ -30,8 +30,14 @@
 				<label for="password" class="form-label mt-4">Password</label>
 				<input type="password" class="form-control" id="password" name="password" placeholder="Password">
 			</div>
+			<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+				<div>
+					<p class="error" style="color:red; font-weight:bold;">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</p>
+					<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />
+				</div>
+			</c:if>
 			<div class="d-grid gap-2">
-			  <br><button class="btn btn-lg btn-primary" type="button">로그인</button>
+			  <br><button class="btn btn-lg btn-primary" type="submit">로그인</button>
 			</div>
 		</fieldset>
 	</form>	

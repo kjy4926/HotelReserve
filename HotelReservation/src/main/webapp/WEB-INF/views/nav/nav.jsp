@@ -37,12 +37,16 @@
 	      	<sec:authorize access="isAuthenticated()">
 		        <div class="nav-item dropdown">
 		          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" 
-		          	role="button" aria-haspopup="true" aria-expanded="false" style="min-width: 180px;">Account님</a>
+		          	role="button" aria-haspopup="true" aria-expanded="false" style="min-width: 180px;">
+		          	<sec:authentication property="principal.username"/>	님
+		          </a>
 		          <div class="dropdown-menu">
 		            <a class="dropdown-item" href="${pageContext.request.contextPath}/mypage">마이 페이지</a>
-		            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin">관리자 페이지</a>
+		            <sec:authorize access="hasRole('ROLE_ADMIN')">
+		            	<a class="dropdown-item" href="${pageContext.request.contextPath}/admin">관리자 페이지</a>
+		            </sec:authorize>
 		            <div class="dropdown-divider"></div>
-		            <a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a>
+		            	<a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a>
 		          </div>
 		        </div>
 	        </sec:authorize>
