@@ -2,6 +2,7 @@ package kg.groupc.project.service;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,7 +10,10 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import kg.groupc.project.constant.Role;
@@ -49,27 +53,96 @@ public class HotelService {
 		//Entity클래스를 본따 Entity클래스명 앞에 Q가 붙은 객체를 만들어준다)
 		//생성된 QDomain 객체를 보면 실제 도메인 객체의 모든 필드에 대해 사용가능한 모든
 		//operation을 호출하는 메서드들이 정의되어 있다.
+		System.out.println("아래거 실행되니");
 		List<HotelMainFormDto> avg = queryFactory.select
-				(Projections.constructor(HotelMainFormDto.class, hotel.name, hotel.phone, hotel.address, hotel.description,
-						hotel.img, hotelScore.score.avg()))
-				//select 안에는 조회할 테이블 또는 컬럼을 넣습니다
-				//Projections.constructor는 저장할 대상이 엔티티가 아닌 DTO일 경우 사용합니다.
-				//값을 넣을 때 생성자와 순서를 일치시켜야 합니다
-				.from(hotel, hotelScore)//조회 대상 테이블을 지정합니다
-				.groupBy(hotel.seq)//그룹화, 공통되는 컬럼을 적습니다
+				(Projections.constructor(HotelMainFormDto.class, hotel.seq, hotel.name,
+						hotel.phone, hotel.address, hotel.description,
+						hotel.img, hotel.status, hotelScore.score.avg()))
+//						,ExpressionUtils.as(JPAExpressions
+//								.select(hotelScore.score.avg())
+//								.from(hotelScore)
+//								.where(hotel.hotel.eq(hotelScore.hotel)),
+//								"avg")
+//						)
+				.from(hotelScore)
+				.groupBy(hotel)
 				.orderBy(hotelScore.score.avg().desc())
+				.fetch();
 				//필드명(column)을 기준으로 내림차순 또는 오름차순 정렬을 합니다
-				.having(hotel.status.eq(1L))
-				//eq(필드값) 컬럼앞에  붙여 선택한 컬럼이 필드값과 같은 요소를 찾습니다
-				//WHERE는 그룹화 하기 전이고, HAVING은 그룹화 후의 조건입니다.
-				.fetch();//조회 결과 리스트 반환
-
+				//조회 결과 리스트 반환
+				System.out.println("객체가 있는지 좀 알려줘" + avg);
+//		if(avg == null) {
+//			avg = new ArrayList<HotelMainFormDto>(); 
+//		
+//		}
 		return avg;
-	
+		
+		//select 안에는 조회할 테이블 또는 컬럼을 넣습니다
+		//Projections.constructor는 저장할 대상이 엔티티가 아닌 DTO일 경우 사용합니다.
+		//값을 넣을 때 생성자의 자료형과 순서를 일치시켜야 합니다
+//		.from(hotel, hotelScore)//조회 대상 테이블을 지정합니다
+//		.groupBy(hotel.seq)//그룹화, 공통되는 컬럼을 적습니다
+//		.having(hotel.status.eq(1L))
+//		//eq(필드값) 컬럼앞에  붙여 선택한 컬럼이 필드값과 같은 요소를 찾습니다
+//		//WHERE는 그룹화 하기 전이고, HAVING은 그룹화 후의 조건입니다.
+//		//groupby다음 orderby전에 위치합니다
 //				.from(hotel)
 //				.GROUPBY(HOTEL.SEQ)
 //				.ORDERBY(HOTELSCORE)
 //				.FETCH();	
+	}
+	
+	public List<Tuple> searchAvg(){//left outer Join
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+		//QueryDSL을 사용하기 위해선 먼저 QueryDSL이 제공하는 JPAQueryFactory 클래스의 인스턴스를 생성해야 합니다
+		//EntityManager 객체를 주입하여 인스턴스를 생성해야 합니다.
+		QHotelScore hotelScore = QHotelScore.hotelScore;
+		QHotel hotel = QHotel.hotel;
+		List<Tuple> avgList = queryFactory.select(hotel.seq, hotel.name,
+				hotel.phone, hotel.address, hotel.description,
+				hotel.img, hotel.status, hotelScore.score)
+				.from(hotelScore)
+				.leftJoin(hotel)//hotelScore의 모든 값에 fk와 동일한 pk를 가진 행과 결합됩니다
+				.on(hotelScore.hotel.eq(hotel.hotel))
+				.fetch();
+		
+		return avgList;
+	}
+	
+	public List<Tuple> searchAvg2(){//right outer join
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+		//QueryDSL을 사용하기 위해선 먼저 QueryDSL이 제공하는 JPAQueryFactory 클래스의 인스턴스를 생성해야 합니다
+		//EntityManager 객체를 주입하여 인스턴스를 생성해야 합니다.
+		QHotelScore hotelScore = QHotelScore.hotelScore;
+		QHotel hotel = QHotel.hotel;
+		List<Tuple> avgList = queryFactory.select(hotel.seq, hotel.name,
+				hotel.phone, hotel.address, hotel.description,
+				hotel.img, hotel.status, hotelScore.score)
+				.from(hotelScore)
+				.rightJoin(hotel)
+				//hotel테이블의 모든 값에 hotelscore의 pk와 동일한 fk를 가진 값들이 결합되어 출력됩니다
+				.on(hotelScore.hotel.eq(hotel.hotel))
+				.fetch();
+		
+		return avgList;
+	}
+	
+	public List<Tuple> searchAvg3(){//inner join
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+		//QueryDSL을 사용하기 위해선 먼저 QueryDSL이 제공하는 JPAQueryFactory 클래스의 인스턴스를 생성해야 합니다
+		//EntityManager 객체를 주입하여 인스턴스를 생성해야 합니다.
+		QHotelScore hotelScore = QHotelScore.hotelScore;
+		QHotel hotel = QHotel.hotel;
+		List<Tuple> avgList = queryFactory.select(hotel.seq, hotel.name,
+				hotel.phone, hotel.address, hotel.description,
+				hotel.img, hotel.status, hotelScore.score)
+				.from(hotelScore)
+				.join(hotel)//hotelscore의 모든 값에 hotel의 값이 붙습니다.
+				//hotelscore에 데이터가 없으면 행이 만들어지지 않습니다.
+				.on(hotelScore.hotel.eq(hotel.hotel))
+				.fetch();
+		
+		return avgList;
 	}
 	
 	public List<HotelMainFormDto> SearchHotels(String keyword){
@@ -119,13 +192,14 @@ public class HotelService {
 			Hotel hotel = hotelList.get(i);
 			for(int j = 0; j < accountList.size(); j++) {
 				Account account = accountList.get(j);
+				System.out.println(accountList.get(j));
 				HotelScore hotelScore = new HotelScore();
 				hotelScore.setHotel(hotel.getSeq());
 				hotelScore.setWriter(account.getUserId());
 				hotelScore.setScore(j+1);
 				hotelScore.setDescription("설명"+j+1);
 				hotelScore.setDay(sqlDate);
-				System.out.println(hotelScore);
+				
 				hotelScoreRepository.save(hotelScore);
 			}
 

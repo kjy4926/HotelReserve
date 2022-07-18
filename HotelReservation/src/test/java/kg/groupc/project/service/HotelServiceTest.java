@@ -4,12 +4,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import kg.groupc.project.dto.HotelMainFormDto;
+import com.querydsl.core.Tuple;
+
+import kg.groupc.project.repository.HotelRepository;
 
 
 @SpringBootTest
@@ -20,12 +25,12 @@ class HotelServiceTest {
 	HotelService hotelService;
 	
 	@Test
-	void testNotSearchHotels() {
-		fail("Not yet implemented");
+	void testNotSearchHotels() {//검색x 테스트용 메소드
+		hotelService.notSearchHotels();
 	}
 
 	@Test
-	void testSearchHotels() {
+	void testSearchHotels() {//이름 또는 호텔명 검색 테스트용 메소드
 		fail("Not yet implemented");
 	}
 
@@ -41,7 +46,7 @@ class HotelServiceTest {
 
 	@Test
 	void testCreateHotelScore() {
-		fail("Not yet implemented");
+		hotelService.createHotelScore();
 	}
 
 	@Test
@@ -49,9 +54,42 @@ class HotelServiceTest {
 		hotelService.sampleId();
 	}
 
+	@Autowired
+	HotelRepository hotelRepository;
+	@PersistenceContext
+	EntityManager em;
+	
 	@Test
 	void testHotelService() {
-		fail("Not yet implemented");
+//		List<Hotel> hotelList = hotelRepository.findAll(); 
+//		for(int i = 0; i < hotelList.size(); i++) {
+//			System.out.println(hotelList.get(i));
+//		}
+		
+//		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+//		QHotelScore hotelScore = QHotelScore.hotelScore;
+//		List<HotelScore> scoreList = queryFactory.selectFrom(hotelScore)
+//				.fetch();
+//		System.out.println(scoreList);
+//		System.out.println(scoreList.size());
+//		for(int i = 0; i < scoreList.size(); i++) {		
+//			System.out.println(scoreList.get(i));
+//			System.out.println(scoreList + "있으면 출력");
+//		}
+		List<Tuple> avgList = hotelService.searchAvg();//left outer join
+		for(int i = 0; i < avgList.size(); i++) {
+			System.out.println(avgList.get(i));
+		}
+		
+		avgList = hotelService.searchAvg2();//right outer join
+		for(int i = 0; i < avgList.size(); i++) {
+			System.out.println(avgList.get(i));
+		}
+		
+		avgList = hotelService.searchAvg3();//inner join
+		for(int i = 0; i < avgList.size(); i++) {
+			System.out.println(avgList.get(i));
+		}
 	}
 
 }

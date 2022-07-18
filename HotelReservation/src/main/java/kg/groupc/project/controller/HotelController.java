@@ -26,14 +26,14 @@ public class HotelController {
 //			@RequestParam(required = false, defaultValue = "") String keyword,
 			Model model) {//호텔 리스트 화면
 //		if(keyword == "") {
-			List<HotelMainFormDto> hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
+			List<HotelMainFormDto> hotelMainFormDtoList = 
+					new ArrayList<HotelMainFormDto>();
 //					hotelService.notSearchHotels();
 			model.addAttribute("hotelMainFormDtoList", hotelMainFormDtoList);
 //		}else {
 //			List<HotelMainFormDto> hotelMainFormDtoList = hotelService.SearchHotels(keyword);
 //			model.addAttribute("hotelMainFormDtoList", hotelMainFormDtoList);
 //		}
-
 		return "/hotel/hotel";
 	}
 	

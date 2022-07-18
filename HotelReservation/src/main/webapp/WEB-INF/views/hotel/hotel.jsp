@@ -21,8 +21,9 @@
 	</form>
 	
 	<!-- 호텔들 목록 -->
+	<!--
 	<c:out value="${hotelMainFormDtoList}"/>
-	
+		<form action="hotelDetail" method="get">
 	<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}">    
 		<c:out value="${hotelMainFormDto.name}" />
 		<c:out value="${hotelMainFormDto.phone}" />
@@ -30,11 +31,20 @@
 		<c:out value="${hotelMainFormDto.description}" />
 		<c:out value="${hotelMainFormDto.img}" />
 		<c:out value="${hotelMainFormDto.avg}" />
+		</c:forEach>
+	</form>
+	-->
+	<table>
+	<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList }">
+		<th>테스트</th>
+		<td>${hotelMainFormDto.name}</td>
+		<td>${hotelMainFormDto.phone}</td>
+	</c:forEach>
+	</table>
+			<!--
 			<form action="hotelDetail" method="get">
 				<button>확인용</button>
-		
-			</form>
-	</c:forEach>
+			-->
 	<form action="hotelDetail" method="get">
 				<button>hotelDetail 확인용</button>
 		
