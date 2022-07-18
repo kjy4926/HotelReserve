@@ -14,6 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import com.querydsl.core.Tuple;
 
+import kg.groupc.project.dto.HotelMainFormDto;
 import kg.groupc.project.repository.HotelRepository;
 
 
@@ -26,12 +27,19 @@ class HotelServiceTest {
 	
 	@Test
 	void testNotSearchHotels() {//검색x 테스트용 메소드
-		hotelService.notSearchHotels();
+		List<HotelMainFormDto> avg = hotelService.notSearchHotels();
+		for(int i = 0; i < avg.size(); i++) {
+			System.out.println("객체" + avg.get(i));
+		}
 	}
 
 	@Test
 	void testSearchHotels() {//이름 또는 호텔명 검색 테스트용 메소드
-		fail("Not yet implemented");
+		List<HotelMainFormDto> avg = hotelService.SearchHotels("서울");
+		for(int i = 0; i < avg.size(); i++) {
+			System.out.println("객체" + avg.get(i));
+		}
+		
 	}
 
 	@Test

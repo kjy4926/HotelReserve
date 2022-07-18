@@ -55,41 +55,66 @@ public class HotelService {
 		//operation을 호출하는 메서드들이 정의되어 있다.
 		System.out.println("아래거 실행되니");
 		List<HotelMainFormDto> avg = queryFactory.select
-				(Projections.constructor(HotelMainFormDto.class, hotel.seq, hotel.name,
-						hotel.phone, hotel.address, hotel.description,
+				(Projections.constructor(HotelMainFormDto.class, hotel.seq,
+						hotel.name,	hotel.phone, hotel.address, hotel.description,
 						hotel.img, hotel.status, hotelScore.score.avg()))
-//						,ExpressionUtils.as(JPAExpressions
-//								.select(hotelScore.score.avg())
-//								.from(hotelScore)
-//								.where(hotel.hotel.eq(hotelScore.hotel)),
-//								"avg")
-//						)
-				.from(hotelScore)
-				.groupBy(hotel)
+				//select 안에는 조회할 테이블 또는 컬럼을 넣습니다
+				//Projections.constructor는 저장할 대상이 엔티티가 아닌 DTO일 경우 사용합니다.
+				//값을 넣을 때 생성자의 자료형과 순서를 일치시켜야 합니다
+				.from(hotelScore)//조회 대상 테이블을 지정합니다
+				.join(hotelScore.hotel, hotel)//inner join
+				.groupBy(hotel.seq, hotel.name,	hotel.phone,
+						hotel.address, hotel.description,
+						hotel.img, hotel.status)
+				//select절에 있는 컬럼을 함수 부분만 빼고 다 적어주어야 합니다
 				.orderBy(hotelScore.score.avg().desc())
 				.fetch();
 				//필드명(column)을 기준으로 내림차순 또는 오름차순 정렬을 합니다
 				//조회 결과 리스트 반환
-				System.out.println("객체가 있는지 좀 알려줘" + avg);
+//				System.out.println("객체가 있는지 좀 알려줘" + avg);
+			
 //		if(avg == null) {
 //			avg = new ArrayList<HotelMainFormDto>(); 
 //		
 //		}
 		return avg;
 		
-		//select 안에는 조회할 테이블 또는 컬럼을 넣습니다
-		//Projections.constructor는 저장할 대상이 엔티티가 아닌 DTO일 경우 사용합니다.
-		//값을 넣을 때 생성자의 자료형과 순서를 일치시켜야 합니다
+
 //		.from(hotel, hotelScore)//조회 대상 테이블을 지정합니다
 //		.groupBy(hotel.seq)//그룹화, 공통되는 컬럼을 적습니다
 //		.having(hotel.status.eq(1L))
 //		//eq(필드값) 컬럼앞에  붙여 선택한 컬럼이 필드값과 같은 요소를 찾습니다
 //		//WHERE는 그룹화 하기 전이고, HAVING은 그룹화 후의 조건입니다.
 //		//groupby다음 orderby전에 위치합니다
-//				.from(hotel)
-//				.GROUPBY(HOTEL.SEQ)
-//				.ORDERBY(HOTELSCORE)
-//				.FETCH();	
+
+	}
+	
+	public List<HotelMainFormDto> SearchHotels(String keyword){
+		//주소 또는 호텔명으로 검색합니다. 미완성입니다.
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+		QHotelScore hotelScore = QHotelScore.hotelScore;
+		QHotel hotel = QHotel.hotel;
+		List<HotelMainFormDto> avg = queryFactory.select
+				(Projections.constructor(HotelMainFormDto.class, hotel.seq,
+						hotel.name,	hotel.phone, hotel.address, hotel.description,
+						hotel.img, hotel.status, hotelScore.score.avg()))
+				//select 안에는 조회할 테이블 또는 컬럼을 넣습니다
+				//Projections.constructor는 저장할 대상이 엔티티가 아닌 DTO일 경우 사용합니다.
+				//값을 넣을 때 생성자와 순서를 일치시켜야 합니다
+				.from(hotelScore)//조회 대상 테이블을 지정합니다
+				.join(hotelScore.hotel, hotel)//inner join
+				.groupBy(hotel.seq, hotel.name,	hotel.phone,
+						hotel.address, hotel.description,
+						hotel.img, hotel.status)
+				.having(hotel.description.like("%" + keyword + "%")
+						.or(hotel.address.like("%" + keyword + "%")))
+				.orderBy(hotel.name.asc())
+				//정렬조건을 구현해야 합니다(가나다순)
+				//필드명(column)을 기준으로 내림차순 또는 오름차순 정렬을 합니다
+				//WHERE는 그룹화 하기 전이고, HAVING은 그룹화 후의 조건입니다.
+				.fetch();//조회 결과 리스트 반환
+		
+		return avg;
 	}
 	
 	public List<Tuple> searchAvg(){//left outer Join
@@ -145,28 +170,7 @@ public class HotelService {
 		return avgList;
 	}
 	
-	public List<HotelMainFormDto> SearchHotels(String keyword){
-		//주소 또는 호텔명으로 검색합니다. 미완성입니다.
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-		QHotelScore hotelScore = QHotelScore.hotelScore;
-		QHotel hotel = QHotel.hotel;
-		List<HotelMainFormDto> avg = queryFactory.select
-				(Projections.constructor(HotelMainFormDto.class, hotel.name, hotel.phone, hotel.address, hotel.description,
-						hotel.img, hotelScore.score.avg()))
-				//select 안에는 조회할 테이블 또는 컬럼을 넣습니다
-				//Projections.constructor는 저장할 대상이 엔티티가 아닌 DTO일 경우 사용합니다.
-				//값을 넣을 때 생성자와 순서를 일치시켜야 합니다
-				.from(hotel, hotelScore)//조회 대상 테이블을 지정합니다
-				.groupBy(hotel.seq)//그룹화하기 위해, 공통되는 컬럼을 적습니다
-				.orderBy(hotel.name.asc())
-				//정렬조건을 구현해야 합니다(가나다순)
-				//필드명(column)을 기준으로 내림차순 또는 오름차순 정렬을 합니다
-				.having(hotel.description.like("%" + keyword + "%"))
-				//WHERE는 그룹화 하기 전이고, HAVING은 그룹화 후의 조건입니다.
-				.fetch();//조회 결과 리스트 반환
-		
-		return avg;
-	}
+	
 	
 	public void createHotelTest() {//샘플호텔 넣는 용도입니다 
 		for(int i=1;i<=10;i++) {
