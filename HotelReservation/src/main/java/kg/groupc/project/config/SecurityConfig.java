@@ -1,6 +1,5 @@
 package kg.groupc.project.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -15,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import kg.groupc.project.service.AccountService;
 import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
@@ -22,10 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class SecurityConfig {
-//	@Autowired
-//	AccountService accountService;
-	
+public class SecurityConfig {	
 	@Bean
 	@Order(SecurityProperties.BASIC_AUTH_ORDER)
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -41,7 +38,7 @@ public class SecurityConfig {
 			.and()
 				.formLogin()
 					.loginPage("/login")
-					.loginProcessingUrl("/loginProc")
+					.loginProcessingUrl("/login/loginProc")
 					.defaultSuccessUrl("/")
 					.usernameParameter("userId")
 			.and()
@@ -63,10 +60,5 @@ public class SecurityConfig {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
-	
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.userDetailsService(accountService)
-//			.passwordEncoder(passwordEncoder());
 	}
 }

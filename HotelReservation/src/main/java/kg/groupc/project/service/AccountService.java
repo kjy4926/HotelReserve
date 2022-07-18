@@ -22,15 +22,19 @@ public class AccountService implements UserDetailsService{
 	private final AccountRepository accountRepository;
 	
 	public Account saveAccount(Account account) {
-		return accountRepository.save(account);
+		if(!idDuplicateCheck(account.getUserId())) {
+			return accountRepository.save(account);
+		}else {
+			return null;
+		}
 	}
 	
 	public boolean idDuplicateCheck(String userId) {
 		Account account = accountRepository.findByUserId(userId);
 		if(account == null) 
-			return true;
-		else 
 			return false;
+		else 
+			return true;
 	}
 
 	public Map<String, String> validateHandling(Errors errors){
@@ -51,10 +55,10 @@ public class AccountService implements UserDetailsService{
 		if(account == null) {
 			throw new UsernameNotFoundException(userId);
 		}
-		return User.builder().build();
-//				.username(account.getUserId())
-//				.password(account.getPassword())
-//				.roles(account.getRole().toString())
-//				.build();
+		return User.builder()
+				.username(account.getUserId())
+				.password(account.getPassword())
+				.roles(account.getRole().toString())
+				.build();
 	}
 }
