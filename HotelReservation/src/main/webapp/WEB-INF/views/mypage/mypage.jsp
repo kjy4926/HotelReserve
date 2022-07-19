@@ -12,49 +12,24 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
-		.mypage{width: 40%; margin: auto;}
+		.mypage{width: 50%; margin: auto;}
 	</style>
 </head>
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import><br>
-
-	<fieldset class="mypage">
-		<legend>마이 페이지</legend><br><br>
-		<table class="table table-hover">
-		  <thead>
-		    <tr class="table-light">
-		      <th scope="col"><sec:authentication property="principal.username"></sec:authentication>님 어서오세요.</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr onclick="location.href='${pageContext.request.contextPath}/'">
-		      <th scope="row">예약 현황</th>
-		    </tr>
-		    <tr>
-		      <th scope="row">이용 내역</th>
-		    </tr>
-		    <tr>
-		      <th scope="row">리뷰 관리</th>
-		    </tr>
-		    <tr>
-		      <th scope="row">문의 관리</th>
-		    </tr>
-		    <tr>
-		      <th scope="row">나의 맛집</th>
-		    </tr>
-		    <tr>
-		      <th scope="row">계정 관리</th>
-		    </tr>
-		  </tbody>
-		</table>
-	</fieldset>
 	
 	<fieldset class="mypage">
+		<legend>마이 페이지</legend><hr>
 		<div class="accordion" id="accordionExample">
+		  <div class="accordion-item bg-secondary text-white">
+		  	<div class="accordion-body">
+				<b><sec:authentication property="principal.username"/>님</b> 어서오세요.
+		  	</div>
+		  </div>
 		  <div class="accordion-item">
 		    <h2 class="accordion-header" id="headingOne">
 		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-				예약 현황
+				<b>예약 현황</b>
 		      </button>
 		    </h2>
 		    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
@@ -79,14 +54,14 @@
 					</c:forEach>
 					</tbody>
 				</table>
-				<div><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></div>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>
 		  <div class="accordion-item">
 		    <h2 class="accordion-header" id="headingTwo">
 		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-				이용 내역
+				<b>이용 내역</b>
 		      </button>
 		    </h2>
 		    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style="">
@@ -98,7 +73,7 @@
 		  <div class="accordion-item">
 		    <h2 class="accordion-header" id="headingThree">
 		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-				리뷰 관리
+				<b>리뷰 관리</b>
 		      </button>
 		    </h2>
 		    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="">
@@ -110,7 +85,7 @@
 		  <div class="accordion-item">
 		    <h2 class="accordion-header" id="headingFour">
 		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-				문의 관리
+				<b>문의 관리</b>
 		      </button>
 		    </h2>
 		    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample" style="">
@@ -122,7 +97,7 @@
 		  <div class="accordion-item">
 		    <h2 class="accordion-header" id="headingFive">
 		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-				나의 맛집
+				<b>나의 맛집</b>
 		      </button>
 		    </h2>
 		    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample" style="">
@@ -134,7 +109,7 @@
 		  <div class="accordion-item">
 		    <h2 class="accordion-header" id="headingSix">
 		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-				계정 관리
+				<b>계정 관리</b>
 		      </button>
 		    </h2>
 		    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample" style="">

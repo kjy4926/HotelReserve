@@ -1,5 +1,7 @@
 package kg.groupc.project.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +14,9 @@ public class LoginController {
 		return "/login/loginForm";
 	}
 	@PostMapping("/login")
-	public String loginError(String errorMsg, Model model) {
+	public String loginError(Model model, HttpServletRequest request) {
+		String errorMsg = request.getAttribute("errorMsg").toString();
 		System.out.println("login post access");
-		System.out.println(errorMsg);
 		model.addAttribute("errorMsg", errorMsg);
 		return "/login/loginForm";
 	}
