@@ -91,6 +91,20 @@
 		    <groupId>com.querydsl</groupId>
 		    <artifactId>querydsl-apt</artifactId>
 		</dependency>
+		<!-- modelmapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+		</dependency>
+		<!-- 파일업로드 -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
