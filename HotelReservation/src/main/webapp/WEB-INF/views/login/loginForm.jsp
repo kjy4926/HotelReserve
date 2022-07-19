@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+	<title>Login</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -30,9 +30,9 @@
 				<label for="password" class="form-label mt-4">Password</label>
 				<input type="password" class="form-control" id="password" name="password" placeholder="Password">
 			</div>
-			<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+			<c:if test="${not empty errorMsg}">
 				<div>
-					<p class="error" style="color:red; font-weight:bold;">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</p>
+					<p class="error" style="color:red; font-weight:bold;">${errorMsg}</p>
 					<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />
 				</div>
 			</c:if>

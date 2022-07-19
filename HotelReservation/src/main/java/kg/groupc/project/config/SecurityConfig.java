@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import kg.groupc.project.service.AccountService;
+import kg.groupc.project.handler.CustomAccessDeniedHandler;
+import kg.groupc.project.handler.CustomAuthenticationEntryPoint;
+import kg.groupc.project.handler.LoginFailureHandler;
 import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfig {	
+	private final LoginFailureHandler loginFailureHandler;
 	@Bean
 	@Order(SecurityProperties.BASIC_AUTH_ORDER)
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -41,6 +43,7 @@ public class SecurityConfig {
 					.loginProcessingUrl("/login/loginProc")
 					.defaultSuccessUrl("/")
 					.usernameParameter("userId")
+					.failureHandler(loginFailureHandler)
 			.and()
 				.logout()
 					.logoutSuccessUrl("/")

@@ -1,8 +1,11 @@
 package kg.groupc.project.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +23,16 @@ import lombok.RequiredArgsConstructor;
 public class AccountService implements UserDetailsService{
 	
 	private final AccountRepository accountRepository;
+	
+	//test method
+	public List<Account> getThreeAccounts(){
+		Pageable limit = PageRequest.of(0, 3);
+		return accountRepository.findAll(limit).getContent();
+	}
+	
+	public List<Account> getAllAccounts(){
+		return accountRepository.findAll();
+	}
 	
 	public Account saveAccount(Account account) {
 		if(!idDuplicateCheck(account.getUserId())) {

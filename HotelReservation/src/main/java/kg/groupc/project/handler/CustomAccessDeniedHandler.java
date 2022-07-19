@@ -1,4 +1,4 @@
-package kg.groupc.project.config;
+package kg.groupc.project.handler;
 
 import java.io.IOException;
 
