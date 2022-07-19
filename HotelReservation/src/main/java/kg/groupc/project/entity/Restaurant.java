@@ -5,42 +5,124 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-// 맛집
 @Entity
-@Getter
-@Setter
-@ToString
+@Table(name="RESTAURANT")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long seq;
+	private Long seq;
 	
-	// 점포 이름
+	// 상호명
 	@Column(nullable = false, length = 50)
 	private String name;
 	
-	// 점포 주소
+	// 주소
 	@Column(nullable = false, length = 100)
 	private String address;
 	
-	// 점포 전화번호
+	// 연락처
 	@Column(nullable = false, length = 20)
 	private String phone;
 	
-	// 점포 이미지
-	@Column(nullable = true, length = 255)
+	// 맛집 이미지
+	@Column(nullable = false, length = 255)
 	private String img;
-	
-	// 점포 상태
-	@Column(nullable = false, columnDefinition = "number(1) default 1")
-	private long status;
-	
-	// 점포 설명
-	@Column(nullable = true, length = 1000)
+		
+	// 맛집 소개(내용)
+	@Column(nullable = false, length = 1000)
 	private String description;
+	
+	// 맛집 상태
+	@Column(nullable = false, columnDefinition = "number(1) default 1")
+	private Long status;
+	
+	public void patch(Restaurant restaurant) {
+		if (restaurant.name != null) {
+			this.name = restaurant.name;
+		}
+		if (restaurant.address != null) {
+			this.address = restaurant.address;
+		}
+		if (restaurant.phone != null) {
+			this.phone = restaurant.phone;
+		}
+		if (restaurant.img != null) {
+			this.img = restaurant.img;
+		}
+		if (restaurant.description != null) {
+			this.description = restaurant.description;
+		}
+		if (restaurant.status != null) {
+			this.status = restaurant.status;
+		}
+	}
+	/*
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long seq;
+	
+	// 상호명
+	@Column(nullable = false, length = 50)
+	private String name;
+	
+	// 주소
+	@Column(nullable = false, length = 100)
+	private String address;
+	
+	// 연락처
+	@Column(nullable = false, length = 20)
+	private String phone;
+	
+	// 맛집 이미지
+	@Column(nullable = true, length = 255)
+	private String imgName;
+	
+	@Column(nullable = true, length = 255)
+	private String imgUrl;
+	
+	// 맛집 소개(내용)
+	@Column(nullable = false, length = 1000)
+	private String description;
+	
+	// 맛집 상태
+	@Column(nullable = false, columnDefinition = "number(1) default 1")
+	private Integer status;
+	
+	public void patch(Restaurant restaurant) {
+		if (restaurant.name != null) {
+			this.name = restaurant.name;
+		}
+		if (restaurant.address != null) {
+			this.address = restaurant.address;
+		}
+		if (restaurant.phone != null) {
+			this.phone = restaurant.phone;
+		}
+		if (restaurant.imgName != null) {
+			this.imgName = restaurant.imgName;
+		}
+		if (restaurant.imgUrl != null) {
+			this.imgUrl = restaurant.imgUrl;
+		}
+		if (restaurant.description != null) {
+			this.description = restaurant.description;
+		}
+		if (restaurant.status != null) {
+			this.status = restaurant.status;
+		}
+	}
+	*/
 }
