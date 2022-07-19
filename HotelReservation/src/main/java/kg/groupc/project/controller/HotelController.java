@@ -29,7 +29,7 @@ public class HotelController {
 		System.out.println(keyword);
 		if(keyword == null |keyword == "") {//
 			List<HotelMainFormDto> hotelMainFormDtoList = 
-					hotelService.notSearchHotels();
+					hotelService.getHotelListDefault();
 //			if(hotelMainFormDtoList == null) {//DB에서 넘겨받은 데이터가 없을 때 에러페이지 방지용
 //				hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
 //			}

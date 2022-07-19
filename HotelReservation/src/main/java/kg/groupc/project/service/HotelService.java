@@ -40,7 +40,7 @@ public class HotelService {
 	@PersistenceContext
 	EntityManager em;
 	
-	public List<HotelMainFormDto> notSearchHotels(){
+	public List<HotelMainFormDto> getHotelListDefault(){
 		//호텔메뉴 눌렀을 시 최초로 보여지는 화면, 되는지 실험해봐야 합니다
 		//별점순으로 정렬합니다
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
