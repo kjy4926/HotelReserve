@@ -52,7 +52,7 @@ public class SecurityConfig {
 			.and()
 				.exceptionHandling()
 				.accessDeniedHandler(new CustomAccessDeniedHandler())
-				.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+				.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
 		;
 		http.sessionManagement()
 			.maximumSessions(1)
