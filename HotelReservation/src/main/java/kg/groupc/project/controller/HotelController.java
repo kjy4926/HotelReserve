@@ -27,6 +27,14 @@ public class HotelController {
 	public String hotel(HttpServletRequest request, Model model) {//호텔 리스트 화면
 		String keyword = request.getParameter("keyword");
 		System.out.println(keyword);
+		int page;//현재 페이지
+		if(request.getParameter("page") == null) {
+			page = 1;
+		}else {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		int pageSize;//전체 페이지 수
+
 		if(keyword == null |keyword == "") {//
 			List<HotelMainFormDto> hotelMainFormDtoList = 
 					hotelService.getHotelListDefault();
@@ -34,9 +42,24 @@ public class HotelController {
 //				hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
 //			}
 			model.addAttribute("hotelMainFormDtoList", hotelMainFormDtoList);
+			model.addAttribute("page", page);
+			if(hotelMainFormDtoList.size() % 10 == 0) {
+				pageSize = hotelMainFormDtoList.size()/10;
+			}else {
+				pageSize = hotelMainFormDtoList.size()/10 + 1;
+			}
+			System.out.println(pageSize);
+			model.addAttribute("pageSize", pageSize);
 		}else {
 			List<HotelMainFormDto> hotelMainFormDtoList = hotelService.SearchHotels(keyword);
 			model.addAttribute("hotelMainFormDtoList", hotelMainFormDtoList);
+			model.addAttribute("page", page);
+			if(hotelMainFormDtoList.size() % 10 == 0) {
+				pageSize = hotelMainFormDtoList.size()/10;
+			}else {
+				pageSize = hotelMainFormDtoList.size()/10 + 1;
+			}
+			model.addAttribute("pageSize", pageSize);
 		}
 		return "/hotel/hotel";
 	}

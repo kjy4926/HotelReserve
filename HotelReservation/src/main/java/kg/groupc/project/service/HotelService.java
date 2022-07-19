@@ -41,8 +41,7 @@ public class HotelService {
 	EntityManager em;
 	
 	public List<HotelMainFormDto> getHotelListDefault(){
-		//호텔메뉴 눌렀을 시 최초로 보여지는 화면, 되는지 실험해봐야 합니다
-		//별점순으로 정렬합니다
+		//호텔메뉴 눌렀을 시 최초로 보여지는 화면, 별점순으로 정렬합니다
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 		//QueryDSL을 사용하기 위해선 먼저 QueryDSL이 제공하는 JPAQueryFactory 클래스의 인스턴스를 생성해야 합니다
 		//EntityManager 객체를 주입하여 인스턴스를 생성해야 합니다.
@@ -92,7 +91,7 @@ public class HotelService {
 	}
 	
 	public List<HotelMainFormDto> SearchHotels(String keyword){
-		//주소 또는 호텔명으로 검색합니다. 미완성입니다.
+		//주소 또는 호텔명으로 검색합니다.
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 		QHotelScore hotelScore = QHotelScore.hotelScore;
 		QHotel hotel = QHotel.hotel;
@@ -105,7 +104,7 @@ public class HotelService {
 				//값을 넣을 때 생성자와 순서를 일치시켜야 합니다
 				.from(hotelScore)//조회 대상 테이블을 지정합니다
 				.rightJoin(hotelScore.hotel, hotel)//right outer join
-				.groupBy(hotel.seq, hotel.name,	hotel.phone,
+				.groupBy(hotel.name,hotel.phone,
 						hotel.address, hotel.description,
 						hotel.img, hotel.status)
 				.having(hotel.name.contains(keyword)
