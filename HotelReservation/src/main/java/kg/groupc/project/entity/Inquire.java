@@ -29,12 +29,12 @@ public class Inquire {
 	// 작성자(외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer")
-	private String writer;
+	private Account writer;
 	
 	// 호텔 id(외래키) -> 카테고리 호텔 문의 일 경우만 값이 입력됨(nullable)
 	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
-	private Long hotel;
+	private Hotel hotel;
 	
 	// 문의글 제목
 	@Column(nullable = false)

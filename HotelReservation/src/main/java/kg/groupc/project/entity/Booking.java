@@ -29,12 +29,12 @@ public class Booking {
 	// 방 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "room")
-	private Long room;
+	private Room room;
 	
 	// 예약자(외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "reserver")
-	private String reserver;
+	private Account reserver;
 	
 	// 예약일
 	@Column(nullable = false)

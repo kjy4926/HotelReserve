@@ -26,10 +26,10 @@ public class Menu {
 	// 식당 id(외래키)
 	@ManyToOne(optional = false,targetEntity = Restaurant.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
-	private Long restaurant;
+	private Restaurant restaurant;
 	
 	// 메뉴 이름
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 100)
 	private String name;
 	
 	// 메뉴 가격

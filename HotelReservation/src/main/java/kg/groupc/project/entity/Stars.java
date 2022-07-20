@@ -21,11 +21,11 @@ public class Stars {
 	@ManyToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId")
 	@Id
-	private String userId;
+	private Account userId;
 	
 	// 식당 id(외래키)
 	@ManyToOne(targetEntity = Restaurant.class, fetch =  FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
 	@Id
-	private Long restaurant;
+	private Restaurant restaurant;
 }

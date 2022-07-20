@@ -27,10 +27,10 @@ public class Room {
 	// 호텔 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
-	private Long hotel;
+	private Hotel hotel;
 	
 	// 방 이름
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 100)
 	private String name;
 	
 	// 가격

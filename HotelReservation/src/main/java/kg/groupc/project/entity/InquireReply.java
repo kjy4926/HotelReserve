@@ -28,15 +28,15 @@ public class InquireReply {
 	// 문의글 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Inquire.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "inquire")
-	private Long inquire;
+	private Inquire inquire;
 	
 	// 작성자(관리자, 외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "admin")
-	private String admin;
+	private Account admin;
 	
 	// 제목
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false, length = 50)
 	private String title;
 	
 	// 내용

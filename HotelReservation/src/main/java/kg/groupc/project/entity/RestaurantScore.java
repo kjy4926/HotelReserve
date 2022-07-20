@@ -28,12 +28,12 @@ public class RestaurantScore {
 	// 점포 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Restaurant.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
-	private Long restaurant;
+	private Restaurant restaurant;
 	
 	// 작성자
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer")
-	private String writer;
+	private Account writer;
 	
 	// 리뷰 평점
 	@Column(nullable = false)

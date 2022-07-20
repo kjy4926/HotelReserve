@@ -242,8 +242,8 @@ public class HotelService {
 				Account account = accountList.get(j);
 				System.out.println(accountList.get(j));
 				HotelScore hotelScore = new HotelScore();
-				hotelScore.setHotel(hotel.getSeq());
-				hotelScore.setWriter(account.getUserId());
+//				hotelScore.setHotel(hotel.getSeq());
+//				hotelScore.setWriter(account.getUserId());
 				hotelScore.setScore(j+1L);
 				hotelScore.setDescription("설명"+j+1);
 				hotelScore.setDay(sqlDate);

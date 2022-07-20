@@ -22,7 +22,7 @@ public class Hotel {
 	private Long seq;
 	
 	// 호텔명
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 100)
 	private String name;
 	
 	// 호텔 전화번호

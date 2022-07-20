@@ -29,12 +29,12 @@ public class HotelScore {
 	// 호텔 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
-	private Long hotel;
+	private Hotel hotel;
 	
 	// 작성자(외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer")
-	private String writer;
+	private Account writer;
 	
 	// 리뷰 평점
 	@Column(nullable = false)
