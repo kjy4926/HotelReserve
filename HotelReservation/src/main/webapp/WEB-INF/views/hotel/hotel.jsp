@@ -18,9 +18,12 @@
 	<!-- 검색바 -->
 	<form action="hotel" method="get">
 		<input type="text" name="keyword">
+		<input type="submit" value="검색">
 	</form>
+	
+
 	<form action="hotelDetail" method="get">
-		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}">    
+		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}" >    
 			<h5>호텔</h5>
 			호텔 이름 : <c:out value="${hotelMainFormDto.name}" /><p/>
 			호텔 전화번호 : <c:out value="${hotelMainFormDto.phone}" /><p/>
@@ -31,8 +34,15 @@
 			<p/>
 		</c:forEach>
 	</form>
-
-
+	
+	
+	<c:forEach var="page" begin="1" end="${maxPage }">
+		<form action="hotel?page=${page }&keyword=${keyword}" method="get">
+			<button type="submit">${page}</button>
+		</form>
+	</c:forEach>
+	 
+	 
 	<form action="hotelDetail" method="get">
 				<button>hotelDetail 확인용</button>
 		
