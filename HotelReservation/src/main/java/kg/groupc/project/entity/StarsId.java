@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StarsId implements Serializable {
 	private String userId;
-	private long restaurant;
+	private Long restaurant;
 }

@@ -24,12 +24,12 @@ public class HotelScore {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false)
-	private long seq;
+	private Long seq;
 	
 	// 호텔 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
-	private long hotel;
+	private Long hotel;
 	
 	// 작성자(외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
@@ -38,7 +38,7 @@ public class HotelScore {
 	
 	// 리뷰 평점
 	@Column(nullable = false)
-	private long score;
+	private Long score;
 	
 	// 리뷰 글 내용
 	@Column(nullable = true, length = 1000)

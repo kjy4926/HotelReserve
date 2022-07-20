@@ -22,12 +22,12 @@ public class Room {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false)
-	private long seq;
+	private Long seq;
 	
 	// 호텔 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
-	private long hotel;
+	private Long hotel;
 	
 	// 방 이름
 	@Column(nullable = false, length = 50)
@@ -35,11 +35,11 @@ public class Room {
 	
 	// 가격
 	@Column(nullable = false)
-	private long price;
+	private Long price;
 	
 	// 수용 인원 수(최대 인원)
 	@Column(nullable = false)
-	private long people;
+	private Long people;
 	
 	// 방 정보
 	@Column(nullable = true, length = 1000)

@@ -21,12 +21,12 @@ public class Menu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false)
-	private long seq;
+	private Long seq;
 	
 	// 식당 id(외래키)
 	@ManyToOne(optional = false,targetEntity = Restaurant.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
-	private long restaurant;
+	private Long restaurant;
 	
 	// 메뉴 이름
 	@Column(nullable = false, length = 50)
@@ -34,7 +34,7 @@ public class Menu {
 	
 	// 메뉴 가격
 	@Column(nullable = false)
-	private long price;
+	private Long price;
 	
 	// 메뉴 설명 
 	@Column(nullable = true, length = 1000)

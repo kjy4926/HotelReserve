@@ -27,5 +27,5 @@ public class Stars {
 	@ManyToOne(targetEntity = Restaurant.class, fetch =  FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
 	@Id
-	private long restaurant;
+	private Long restaurant;
 }

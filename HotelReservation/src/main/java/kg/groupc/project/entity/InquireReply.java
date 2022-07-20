@@ -23,12 +23,12 @@ public class InquireReply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false)
-	private long seq;
+	private Long seq;
 	
 	// 문의글 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Inquire.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "inquire")
-	private long inquire;
+	private Long inquire;
 	
 	// 작성자(관리자, 외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)

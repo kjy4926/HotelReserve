@@ -19,7 +19,7 @@ public class Hotel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false)
-	private long seq;
+	private Long seq;
 	
 	// 호텔명
 	@Column(nullable = false, length = 50)
@@ -43,5 +43,5 @@ public class Hotel {
 	
 	// 호텔 상태(0 = 폐점), 기본적으로 1
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
-	private long status;
+	private Long status;
 }
