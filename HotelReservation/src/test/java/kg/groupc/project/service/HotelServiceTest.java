@@ -26,22 +26,15 @@ class HotelServiceTest {
 	@Autowired
 	HotelService hotelService;
 	
+	String keyword = "";
+	
 	@Test
 	void testgetHotelListDefault() {//검색x 테스트용 메소드
-		List<HotelMainFormDto> avg = hotelService.getHotelListDefault();
-		for(int i = 0; i < avg.size(); i++) {
-			System.out.println("객체" + avg.get(i));
-		}
-	}
-
-	@Test
-	void testSearchHotels() {//이름 또는 호텔명 검색 테스트용 메소드
-		List<HotelMainFormDto> avg = hotelService.SearchHotels("서울");
-		for(int i = 0; i < avg.size(); i++) {
-			System.out.println("객체" + avg.get(i));
-		}
+		long avg = hotelService.getHotelList(keyword);
 		
 	}
+
+
 
 	@Test
 	void testCreateHotelTest() {//샘플호텔데이터생성
@@ -68,37 +61,10 @@ class HotelServiceTest {
 	@PersistenceContext
 	EntityManager em;
 	
+	
 	@Test
 	void testHotelService() {
-//		List<Hotel> hotelList = hotelRepository.findAll(); 
-//		for(int i = 0; i < hotelList.size(); i++) {
-//			System.out.println(hotelList.get(i));
-//		}
 		
-//		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-//		QHotelScore hotelScore = QHotelScore.hotelScore;
-//		List<HotelScore> scoreList = queryFactory.selectFrom(hotelScore)
-//				.fetch();
-//		System.out.println(scoreList);
-//		System.out.println(scoreList.size());
-//		for(int i = 0; i < scoreList.size(); i++) {		
-//			System.out.println(scoreList.get(i));
-//			System.out.println(scoreList + "있으면 출력");
-//		}
-		List<Tuple> avgList = hotelService.searchAvg();//left outer join
-		for(int i = 0; i < avgList.size(); i++) {
-			System.out.println(avgList.get(i));
-		}
-		
-		avgList = hotelService.searchAvg2();//right outer join
-		for(int i = 0; i < avgList.size(); i++) {
-			System.out.println(avgList.get(i));
-		}
-		
-		avgList = hotelService.searchAvg3();//inner join
-		for(int i = 0; i < avgList.size(); i++) {
-			System.out.println(avgList.get(i));
-		}
 	}
 
 }

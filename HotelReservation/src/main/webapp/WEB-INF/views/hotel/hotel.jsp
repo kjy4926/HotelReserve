@@ -23,7 +23,7 @@
 	
 
 	<form action="hotelDetail" method="get">
-		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}" begin="${page*10-10}" end="${page*10-1}" >    
+		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}" >    
 			<h5>호텔</h5>
 			호텔 이름 : <c:out value="${hotelMainFormDto.name}" /><p/>
 			호텔 전화번호 : <c:out value="${hotelMainFormDto.phone}" /><p/>
@@ -35,12 +35,14 @@
 		</c:forEach>
 	</form>
 	
-	<c:forEach var="page" begin="1" end="${pageSize }">
+	
+	<c:forEach var="page" begin="1" end="${maxPage }">
 		<form action="hotel?page=${page }&keyword=${keyword}" method="get">
 			<button type="submit">${page}</button>
 		</form>
 	</c:forEach>
-
+	 
+	 
 	<form action="hotelDetail" method="get">
 				<button>hotelDetail 확인용</button>
 		
