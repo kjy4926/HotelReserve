@@ -24,12 +24,12 @@ public class Booking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false)
-	private long seq;
+	private Long seq;
 	
 	// 방 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "room")
-	private long room;
+	private Long room;
 	
 	// 예약자(외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
@@ -46,13 +46,13 @@ public class Booking {
 	
 	// 예약 상태
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
-	private long status;
+	private Long status;
 	
 	// 가격
 	@Column(nullable = false)
-	private long price;
+	private Long price;
 	
 	// 인원 수
 	@Column(nullable = false)
-	private long people;
+	private Long people;
 }

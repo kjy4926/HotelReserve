@@ -55,7 +55,7 @@ public class Account {
 	
 	// ID 상태(0 = 탈퇴한 계정[사용불가], 1 = 사용 가능 계정, 2부터는 추가사항 있다면 구현)
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
-	private long status;
+	private Long status;
 	
 	public static Account createAccount(SignupFormDto signupFormDto, PasswordEncoder passwordEncoder) {
 		Account account = new Account();
@@ -67,7 +67,7 @@ public class Account {
 		account.setAddress((signupFormDto.getAddress() + " " + signupFormDto.getAddressDetail()));
 		account.setBirth(signupFormDto.getBirth());
 		account.setRole(Role.CLIENT);
-		account.setStatus(1);
+		account.setStatus(1L);
 		return account;
 	}
 }

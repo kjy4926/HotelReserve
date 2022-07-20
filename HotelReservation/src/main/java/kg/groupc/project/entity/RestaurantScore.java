@@ -23,12 +23,12 @@ import lombok.ToString;
 public class RestaurantScore {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long seq;
+	private Long seq;
 	
 	// 점포 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Restaurant.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
-	private long restaurant;
+	private Long restaurant;
 	
 	// 작성자
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
@@ -37,7 +37,7 @@ public class RestaurantScore {
 	
 	// 리뷰 평점
 	@Column(nullable = false)
-	private long score;
+	private Long score;
 	
 	// 리뷰 내용
 	@Column(nullable = true, length = 1000)
