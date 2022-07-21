@@ -35,27 +35,6 @@ class HotelServiceTest {
 	}
 
 
-
-	@Test
-	void testCreateHotelTest() {//샘플호텔데이터생성
-		hotelService.createHotelTest();
-		
-//		List<HotelMainFormDto> hotelList = hotelService.notSearchHotels();
-//		for(HotelMainFormDto hotelMainFormDto : hotelList) {
-//			System.out.println(hotelMainFormDto.toString());
-//		}
-	}
-
-	@Test
-	void testCreateHotelScore() {
-		hotelService.createHotelScore();
-	}
-
-	@Test
-	void testSampleId() {//샘플계정생성
-		hotelService.sampleId();
-	}
-
 	@Autowired
 	HotelRepository hotelRepository;
 	@PersistenceContext
@@ -64,7 +43,7 @@ class HotelServiceTest {
 	
 	@Test
 	void testHotelService() {
-		
+		System.out.println(hotelService.getHotelDetail(1));
 	}
 
 }

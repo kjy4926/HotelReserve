@@ -6,4 +6,5 @@ import kg.groupc.project.entity.Hotel;
 
 public interface HotelRepository extends JpaRepository<Hotel, Long>{
 
+	Hotel findBySeq(Long seq);
 }

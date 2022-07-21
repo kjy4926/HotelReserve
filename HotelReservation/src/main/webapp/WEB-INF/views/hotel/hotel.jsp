@@ -31,7 +31,7 @@
 	</form>
 	<div class="container-fluid" style="text-align: center;">
 		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}" > 
-			<div class="card mb-3" style="width: 19%; display: inline-flex;"
+			<div class="card mb-3" style="width: 18%; display: inline-flex;"
 				onclick="location.href='${pageContext.request.contextPath}/hotel/detail/${hotelMainFormDto.seq}'">
 				<h3 class="card-header"><c:out value="${hotelMainFormDto.name}" /></h3>
 				<div class="card-body">
@@ -51,27 +51,72 @@
 					<li class="list-group-item">호텔 평점 : <c:out value="${hotelMainFormDto.avg}" /></li>
 				</ul>
 				<div class="card-body">
-					<a href="#" class="card-link">Card link</a>
-					<a href="#" class="card-link">Another link</a>
+					<a href="/hotel/detail/${hotelMainFormDto.seq}" class="card-link">예약하기</a>
+					<a href="/hotel/detail/${hotelMainFormDto.seq}" class="card-link">지금 바로!</a>
 				</div>
 			</div>   
 		</c:forEach>
 	</div>
+	
 		<ul class="pagination pagination-lg container-fluid justify-content-center">
-			<li class="page-item disabled">
-			    <a class="page-link" href="#">&laquo;</a>
-			</li>
-			<li class="page-item active">
-					<a class="page-link" href="#">&laquo;</a>
-			</li>
-			<c:forEach var="page" begin="0" end="${maxPage}">
-				<li class="page-item">
-					<a class="page-link" href="hotel?keyword=${keyword}&page=${page}"><c:out value="${page+1}"/></a>
+
+
+			<c:if test="${firstPage == -1 }">
+				<li class="page-item disabled">
+			    	<a class="page-link" href="#">&laquo;</a>
 				</li>
+			</c:if>
+			<c:if test="${firstPage != -1 }">
+				<li class="page-item">
+			    	<a class="page-link" href="hotel?keyword=${keyword}&page=${firstPage}">&laquo;</a>
+				</li>
+			</c:if>
+			
+			<c:if test="${prevPage == -1 }">
+				<li class="page-item disabled">
+			    	<a class="page-link" href="#">&laquo;</a>
+				</li>
+			</c:if>
+			<c:if test="${prevPage != -1 }">
+				<li class="page-item">
+			    	<a class="page-link" href="hotel?keyword=${keyword}&page=${prevPage}">&laquo;</a>
+				</li>
+			</c:if>
+
+			<c:forEach var="i" begin="${startPage}" end="${lastPage}">
+				<c:if test="${page == i}">
+					<li class="page-item disabled">
+						<a class="page-link" href="hotel?keyword=${keyword}&page=${i}"><c:out value="${i+1}"/></a>
+					</li>
+				</c:if>
+				<c:if test="${page != i}">
+					<li class="page-item">
+						<a class="page-link" href="hotel?keyword=${keyword}&page=${i}"><c:out value="${i+1}"/></a>
+					</li>
+				</c:if>
 			</c:forEach>
-			<li class="page-item">
-				<a class="page-link" href="#">&raquo;</a>
-			</li>
+			
+			
+			<c:if test="${nextPage == -1}">
+				<li class="page-item disabled">
+					<a class="page-link" href="#">&raquo;</a>
+				</li>
+			</c:if>
+			<c:if test="${nextPage != -1}">
+				<li class="page-item">
+					<a class="page-link" href="hotel?keyword=${keyword}&page=${nextPage}">&raquo;</a>
+				</li>
+			</c:if>
+			<c:if test="${nextPage == -1}">
+				<li class="page-item disabled">
+					<a class="page-link" href="#">&raquo;</a>
+				</li>
+			</c:if>
+			<c:if test="${nextPage != -1}">
+				<li class="page-item">
+					<a class="page-link" href="hotel?keyword=${keyword}&page=${maxPage}">&raquo;</a>
+				</li>
+			</c:if>
 		</ul>
 	
 	<div style="float:left; width: 20%;">
