@@ -23,8 +23,7 @@
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
-	<form class="infoChange-form" method="post" action="${pageContext.request.contextPath}/mypage/infoChange"
-			onsubmit="return dupCheckStatus(this.dupck)">
+	<form class="infoChange-form" method="post" action="${pageContext.request.contextPath}/mypage/infoChange">
 	  <fieldset>
 		<br><legend>개인 정보 변경</legend>
 			<label class="form-label mt-4" for="inputID">ID</label>

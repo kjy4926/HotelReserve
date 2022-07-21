@@ -44,7 +44,6 @@ public class LoginController {
 		Account account = accountService.getAccountById(user.getUsername());
 		model.addAttribute("menu", menu);
 		if(passwordEncoder.matches(password, account.getPassword())) {
-			System.out.println("비번 ㅇ");
 			if(menu.equals("1")) {
 				return "redirect:/mypage/infoChange";
 			}else if(menu.equals("2")) {
@@ -52,7 +51,6 @@ public class LoginController {
 			}else if(menu.equals("3")) {
 				return "redirect:/mypage/resign";
 			}else {
-				// 이후 에러 페이지로 변경
 				return "/";
 			}
 		}
