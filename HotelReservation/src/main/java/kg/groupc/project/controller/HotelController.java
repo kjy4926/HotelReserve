@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import kg.groupc.project.dto.HotelMainFormDto;
 import kg.groupc.project.service.HotelService;
-import kg.groupc.project.util.HotelPageRequest;
+import kg.groupc.project.util.HotelPageUtil;
 
 @Controller
 public class HotelController {
@@ -24,7 +24,7 @@ public class HotelController {
 	HotelService hotelService;
 	
 	@Autowired
-	HotelPageRequest hotelPageRequest;
+	HotelPageUtil hotelPageRequest;
 	
 	@GetMapping("/hotel")
 	public String hotel(HttpServletRequest request, Model model,
