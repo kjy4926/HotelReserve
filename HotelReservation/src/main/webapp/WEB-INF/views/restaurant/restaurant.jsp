@@ -12,12 +12,16 @@
 	<link href="${pageContext.request.contextPath}/resources/css/restaurant.css" rel="stylesheet" type="text/css">
 <style>
 	img {
-		width:100px;
-		height:100px;
-		object-fit:contain;
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
 	}
 	div {
 		text-align: center;
+	}
+	table {
+		width: 100%;
+		table-layout: fixed;
 	}
 </style>
 </head>
@@ -25,52 +29,80 @@
 	<!-- 상단메뉴 -->
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
-	<section id="restaurantList-container">
-        <!--배경사진-->
-        <div id="restaurantList-img">
-            <img src="${pageContext.request.contextPath}/resources/img/default.png" width="1500" height="550px">
-        </div>
-		
-	<!-- 검색창 -->
-	<form action="">
-		<div class="mx-auto mt-5 search-bar input-group mb-3">
-  			<input type="text" class="form-control rounded-pill" placeholder="검색바" aria-label="Recipient's username" aria-describedby="button-addon2">
-       		<button class="btn btn-primary" type="button" id="button-addon2">검색</button>
+    <!--배경사진-->
+    	<div class="image-box">
+    		<img class="image-banner" src="${pageContext.request.contextPath}/resources/img/default.png">
     	</div>
-    </form>
-	
-	<!--
-	<div id="restaurantList-nav">
-		<div id="restaurantList-nav__search">
-			<form action="${pageContext.request.contextPath}/restaurant" method="get">
-				<input type="text" id="restaurantList-nav__search__input" placeholder="맛집 검색" name="searchKeyword" value="${searchKeyword }">
-				<button id="restaurantList-nav__search__btn" type="submit" value="검색">
-                    </button>
-                </form>
-            </div>
-        </div>
-     -->
+		  	
+    <form action="/restaurant" class="form-inline d-flex justify-content-center" method="GET">
+		<div class="form-group">
+			<select class="form-select" id="field" name="field">
+				<option value="name">상호명</option>
+				<option value="address">주소(지역)</option>
+			</select>
+		</div>
+        <div class="input-group mb-3 search-bar">
+      		<input type="text" class="form-control rounded-pill" placeholder="검색어" id="searchKeyword" name="searchKeyword" value="${searchKeyword}">
+      		<button class="btn btn-primary" type="submit">검색</button>
+    	</div>
+	</form>
+
     <!-- 맛집 목록 -->
-    <table class="table">
-    	<thead class="thead-dark">
-   		<tr>
-        	<th scope="col">사진</th>
-        	<th scope="col">상호명</th>
-        	<th scope="col">주소</th>
-        	<th scope="col">연락처</th>
-    	</tr>
-    </thead>
-    <tbody>
-    	<c:forEach var="restaurant" items="${restaurantList}" varStatus="Loop">
-        	<tr>
-        	<th scope="row"><img alt="" src="<c:url value="/resources/img/restaurantImg/${restaurant.img}"/>"/></th>
-        	<td><a href="<c:url value="restaurant/restaurantDetail/${restaurant.seq}"/>">${restaurant.name}</a></td>
-        	<td>${restaurant.address}</td>
-        	<td>${restaurant.phone}</td>
-    		</tr>
-    	</c:forEach>
-	</tbody>
-</table>
-</section>
+	<table class="table table-hover">
+		<thead>
+	    	<tr>
+	      		<th scope="col">사진</th>
+	      		<th scope="col">상호명</th>
+	      		<th scope="col">주소</th>
+	      		<th scope="col">연락처</th>
+	    	</tr>
+	  	</thead>
+	  	<tbody>
+	  		<c:forEach var="restaurant" items="${pageList.content}">
+	    		<tr class="table-active">
+	      		<td><img alt="" src="<c:url value="/resources/img/restaurantImg/${restaurant.img}"/>"/></td>
+	      		<td><a href="<c:url value="/restaurant/restaurantDetail/${restaurant.seq}"/>">${restaurant.name}</a></td>
+	      		<td>${restaurant.address}</td>
+	      		<td>${restaurant.phone}</td>
+	    		</tr>
+	    	</c:forEach>
+	  	</tbody>
+	</table>
+	
+	<!-- 페이징 영역 -->
+	<div class="text-xs-center">
+		<ul class="pagination justify-content-center">
+			<!-- 이전 -->
+			<c:choose>
+				<c:when test="${pageList.first}"></c:when>
+				<c:otherwise>
+					<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=0">처음</a></li>
+					<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number-1}">&larr;</a></li>
+				</c:otherwise>
+			</c:choose>
+			
+			<!-- 페이지 그룹 -->
+			<c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
+				<c:choose>
+					<c:when test="${pageList.pageable.pageNumber+1 == i}">
+						<li class="page-item disabled"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i-1}">${i}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i-1}">${i}</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			
+			<!-- 다음 -->
+			<c:choose>
+				<c:when test="${pageList.last}"></c:when>
+				<c:otherwise>
+					<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number+1}">&rarr;</a></li>
+					<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.totalPages-1}">마지막</a></li>
+				</c:otherwise>
+			</c:choose>
+		</ul>		
+	</div>	
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -29,7 +29,7 @@ function autoHypenPhone(str){
 	}
 	return str;
 }
-//phone form에서 키 입력이 됬을 때, 동작
+//phone form에서 키 입력이 됐을 때, 동작
 function setPhoneForm(phone){
 	var _val = phone.value.trim();
     phone.value = autoHypenPhone(_val) ;
