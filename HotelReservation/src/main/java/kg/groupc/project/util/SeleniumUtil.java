@@ -132,7 +132,12 @@ public class SeleniumUtil {
 						String rprice = priceField.get(j).getText().replaceAll("[0-9]박", "").replaceAll("[^0-9]", "");
 						String pad = peopleAndDescField.get(j).getText();
 						String rpeople = pad.split(" ")[1].replaceAll("[^0-9]", "");
-						String rdesc = pad.split("/")[1].trim();
+						String rdesc;
+						try {
+							rdesc = pad.split("/")[1].trim();
+						}catch(Exception e){
+							rdesc = null;
+						}
 						String rimgLink = roomImgLink.get(j).findElement(By.tagName("a")).getAttribute("href");
 						
 						driver3.get(rimgLink);

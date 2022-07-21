@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import kg.groupc.project.dto.InfoChangeFormDto;
 import kg.groupc.project.entity.Account;
 import kg.groupc.project.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,10 @@ public class AccountService implements UserDetailsService{
 		return accountRepository.findAll(limit).getContent();
 	}
 	
+	public Account getAccountById(String userId) {
+		return accountRepository.findById(userId).get();
+	}
+	
 	public List<Account> getAllAccounts(){
 		return accountRepository.findAll();
 	}
@@ -40,6 +45,15 @@ public class AccountService implements UserDetailsService{
 		}else {
 			return null;
 		}
+	}
+	
+	public Account changeAccountInfo(InfoChangeFormDto infoChangeFormDto) {
+		Account account = accountRepository.findById(infoChangeFormDto.getUserId()).get();
+		account.setName(infoChangeFormDto.getUsername());
+		account.setEmail(infoChangeFormDto.getEmail());
+		account.setPhone(infoChangeFormDto.getPhone());
+		account.setAddress(infoChangeFormDto.getAddress() + " " +infoChangeFormDto.getAddressDetail());
+		return accountRepository.save(account);
 	}
 	
 	public boolean idDuplicateCheck(String userId) {

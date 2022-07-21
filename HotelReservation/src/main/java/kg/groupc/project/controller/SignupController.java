@@ -44,7 +44,9 @@ public class SignupController {
 		Account account = Account.createAccount(signupFormDto, passwordEncoder);
 		System.out.println(account);
 		accountService.saveAccount(account);
-		return "redirect:/";
+		model.addAttribute("msg", "회원가입이 완료되었습니다!\n지금 바로 예약하고 여행을 떠나보세요!");
+		model.addAttribute("type", "signup");
+		return "/alert/success";
 	}
 	
 	@PostMapping("/signup/dupCheck")
