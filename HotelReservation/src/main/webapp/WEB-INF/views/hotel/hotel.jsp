@@ -19,24 +19,28 @@
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	
 	<!-- 검색바 -->
-	<form action="hotel" method="get" class="d-flex">
-        <input class="form-control me-sm-2" type="text" name="keyword" placeholder="주소 또는 호텔명으로 검색">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
-    </form>
-	
-	<form action="hotelDetail" method="get">
+	<form action="hotel" method="get">
+		<div class="form-group" style="width: 50%; margin: auto;">
+			<div class="input-group">
+			<input class="form-control me-sm-2" type="text" name="keyword" placeholder="주소 또는 호텔명으로 검색">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
+			</div>
+			<br>
+		</div>
+	</form>
+	<div class="container-fluid" style="text-align: center;">
 		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}" > 
-			<div class="card mb-3" style="float: left; width: 19%;">
+			<div class="card mb-3" style="width: 19%; display: inline-flex;"
+				onclick="location.href='${pageContext.request.contextPath}/hotel/detail/${hotelMainFormDto.seq}'">
 				<h3 class="card-header"><c:out value="${hotelMainFormDto.name}" /></h3>
 				<div class="card-body">
 					<h5 class="card-title">Special title treatment</h5>
 					<h6 class="card-subtitle text-muted">Support card subtitle</h6>
 				</div>
 				<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-				<rect width="100%" height="100%" fill="#868e96"></rect>
-				<text x="50%" y="50%" fill="#dee2e6" dy=".3em"><img src="${pageContext.request.contextPath}/resources/img/hotel/${hotelMainFormDto.img}"></text>
+				<image href="${pageContext.request.contextPath}/resources/img/hotel/${hotelMainFormDto.img}" width="100%" height="100%"/>
+				<text x="50%" y="50%" fill="#dee2e6" dy=".3em"></text>
 				</svg>
 				<div class="card-body">
 					<p class="card-text">호텔 설명 : <c:out value="${hotelMainFormDto.description}"/></p>
@@ -52,10 +56,8 @@
 				</div>
 			</div>   
 		</c:forEach>
-	</form>
-	
-	<div style="float:left; width: 20%;">
-		<ul class="pagination pagination-lg">
+	</div>
+		<ul class="pagination pagination-lg container-fluid justify-content-center">
 			<li class="page-item disabled">
 			    <a class="page-link" href="#">&laquo;</a>
 			</li>
@@ -71,7 +73,6 @@
 				<a class="page-link" href="#">&raquo;</a>
 			</li>
 		</ul>
-	</div>
 	
 	<div style="float:left; width: 20%;">
 		<form action="hotelDetail" method="get">
