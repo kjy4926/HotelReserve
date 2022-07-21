@@ -15,7 +15,7 @@
 		alert(msg)
 		if(type === 'signup'){
 			location.href='${pageContext.request.contextPath}/'
-		}else if(type === 'change'){
+		}else if(type === 'change' || type === 'pwdchange'){
 			location.href='${pageContext.request.contextPath}/mypage'
 		}else{
 			location.href='${pageContext.request.contextPath}/login'

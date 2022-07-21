@@ -10,11 +10,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 import kg.groupc.project.dto.InfoChangeFormDto;
+import kg.groupc.project.dto.PwdChangeFormDto;
 import kg.groupc.project.entity.Account;
 import kg.groupc.project.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class AccountService implements UserDetailsService{
 	
 	private final AccountRepository accountRepository;
+	private final PasswordEncoder passwordEncoder;
 	
 	//test method
 	public List<Account> getThreeAccounts(){
@@ -53,6 +56,18 @@ public class AccountService implements UserDetailsService{
 		account.setEmail(infoChangeFormDto.getEmail());
 		account.setPhone(infoChangeFormDto.getPhone());
 		account.setAddress(infoChangeFormDto.getAddress() + " " +infoChangeFormDto.getAddressDetail());
+		return accountRepository.save(account);
+	}
+	
+	public Account changeAccountPasswordChange(String userId, PwdChangeFormDto pwdChangeFormDto) {
+		Account account = accountRepository.findById(userId).get();
+		account.setPassword(passwordEncoder.encode(pwdChangeFormDto.getPassword()));
+		return accountRepository.save(account);
+	}
+	
+	public Account resignAccount(String userId) {
+		Account account = accountRepository.findById(userId).get();
+		account.setStatus(0L);
 		return accountRepository.save(account);
 	}
 	

@@ -66,7 +66,7 @@ public class SeleniumUtil {
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-site-isolation-trials");
 		options.addArguments("disable-popup-blocking");
-//		options.addArguments("headless");
+		options.addArguments("headless");
 		
 		try {
 			driverPath = resource.getFile().getPath();
