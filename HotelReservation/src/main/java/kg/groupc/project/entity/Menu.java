@@ -24,7 +24,7 @@ public class Menu {
 	private Long seq;
 	
 	// 식당 id(외래키)
-	@ManyToOne(optional = false,targetEntity = Restaurant.class, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, targetEntity = Restaurant.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
 	private Restaurant restaurant;
 	
@@ -40,6 +40,7 @@ public class Menu {
 	@Column(nullable = true, length = 1000)
 	private String description;
 	
+	// 메뉴 사진
 	@Column(nullable = true, length = 255)
 	private String img;
 }

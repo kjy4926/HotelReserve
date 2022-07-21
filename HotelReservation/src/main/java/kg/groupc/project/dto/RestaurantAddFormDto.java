@@ -11,26 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RestaurantAddFormDto {
 
-	/*
-	private long seq;
-	private String name;
-	private String address;
-	private String phone;
-	private String imgName;
-	private String imgUrl;
-	private String description;
-	private Integer status;
-	
-	//검색어
-	private String searchKeyword;
-	
-	private String uploadFile;
-		
-	//추가
-	public Restaurant toRestaurant() {
-		return new Restaurant(seq, name, address, phone, imgName, imgUrl, description, status);
-	}
-	*/
 	private Long seq;
 	private String name;
 	private String address;
@@ -38,9 +18,7 @@ public class RestaurantAddFormDto {
 	private String img;
 	private String description;
 	private Long status;
-	
-	private String searchKeyword;
-	
+		
 	private MultipartFile uploadFile;
 	
 	public Restaurant toRestaurant() {

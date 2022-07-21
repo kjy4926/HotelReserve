@@ -1,11 +1,9 @@
 package kg.groupc.project.service;
 
 import java.io.File;
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,52 +20,31 @@ public class RestaurantService {
 	
 	@Autowired
 	private RestaurantRepository restaurantRepository;
-	
-	/* 수정전
+		
+	// 맛집 전체 리스트 + 페이징
 	@Transactional(readOnly = true)
-	public List<Restaurant> findAll() {
-		return restaurantRepository.findAll();
+	public Page<Restaurant> findAll(Pageable pageable) {
+		return restaurantRepository.findAll(pageable);
 	}
-	*/
 	
-//	// 수정후
-//	public Page<RestaurantAddFormDto> getRestaurantList(RestaurantAddFormDto restaurantAddFormDto, Pageable pageable) {
-//		
-//		Page<Restaurant> entityPage = restaurantRepository.findAll(pageable);
-//		List<Restaurant> resList = restaurantRepository.findAll(pageable).getContent();
-//		Page<RestaurantAddFormDto> restaurantList = modelMapper.map(entityPage, new TypeToken<Page<RestaurantAddFormDto>>() {}.getType());
-//	}
-	
-	
+	// 맛집 상세보기
 	@Transactional(readOnly = true)
 	public Restaurant findRestaurant(Long seq) {
 		return restaurantRepository.findById(seq).orElse(null);
 	}
-	
-	/* 서치키워드 추가부분
+		
+	// 서치(상호명) + 페이징
 	@Transactional(readOnly = true)
-	public List<Restaurant> search(String searchKeyword) {
-		List<Restaurant> 
+	public Page<Restaurant> search1(String searchKeyword, Pageable pageable) {
+		return restaurantRepository.findByNameContaining(searchKeyword, pageable);
 	}
-	*/
+	// 서치(주소) + 페이징
+	@Transactional(readOnly = true)
+	public Page<Restaurant> search2(String searchKeyword, Pageable pageable) {
+		return restaurantRepository.findByAddressContaining(searchKeyword, pageable);
+	}
 	
-	/*
-	public Restaurant create(RestaurantAddFormDto restaurantAddFormDto, MultipartFile file) throws Exception {
-		Restaurant restaurant = restaurantAddFormDto.toRestaurant();
-		
-		String projectPath = System.getProperty("usder.dir") + "\\src\\main\\webapp\\resources\\img\\restaurantImg";
-		
-		UUID uuid = UUID.randomUUID();
-		String fileName = uuid + "_" + file.getOriginalFilename();
-		File saveFile = new File(projectPath, fileName);
-		file.transferTo(saveFile);
-		
-		restaurant.setImgName(fileName);
-		restaurant.setImgUrl("/restaurantImg/" + fileName);
-		
-		return restaurantRepository.save(restaurant);
-	}
-	*/
+	// 맛집 등록(관리자)
 	public Restaurant create(RestaurantAddFormDto restaurantAddFormDto, MultipartFile file) throws Exception {
 		Restaurant restaurant = restaurantAddFormDto.toRestaurant();
 		
@@ -79,14 +56,14 @@ public class RestaurantService {
 			
 			UUID uuid = UUID.randomUUID();
 			img = uuid+"."+ext;
-			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReservation2\\src\\main\\webapp\\resources\\img\\restaurantImg\\" + img));
+			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\restaurantImg\\" + img));
 		}
-		//restaurantAddFormDto.setImg(img);
 		restaurant.setImg(img);
 		
 		return restaurantRepository.save(restaurant);
 	}
 	
+	//맛집 수정(관리자)
 	public Restaurant edit(Long seq, RestaurantAddFormDto restaurantAddFormDto) {
 		Restaurant restaurant = restaurantAddFormDto.toRestaurant();
 		Restaurant target = restaurantRepository.findById(seq).orElse(null);
@@ -99,6 +76,7 @@ public class RestaurantService {
 		return restaurantRepository.save(target);
 	}
 	
+	//맛집 삭제(관리자)
 	public Restaurant delete(Long seq) {
 		Restaurant restaurant = restaurantRepository.findById(seq).orElse(null);
 		

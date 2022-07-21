@@ -1,8 +1,12 @@
 package kg.groupc.project.controller;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,29 +30,36 @@ public class RestaurantController {
 	
 	@Autowired
 	private RestaurantService restaurantService;
-	
-	/* 수정전
-	// Restaurant 전체 view 페이지
-	@GetMapping("/restaurant")
-	public String allRestaurantPage(Model model) {
-		List<Restaurant> restaurantList = restaurantService.findAll();
-		model.addAttribute("restaurantList", restaurantList);
+		
+	// 맛집 리스트 + 검색 + 페이징
+	@RequestMapping(value="/restaurant")
+	public String allRestaurantPage(Model model,
+			@PageableDefault(size = 5, sort = "seq", direction = Sort.Direction.DESC)Pageable pageable, 
+			@RequestParam(required = false, defaultValue = "") String field,
+			@RequestParam(required = false, defaultValue = "") String searchKeyword) {
+		
+		Page<Restaurant> pageList = restaurantRepository.findAll(pageable);		
+		if(field.equals("name")) {
+			pageList = restaurantService.search1(searchKeyword, pageable);
+		} else if(field.equals("address")) {
+			pageList = restaurantService.search2(searchKeyword, pageable);
+		}
+		
+		int pageNumber = pageList.getPageable().getPageNumber();
+		int totalPages = pageList.getTotalPages();
+		int pageBlock = 5;
+		int startBlockPage = ((pageNumber)/pageBlock) * pageBlock + 1;
+		int endBlockPage = startBlockPage + pageBlock - 1;
+		endBlockPage = totalPages < endBlockPage ? totalPages : endBlockPage;
+		
+		model.addAttribute("startBlockPage", startBlockPage);
+		model.addAttribute("endBlockPage", endBlockPage);
+		model.addAttribute("pageList", pageList);
 		
 		return "/restaurant/restaurant";
 	}
-	*/
-
-	/*
-	@GetMapping("/restaurant/searchKeyword={searchKeyword}")
-	public String searchRestaurant(String searchKeyword, Model model, @PageableDefault(sort = "seq", direction = Sort.Direction.DESC)Pageable pageable) {
-		List<Restaurant> searchRestaurantList = restaurantService.search(searchKeyword);
-		model.addAttribute("searchRestaurantList", searchRestaurantList);
-		
-		return "/restaurant/restaurant";
-	}
-	*/
 	
-	// RestaurantDetail view 페이지
+	// 맛집 상세 페이지
 	@GetMapping("/restaurant/restaurantDetail/{seq}")
 	public String detailRestaurant(@PathVariable Long seq, Model model) {
 		Restaurant restaurant = restaurantService.findRestaurant(seq);
@@ -57,12 +68,13 @@ public class RestaurantController {
 		return "/restaurant/restaurantDetail";
 	}
 	
-	// Restaurant 등록 view 페이지
+	// 맛집 등록 GET(관리자)
 	@RequestMapping(value="/restaurant/admin/new", method=RequestMethod.GET)
 	public String newRestaurantPage() {
 		return "/restaurant/restaurantAdd";
 	}
-	// Restaurant 등록 post
+	
+	// 맛집 등록 POST(관리자)
 	@RequestMapping(value="/restaurant/admin/new", method=RequestMethod.POST)
 	public String createRestaurant(RestaurantAddFormDto restaurantAddFormDto, @RequestParam("uploadFile") MultipartFile img) throws Exception {
 		Restaurant restaurant = restaurantService.create(restaurantAddFormDto, img);
@@ -70,22 +82,7 @@ public class RestaurantController {
 		return "redirect:/restaurant";
 	}
 		
-	/*
-	// Restaurant 등록 view 페이지
-	@GetMapping("/restaurant/admin/new")
-	public String newRestaurantPage() {
-		return "/restaurant/restaurantAdd";
-	}
-	// Restaurant 등록 post
-	@PostMapping("/restaurant/admin/create")
-	public String createRestaurant(RestaurantAddFormDto restaurantAddFormDto, @RequestParam("uploadFile") MultipartFile img) throws Exception {
-		Restaurant restaurant = restaurantService.create(restaurantAddFormDto, img);
-		
-		return "redirect:/restaurant/restaurant";
-		//return "redirect:/restaurant/"+restaurant.getSeq();
-	}
-	*/
-	// Restaurant 수정 view 페이지
+	// 맛집 수정 페이지(관리자)
 	@GetMapping("/restaurant/admin/update/{seq}")
 	public String updateRestaurantPage(@PathVariable Long seq, Model model) {
 		Restaurant restaurant = restaurantService.findRestaurant(seq);
@@ -93,7 +90,7 @@ public class RestaurantController {
 		return "/restaurant/restaurantUpdate";
 	}
 	
-	// Restaurant 수정 patch
+	// 맛집 수정 patch(관리자)
 	@PatchMapping("/restaurant/admin/edit")
 	public String editRestaurant(@PathVariable Long seq, RestaurantAddFormDto restaurantAddFormDto) {
 		Restaurant restaurant = restaurantService.edit(seq, restaurantAddFormDto);
@@ -101,10 +98,10 @@ public class RestaurantController {
 		return "redirect:/restaurantDetail";
 	}
 	
+	// 맛집 삭제 (관리자)
 	public String deleteRestaurant(@PathVariable Long seq) {
 		Restaurant restaurant = restaurantService.delete(seq);
 		
 		return "redirect:/restaurantDetail";
 	}
-		
 }

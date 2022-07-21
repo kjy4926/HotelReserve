@@ -1,145 +1,11 @@
-/**restaurantList**/
-#restaurantList-container {
-    background-color: white;
-    width: 1500px;
-    margin: 0 auto;
-    /*border: 1px solid;*/
-}
-
-#restaurantList-img {
-    margin-top: 50px;
-    text-align: center;
-    /*border: 1px solid;*/
-}
-
-#restaurantL-drilldownBox {
-    /*border: 1px solid;*/
-    width: 350px;
-    height: 30px;
-    margin-top: 30px;
-}
-
-#restaurantList-nav {
-    width: 1500px;
-    height: 80px;
-    margin: 0 auto;
-    position: relative;
-    /*border: 1px solid;*/
-}
-
-#restaurantList-nav__cat {
-    display: inline-block;
-    width: 540px;
-    height: 50px;
-    position: absolute;
-    left: 0;
-    top: 14px;
-    background-color: #E0EEFF;
-    border-radius: 20px;
-    box-shadow: 1px 2px 5px #CDCECF;
-}
-
-#restaurantList-nav__cat ul li {
-    list-style: none;
-    float: left;
-    font-family: 'jua', sans-serif;
-    font-size: 20px;
-    margin-left: 28px;
-}
-
-#restaurantList-nav__cat a {
-    color: #647C97;
-}
-
-#restaurantList-nav__search {
-    font-size: 0;
-    display: inline-block;
-    width: 310px;
-    height: 50px;
-    position: absolute;
-    top: 14px;
-    right: 0;
-    text-align: center;
-    border-radius: 20px;
-    border: 1px solid #E0EEFF;
-    background-color: #E0EEFF;
-}
-
-#restaurantList-nav__search__input {
-    margin-top: 10px;
-    width: 250px;
-    height: 50px;
-    border: 2px solid #00addd;
-}
-
-#restaurantList-nav__search__btn {
-    vertical-align: bottom;
-    text-align: center;
-    width: 36px;
-    height: 31px;
-    border: 2px solid #00addd;
-}
-
-#restaurantList-dataContainer {
-    border-radius: 20px;
-    width: 1500px;
-    height: 1285px;
-    border: 1px solid #E0EEFF;
-    background-color: #E0EEFF;
-    color: #647C97;
-}
-
-#restaurantList-dataBox {
-    width: 1175px;
-    height: 1175px;
-    margin: 50px auto 0;
-    text-align: left;
-    /*border: 1px solid;*/
-}
-
-.restaurantList-data {
-    float: left;
-    display: inline-block;
-    width: 290px;
-    height: 380px;
-    text-align: center;
-    border: 1pt solid #E0EEFF;
-    /*border: 1px solid;*/
-}
-
-.clear-both {
-    clear: both;
-}
-
-#restaurantList-dataImg {
-    width: 250px;
-    height: 250px;
-}
-
-#restaurantList-dataName {
-    margin-top: 20px;
-    font-family: nanumB;
-    font-size: 18px;
-    padding-left: 20px;
-    padding-right: 20px;
-    /*border: 1px solid;*/
-
-}
-
-#restaurantList-dataPage {
-    padding-top: 10px;
-    color: #2a5470;
-    font-family: 'jua', sans-serif;
-    font-size: 20px;
-    text-align: center;
-}
-
 .search-bar {
 	width: 500px;
 }
 
 .detail-restaurant-img {
 	width: 100%;
+	height: 300px;
+	object-fit: cover;
 }
 
 body{
@@ -147,4 +13,22 @@ body{
     margin: 0px;
     padding: 0px;
     font-family: 'Gowun Dodum', sans-serif;
+}
+
+.image-box {
+	width: 1500px;
+	height: 550px;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.image-banner {
+	width: 100%;
+	height: 100%;
+	object-fit:cover;
+}
+
+th, td {
+	text-align: center;
+	vertical-align: middle;
 }
