@@ -3,12 +3,13 @@ package kg.groupc.project.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
 import kg.groupc.project.service.HotelService;
 import lombok.Getter;
 import lombok.Setter;
 
-@Configuration
+@Component
 @Getter
 @Setter
 public class HotelPageRequest {
