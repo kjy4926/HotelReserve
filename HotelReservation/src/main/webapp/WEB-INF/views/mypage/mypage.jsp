@@ -116,13 +116,13 @@
 		      <div class="accordion-body">
 		        <table class="table table-hover">
 					<tr>
-						<td onclick="location.href='${pageContext.request.contextPath}/'">개인정보 변경</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/pwdcheck?menu=1'">개인정보 변경</td>
 					</tr>
 					<tr>
-						<td onclick="location.href='${pageContext.request.contextPath}/login'">비밀번호 변경</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/pwdcheck?menu=2'">비밀번호 변경</td>
 					</tr>
 					<tr>
-						<td onclick="location.href='${pageContext.request.contextPath}/signup'">회원 탈퇴</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/pwdcheck?menu=3'">회원 탈퇴</td>
 					</tr>
 				</table>
 		      </div>

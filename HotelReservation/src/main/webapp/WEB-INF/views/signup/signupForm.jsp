@@ -27,6 +27,7 @@
 	  <fieldset>
 		<br><legend>Sign Up</legend>
 			<div class="form-group">
+				<label class="form-label mt-4" for="inputUsername">이름</label>
 				<input type="text" placeholder="Name" class="form-control" id="username" name="username" value="${signupFormDto.username}">
 				<c:if test="${valid_username ne null}">
 					<small id="userId-error-msg" class="form-text error-msg">${valid_username}</small>
@@ -73,7 +74,7 @@
 				<label for="email" class="form-label mt-4">Email Address</label>
 				<input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" value="${signupFormDto.email}">
 				<c:if test="${valid_email ne null}">
-					<br><small id="userId-error-msg" class="form-text error-msg">${valid_email}</small>
+					<small id="userId-error-msg" class="form-text error-msg">${valid_email}</small>
 				</c:if>
 			</div>
 			<div class="form-group">
