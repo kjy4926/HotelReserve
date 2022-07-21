@@ -12,7 +12,7 @@ import lombok.Setter;
 @Component
 @Getter
 @Setter
-public class HotelPageRequest {
+public class HotelPageUtil {
 	
 	@Autowired
 	HotelService hotelService;
