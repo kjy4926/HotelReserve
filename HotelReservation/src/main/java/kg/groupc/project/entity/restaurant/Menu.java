@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import kg.groupc.project.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,12 +18,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Menu {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(updatable = false)
-	private Long seq;
-	
+public class Menu extends BaseEntity<Long>{
+
 	// 식당 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Restaurant.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")

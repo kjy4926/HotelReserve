@@ -1,5 +1,7 @@
 package kg.groupc.project.controller.inquire;
 
-public class InquireController {
+import kg.groupc.project.controller.BaseController;
+
+public class InquireController extends BaseController{
 
 }

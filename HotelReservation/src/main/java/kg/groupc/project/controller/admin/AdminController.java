@@ -1,5 +1,7 @@
 package kg.groupc.project.controller.admin;
 
-public class AdminController {
+import kg.groupc.project.controller.BaseController;
+
+public class AdminController extends BaseController{
 
 }

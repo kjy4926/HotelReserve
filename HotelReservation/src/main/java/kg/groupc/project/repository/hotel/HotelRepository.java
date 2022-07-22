@@ -1,10 +1,12 @@
 package kg.groupc.project.repository.hotel;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.io.Serializable;
+import java.util.List;
 
 import kg.groupc.project.entity.hotel.Hotel;
+import kg.groupc.project.entity.hotel.Room;
+import kg.groupc.project.repository.BaseRepository;
 
-public interface HotelRepository extends JpaRepository<Hotel, Long>{
-
-	Hotel findBySeq(Long seq);
+public interface HotelRepository<T, ID extends Serializable> extends BaseRepository<Hotel, Long>{
+	List<Room> findByRooms(Hotel hotel);
 }

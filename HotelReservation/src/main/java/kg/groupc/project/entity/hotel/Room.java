@@ -1,5 +1,7 @@
 package kg.groupc.project.entity.hotel;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,7 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import kg.groupc.project.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,12 +24,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
-public class Room {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(updatable = false)
-	private Long seq;
+public class Room extends BaseEntity<Long> {
 	
 	// 호텔 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
@@ -48,4 +50,7 @@ public class Room {
 	// 방 이미지
 	@Column(nullable = true, length = 255)
 	private String img;
+	
+	@OneToMany(mappedBy = "room", targetEntity = Booking.class, fetch = FetchType.LAZY)
+	private List<Booking> bookings;
 }

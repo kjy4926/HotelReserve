@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,11 +21,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class InquireReply {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(updatable = false)
-	private Long seq;
+public class InquireReply extends BaseEntity<Long>{
 	
 	// 문의글 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Inquire.class, fetch = FetchType.LAZY)

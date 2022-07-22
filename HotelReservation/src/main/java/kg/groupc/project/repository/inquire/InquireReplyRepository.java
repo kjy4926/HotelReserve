@@ -1,9 +1,10 @@
 package kg.groupc.project.repository.inquire;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.io.Serializable;
 
 import kg.groupc.project.entity.inquire.InquireReply;
+import kg.groupc.project.repository.BaseRepository;
 
-public interface InquireReplyRepository extends JpaRepository<InquireReply, Long>{
+public interface InquireReplyRepository<T, ID extends Serializable> extends BaseRepository<InquireReply, Long>{
 
 }

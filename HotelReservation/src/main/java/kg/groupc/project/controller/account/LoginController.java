@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kg.groupc.project.dto.account.InfoChangeFormDto;
+import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class LoginController {
+public class LoginController extends BaseController{
 	private final PasswordEncoder passwordEncoder;
-	private final AccountService accountService;
+	private final AccountService<Account, Long> accountService;
 	
 	@GetMapping("/login")
 	public String login() {

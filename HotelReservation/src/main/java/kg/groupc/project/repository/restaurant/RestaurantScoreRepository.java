@@ -1,9 +1,10 @@
 package kg.groupc.project.repository.restaurant;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.io.Serializable;
 
 import kg.groupc.project.entity.restaurant.RestaurantScore;
+import kg.groupc.project.repository.BaseRepository;
 
-public interface RestaurantScoreRepository extends JpaRepository<RestaurantScore, Long>{
+public interface RestaurantScoreRepository<T, ID extends Serializable> extends BaseRepository<RestaurantScore, Long>{
 
 }

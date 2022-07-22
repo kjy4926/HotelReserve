@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,10 +22,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class RestaurantScore {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long seq;
+public class RestaurantScore extends BaseEntity<Long> {
 	
 	// 점포 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Restaurant.class, fetch = FetchType.LAZY)

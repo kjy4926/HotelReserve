@@ -27,8 +27,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class SeleniumUtil {
-	private final HotelRepository hotelRepository;
-	private final RoomRepository roomRepository;
+	private final HotelRepository<Hotel, Long> hotelRepository;
+	private final RoomRepository<Room, Long> roomRepository;
 	
 	@RequestMapping("/craw")
 	public void crawling() {
