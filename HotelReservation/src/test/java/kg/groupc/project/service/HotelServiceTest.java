@@ -14,9 +14,9 @@ import org.springframework.test.context.TestPropertySource;
 
 import com.querydsl.core.Tuple;
 
-import kg.groupc.project.dto.HotelMainFormDto;
-import kg.groupc.project.repository.HotelRepository;
-import kg.groupc.project.service.HotelService;
+import kg.groupc.project.dto.hotel.HotelMainFormDto;
+import kg.groupc.project.repository.hotel.HotelRepository;
+import kg.groupc.project.service.hotel.HotelService;
 
 
 @SpringBootTest
