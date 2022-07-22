@@ -18,10 +18,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kg.groupc.project.entity.Hotel;
-import kg.groupc.project.entity.Room;
-import kg.groupc.project.repository.HotelRepository;
-import kg.groupc.project.repository.RoomRepository;
+import kg.groupc.project.entity.hotel.Hotel;
+import kg.groupc.project.entity.hotel.Room;
+import kg.groupc.project.repository.hotel.HotelRepository;
+import kg.groupc.project.repository.hotel.RoomRepository;
 import lombok.RequiredArgsConstructor;
 
 @Controller

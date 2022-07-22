@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import kg.groupc.project.service.HotelService;
+import kg.groupc.project.service.hotel.HotelService;
 import lombok.Getter;
 import lombok.Setter;
 
