@@ -1,15 +1,25 @@
 package kg.groupc.project.entity.account;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import kg.groupc.project.constant.Role;
 import kg.groupc.project.dto.account.SignupFormDto;
+import kg.groupc.project.entity.BaseEntity;
+import kg.groupc.project.entity.hotel.Booking;
+import kg.groupc.project.entity.hotel.HotelScore;
+import kg.groupc.project.entity.inquire.Inquire;
+import kg.groupc.project.entity.inquire.InquireReply;
+import kg.groupc.project.entity.restaurant.RestaurantScore;
+import kg.groupc.project.entity.restaurant.Stars;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,9 +29,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Account {
-	@Id
-	@Column(length=20, updatable = false)
+public class Account extends BaseEntity<Long>{
+
+	@Column(length=20, updatable = false, nullable=false, unique = true)
 	private String userId;
 	
 	// 암호화 후 password 값 세팅
@@ -57,7 +67,23 @@ public class Account {
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private Long status;
 	
+	@OneToMany(mappedBy = "reserver", targetEntity = Booking.class, fetch = FetchType.LAZY)
+	private List<Booking> bookings;
 	
+	@OneToMany(mappedBy = "writer", targetEntity = HotelScore.class, fetch = FetchType.LAZY)
+	private List<HotelScore> hotelScores;
+	
+	@OneToMany(mappedBy = "writer", targetEntity = RestaurantScore.class, fetch = FetchType.LAZY)
+	private List<RestaurantScore> restaurantScores;
+	
+	@OneToMany(mappedBy = "userId", targetEntity = Stars.class, fetch = FetchType.LAZY)
+	private List<Stars> stars;
+	
+	@OneToMany(mappedBy = "writer", targetEntity = Inquire.class, fetch = FetchType.LAZY)
+	private List<Inquire> inquires;
+	
+	@OneToMany(mappedBy = "admin", targetEntity = InquireReply.class, fetch = FetchType.LAZY)
+	private List<InquireReply> inquireReplys;
 	
 	public static Account createAccount(SignupFormDto signupFormDto, PasswordEncoder passwordEncoder) {
 		Account account = new Account();

@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
 import kg.groupc.project.service.hotel.HotelService;
 import kg.groupc.project.util.HotelPageUtil;
 
 @Controller
-public class HotelController {
+public class HotelController extends BaseController{
 	
 	@Autowired
 	HotelService hotelService;

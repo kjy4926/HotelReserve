@@ -1,5 +1,6 @@
 package kg.groupc.project.service.account;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +20,14 @@ import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.repository.account.AccountRepository;
+import kg.groupc.project.service.BaseService;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AccountService implements UserDetailsService{
+public class AccountService<T, ID extends Serializable> extends BaseService<Account, Long> implements UserDetailsService{
 	
-	private final AccountRepository<Account, String> accountRepository;
+	private final AccountRepository<Account, Long> accountRepository;
 	private final PasswordEncoder passwordEncoder;
 	
 	//test method
@@ -35,7 +37,7 @@ public class AccountService implements UserDetailsService{
 	}
 	
 	public Account getAccountById(String userId) {
-		return accountRepository.findById(userId).get();
+		return accountRepository.findByUserId(userId);
 	}
 	
 	public List<Account> getAllAccounts(){
@@ -51,7 +53,7 @@ public class AccountService implements UserDetailsService{
 	}
 	
 	public Account changeAccountInfo(InfoChangeFormDto infoChangeFormDto) {
-		Account account = (Account) accountRepository.findById(infoChangeFormDto.getUserId()).get();
+		Account account = (Account) accountRepository.findByUserId(infoChangeFormDto.getUserId());
 		account.setName(infoChangeFormDto.getUsername());
 		account.setEmail(infoChangeFormDto.getEmail());
 		account.setPhone(infoChangeFormDto.getPhone());
@@ -60,13 +62,13 @@ public class AccountService implements UserDetailsService{
 	}
 	
 	public Account changeAccountPasswordChange(String userId, PwdChangeFormDto pwdChangeFormDto) {
-		Account account = accountRepository.findById(userId).get();
+		Account account = accountRepository.findByUserId(userId);
 		account.setPassword(passwordEncoder.encode(pwdChangeFormDto.getPassword()));
 		return accountRepository.save(account);
 	}
 	
 	public Account resignAccount(String userId) {
-		Account account = accountRepository.findById(userId).get();
+		Account account = accountRepository.findByUserId(userId);
 		account.setStatus(0L);
 		return accountRepository.save(account);
 	}

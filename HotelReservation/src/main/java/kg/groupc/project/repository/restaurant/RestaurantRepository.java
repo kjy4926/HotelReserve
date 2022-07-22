@@ -1,16 +1,17 @@
 package kg.groupc.project.repository.restaurant;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import kg.groupc.project.entity.restaurant.Restaurant;
+import kg.groupc.project.repository.BaseRepository;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+public interface RestaurantRepository<T, ID extends Serializable> extends BaseRepository<Restaurant, Long>{
 	
 	//서치(상호명) : 페이징 X
 	List<Restaurant> findByNameContaining(String searchKeyword);

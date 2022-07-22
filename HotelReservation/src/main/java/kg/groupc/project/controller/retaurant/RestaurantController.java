@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.restaurant.RestaurantAddFormDto;
 import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.repository.restaurant.RestaurantRepository;
 import kg.groupc.project.service.restaurant.RestaurantService;
 
 @Controller
-public class RestaurantController {
+public class RestaurantController extends BaseController{
 	
 	@Autowired
 	private RestaurantRepository restaurantRepository;
@@ -77,7 +78,7 @@ public class RestaurantController {
 	// 맛집 등록 POST(관리자)
 	@RequestMapping(value="/restaurant/admin/new", method=RequestMethod.POST)
 	public String createRestaurant(RestaurantAddFormDto restaurantAddFormDto, @RequestParam("uploadFile") MultipartFile img) throws Exception {
-		Restaurant restaurant = restaurantService.create(restaurantAddFormDto, img);
+//		Restaurant restaurant = restaurantService.create(restaurantAddFormDto, img);
 		
 		return "redirect:/restaurant";
 	}
@@ -93,7 +94,7 @@ public class RestaurantController {
 	// 맛집 수정 patch(관리자)
 	@PatchMapping("/restaurant/admin/edit")
 	public String editRestaurant(@PathVariable Long seq, RestaurantAddFormDto restaurantAddFormDto) {
-		Restaurant restaurant = restaurantService.edit(seq, restaurantAddFormDto);
+//		Restaurant restaurant = restaurantService.edit(seq, restaurantAddFormDto);
 		
 		return "redirect:/restaurantDetail";
 	}

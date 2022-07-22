@@ -1,5 +1,7 @@
 package kg.groupc.project.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,22 +21,21 @@ import lombok.Setter;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class BaseEntity {
-
+public class BaseEntity<PK extends Serializable> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(updatable = false)
 	private Long seq;
 
 	@Column
-	private String writer;
+	private String username;
 	
 	@PrePersist
 	protected void prePersist() {
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(object instanceof User) {
 			User user = (User) object;
-			this.writer = user.getUsername();
+			this.username = user.getUsername();
 		}
 	}
 }

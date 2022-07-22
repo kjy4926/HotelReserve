@@ -21,7 +21,7 @@ public class RestaurantAddFormDto {
 		
 	private MultipartFile uploadFile;
 	
-	public Restaurant toRestaurant() {
-		return new Restaurant(seq, name, address, phone, img, description, status);
-	}
+//	public Restaurant toRestaurant() {
+//		return new Restaurant(seq, name, address, phone, img, description, status);
+//	}
 }

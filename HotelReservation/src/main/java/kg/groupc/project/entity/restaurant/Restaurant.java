@@ -1,33 +1,34 @@
 package kg.groupc.project.entity.restaurant;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 
+import kg.groupc.project.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Table(name="RESTAURANT")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
-@DynamicInsert
-public class Restaurant {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long seq;
-	
+@Getter
+@Setter
+@ToString
+public class Restaurant extends BaseEntity<Long>{
+
 	// 상호명
 	@Column(nullable = false, length = 50)
 	private String name;
@@ -51,6 +52,9 @@ public class Restaurant {
 	// 맛집 상태
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private Long status;
+	
+	@OneToMany(mappedBy = "seq", targetEntity = Stars.class, fetch = FetchType.LAZY)
+	private List<Stars> stars;
 	
 	public void patch(Restaurant restaurant) {
 		if (restaurant.name != null) {

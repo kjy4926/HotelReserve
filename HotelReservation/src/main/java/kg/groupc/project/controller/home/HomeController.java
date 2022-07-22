@@ -1,18 +1,18 @@
 package kg.groupc.project.controller.home;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import kg.groupc.project.entity.account.Account;
+import kg.groupc.project.controller.BaseController;
+import kg.groupc.project.entity.hotel.Room;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController{
 	@GetMapping("/")
-	public String home(@AuthenticationPrincipal User user) {
-		System.out.println(user.getUsername());
+	public String home() {
+		hotelService.getBySeq(2L);
 		return "home";
 	}
 }

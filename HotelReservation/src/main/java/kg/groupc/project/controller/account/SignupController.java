@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.account.SignupFormDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.service.account.AccountService;
@@ -19,8 +20,8 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class SignupController {
-	private final AccountService accountService;
+public class SignupController extends BaseController{
+	private final AccountService<Account, Long> accountService;
 	private final PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/signup")

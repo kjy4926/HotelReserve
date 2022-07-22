@@ -1,16 +1,14 @@
 package kg.groupc.project.entity.hotel;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,11 +19,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Booking {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(updatable = false)
-	private Long seq;
+public class Booking extends BaseEntity<Long>{
 	
 	// 방 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.LAZY)
@@ -39,11 +33,11 @@ public class Booking {
 	
 	// 예약일
 	@Column(nullable = false)
-	private Date reserveDate;
+	private Timestamp reserveDate;
 	
 	// 예약 종료일
 	@Column(nullable = false)
-	private Date reserveEndDate;
+	private Timestamp reserveEndDate;
 	
 	// 예약 상태
 	@Column(nullable = false, columnDefinition = "number(1) default 1")

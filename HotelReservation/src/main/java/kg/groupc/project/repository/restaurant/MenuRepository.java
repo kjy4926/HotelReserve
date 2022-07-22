@@ -1,10 +1,10 @@
 package kg.groupc.project.repository.restaurant;
 
-
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.io.Serializable;
 
 import kg.groupc.project.entity.restaurant.Menu;
+import kg.groupc.project.repository.BaseRepository;
 
-public interface MenuRepository extends JpaRepository<Menu, Long> {
+public interface MenuRepository<T, ID extends Serializable> extends BaseRepository<Menu, Long> {
 
 }

@@ -1,11 +1,13 @@
 package kg.groupc.project.service.hotel;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,19 +24,22 @@ import kg.groupc.project.repository.account.AccountRepository;
 import kg.groupc.project.repository.hotel.HotelRepository;
 import kg.groupc.project.repository.hotel.HotelScoreRepository;
 import kg.groupc.project.repository.hotel.RoomRepository;
+import kg.groupc.project.service.BaseService;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class HotelService {
+public class HotelService<T, ID extends Serializable> extends BaseService<Hotel, Long> {
 	
+	private final HotelRepository<Hotel, Long> hotelRepository;
 	
-	private final HotelScoreRepository hotelScoreRepository;
-	private final HotelRepository hotelRepository;
-	private final AccountRepository accountRepository;
-	
-	@PersistenceContext
-	EntityManager em;
+	@Transactional
+	public void getBySeq(Long seq) {
+		List<Room> list = hotelRepository.findById(seq).get().getRooms();
+		for(Room r : list) {
+			System.out.println(r.getName());
+		}
+	}
 	
 	public Long getHotelCount(String keyword){//검색해서 나오는 데이터 수로 최대 페이지 정하는 용도
 //		long count;
@@ -176,9 +181,4 @@ public class HotelService {
 	public List<Room> getRoomList(Hotel hotel){//해당 방의 seq값으로 방 목록을 가져옵니다.
 		return roomRepository.findAllByHotel(hotel);
 	}
-	
-	public List<HotelScore> getHotelScores(Hotel hotel){//해방 방의 seq값으로 리뷰 목록을 가져옵니다
-		return hotelScoreRepository.findAllByHotel(hotel);
-	}
-
 }

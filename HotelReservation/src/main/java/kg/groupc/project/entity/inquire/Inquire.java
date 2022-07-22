@@ -1,6 +1,7 @@
 package kg.groupc.project.entity.inquire;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
 import lombok.Getter;
@@ -22,11 +25,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Inquire {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(updatable = false)
-	private Long seq;
+public class Inquire extends BaseEntity<Long>{
 	
 	// 작성자(외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
@@ -56,4 +55,7 @@ public class Inquire {
 
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private Long status;
+	
+	@OneToMany(mappedBy = "inquire", targetEntity = InquireReply.class, fetch = FetchType.LAZY)
+	private List<InquireReply> replys;
 }
