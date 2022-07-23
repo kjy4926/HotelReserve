@@ -19,9 +19,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class LoginController extends BaseController{
-	private final PasswordEncoder passwordEncoder;
-	private final AccountService<Account, Long> accountService;
-	
+
 	@GetMapping("/login")
 	public String login() {
 		return "/login/loginForm";
@@ -32,30 +30,5 @@ public class LoginController extends BaseController{
 		System.out.println("login post access");
 		model.addAttribute("errorMsg", errorMsg);
 		return "/login/loginForm";
-	}
-	@GetMapping("/pwdcheck")
-	public String pwdCheck() {
-		return "/login/pwdCheckForm";
-	}
-	@PostMapping("/pwdcheck")
-	public String postPwdCheck(@RequestParam String menu, @RequestParam String password,
-				@AuthenticationPrincipal User user,
-				Model model) {
-		Account account = accountService.getAccountById(user.getUsername());
-		model.addAttribute("menu", menu);
-		if(passwordEncoder.matches(password, account.getPassword())) {
-			model.addAttribute("pwdc", true);
-			if(menu.equals("1")) {
-				return "redirect:/mypage/infoChange";
-			}else if(menu.equals("2")) {
-				return "redirect:/mypage/pwdChange";
-			}else if(menu.equals("3")) {
-				return "redirect:/mypage/resign";
-			}else {
-				return "/";
-			}
-		}
-		model.addAttribute("errorMsg", "비밀번호가 잘못되었습니다.");
-		return "/login/pwdCheckForm";
 	}
 }

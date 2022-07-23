@@ -7,11 +7,14 @@ import javax.validation.Valid;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
@@ -23,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class MyPageController extends BaseController{
-	private final AccountService<Account, Long> accountService;
+	private final PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/mypage")
 	public String mypage(Model model) {
@@ -31,19 +34,52 @@ public class MyPageController extends BaseController{
 		model.addAttribute("accounts", list);
 		return "/mypage/mypage";
 	}
-	@GetMapping("/mypage/infoChange")
-	public String infoChange(@AuthenticationPrincipal User user, Model model) {
-		if((boolean)model.getAttribute("pwdc") != true) {
-			return "redirect:/pwdCheck";
-		}
+	@GetMapping("/mypage/pwdcheck")
+	public String pwdCheck() {
+		return "/login/pwdCheckForm";
+	}
+	@PostMapping("/mypage/pwdcheck")
+	public String postPwdCheck(@RequestParam String menu, @RequestParam String password,
+				@AuthenticationPrincipal User user,
+				Model model) {
 		Account account = accountService.getAccountById(user.getUsername());
-		InfoChangeFormDto infoChangeFormDto = new InfoChangeFormDto();
-		infoChangeFormDto.setUsername(account.getName());
-		infoChangeFormDto.setUserId(account.getUserId());
-		infoChangeFormDto.setEmail(account.getEmail());
-		infoChangeFormDto.setPhone(account.getPhone());
-		model.addAttribute("infoChangeFormDto", infoChangeFormDto);
-		return "/mypage/account/infoChangeForm";
+		model.addAttribute("menu", menu);
+		if(passwordEncoder.matches(password, account.getPassword())) {
+			model.addAttribute("pwdck", "1");
+			if(menu.equals("1")) {
+				InfoChangeFormDto infoChangeFormDto = new InfoChangeFormDto();
+				infoChangeFormDto.setUsername(account.getName());
+				infoChangeFormDto.setUserId(account.getUserId());
+				infoChangeFormDto.setEmail(account.getEmail());
+				infoChangeFormDto.setPhone(account.getPhone());
+				model.addAttribute("infoChangeFormDto", infoChangeFormDto);
+				return "/mypage/account/infoChangeForm";
+			}else if(menu.equals("2")) {
+				return "/mypage/account/pwdChangeForm";
+			}else if(menu.equals("3")) {
+				return "/mypage/account/resign";
+			}else {
+				return "/";
+			}
+		}
+		model.addAttribute("errorMsg", "비밀번호가 잘못되었습니다.");
+		return "/login/pwdCheckForm";
+	}
+//	@GetMapping("/mypage/infoChange")
+//	public String infoChange(@AuthenticationPrincipal User user, Model model,
+//			@RequestParam(value="pwdck", required=false, defaultValue="0") String pwdck) {
+//		Account account = accountService.getAccountById(user.getUsername());
+//		InfoChangeFormDto infoChangeFormDto = new InfoChangeFormDto();
+//		infoChangeFormDto.setUsername(account.getName());
+//		infoChangeFormDto.setUserId(account.getUserId());
+//		infoChangeFormDto.setEmail(account.getEmail());
+//		infoChangeFormDto.setPhone(account.getPhone());
+//		model.addAttribute("infoChangeFormDto", infoChangeFormDto);
+//		return "/mypage/account/infoChangeForm";
+//	}
+	@GetMapping("/mypage/infoChange")
+	public String infoChange() {
+		return "/login/pwdCheckForm";
 	}
 	@PostMapping("/mypage/infoChange")
 	public String postInfoChange(@Valid InfoChangeFormDto infoChangeFormDto, Errors errors, Model model,
@@ -62,18 +98,13 @@ public class MyPageController extends BaseController{
 		model.addAttribute("type", "change");
 		return "/alert/success";
 	}
-	
 	@GetMapping("/mypage/pwdChange")
-	public String pwdChange(Model model) {
-		if((boolean)model.getAttribute("pwdc") != true) {
-			return "redirect:/pwdCheck";
-		}
-		return "/mypage/account/pwdChangeForm";
+	public String pwdChange() {
+		return "/login/pwdCheckForm";
 	}
-	
 	@PostMapping("/mypage/pwdChange")
-	public String pwdChange(@AuthenticationPrincipal User user, Model model, 
-			PwdChangeFormDto pwdChangeFormDto, Errors errors) {
+	public String postPwdChange(@AuthenticationPrincipal User user, Model model, 
+			@Valid PwdChangeFormDto pwdChangeFormDto, Errors errors) {
 		if(errors.hasErrors()) {
 			model.addAttribute("pwdChangeFormDto", pwdChangeFormDto);
 			// 입력값 유효성 검사
@@ -88,12 +119,9 @@ public class MyPageController extends BaseController{
 		model.addAttribute("type", "pwdchange");
 		return "/alert/success";
 	}
-	
-	@GetMapping("/mypage/resign")
-	public String resign(@AuthenticationPrincipal User user, Model model) {
-		if((boolean)model.getAttribute("pwdc") != true) {
-			return "redirect:/pwdCheck";
-		}
-		return "/mypage/account/resign";
+	@PostMapping("/mypage/resign")
+	@ResponseBody
+	public boolean resign(@AuthenticationPrincipal User user) {
+		return accountService.resignAccount(user.getUsername());
 	}
 }
