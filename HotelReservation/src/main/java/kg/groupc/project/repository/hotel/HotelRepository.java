@@ -8,5 +8,5 @@ import kg.groupc.project.entity.hotel.Room;
 import kg.groupc.project.repository.BaseRepository;
 
 public interface HotelRepository<T, ID extends Serializable> extends BaseRepository<Hotel, Long>{
-	List<Room> findByRooms(Hotel hotel);
+
 }

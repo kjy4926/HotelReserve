@@ -33,6 +33,9 @@ public class MyPageController extends BaseController{
 	}
 	@GetMapping("/mypage/infoChange")
 	public String infoChange(@AuthenticationPrincipal User user, Model model) {
+		if((boolean)model.getAttribute("pwdc") != true) {
+			return "redirect:/pwdCheck";
+		}
 		Account account = accountService.getAccountById(user.getUsername());
 		InfoChangeFormDto infoChangeFormDto = new InfoChangeFormDto();
 		infoChangeFormDto.setUsername(account.getName());
@@ -62,6 +65,9 @@ public class MyPageController extends BaseController{
 	
 	@GetMapping("/mypage/pwdChange")
 	public String pwdChange(Model model) {
+		if((boolean)model.getAttribute("pwdc") != true) {
+			return "redirect:/pwdCheck";
+		}
 		return "/mypage/account/pwdChangeForm";
 	}
 	
@@ -85,6 +91,9 @@ public class MyPageController extends BaseController{
 	
 	@GetMapping("/mypage/resign")
 	public String resign(@AuthenticationPrincipal User user, Model model) {
+		if((boolean)model.getAttribute("pwdc") != true) {
+			return "redirect:/pwdCheck";
+		}
 		return "/mypage/account/resign";
 	}
 }

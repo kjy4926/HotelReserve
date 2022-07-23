@@ -44,6 +44,7 @@ public class LoginController extends BaseController{
 		Account account = accountService.getAccountById(user.getUsername());
 		model.addAttribute("menu", menu);
 		if(passwordEncoder.matches(password, account.getPassword())) {
+			model.addAttribute("pwdc", true);
 			if(menu.equals("1")) {
 				return "redirect:/mypage/infoChange";
 			}else if(menu.equals("2")) {

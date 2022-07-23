@@ -33,14 +33,6 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 	
 	private final HotelRepository<Hotel, Long> hotelRepository;
 	
-	@Transactional
-	public void getBySeq(Long seq) {
-		List<Room> list = hotelRepository.findById(seq).get().getRooms();
-		for(Room r : list) {
-			System.out.println(r.getName());
-		}
-	}
-	
 	public Long getHotelCount(String keyword){//검색해서 나오는 데이터 수로 최대 페이지 정하는 용도
 //		long count;
 //		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
