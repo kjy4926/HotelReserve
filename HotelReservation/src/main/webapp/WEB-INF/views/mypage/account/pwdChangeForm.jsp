@@ -48,7 +48,7 @@
 				</c:if>
 			</div>
 			<br><div>
-				<button type="submit" class="btn btn-primary form-control">확인</button>
+				<button type="submit" class="btn btn-primary form-control">변경</button>
 			</div>
 			<br><br><br><br>
 		</fieldset>

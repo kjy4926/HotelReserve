@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -67,10 +68,14 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 		return accountRepository.save(account);
 	}
 	
-	public Account resignAccount(String userId) {
+	public boolean resignAccount(String userId) {
 		Account account = accountRepository.findByUserId(userId);
 		account.setStatus(0L);
-		return accountRepository.save(account);
+		accountRepository.save(account);
+		if(account.getStatus() == 0L) {
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean idDuplicateCheck(String userId) {
@@ -88,7 +93,6 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			String validKeyName = String.format("valid_%s", error.getField());
 			validatorResult.put(validKeyName, error.getDefaultMessage());
 		}
-
 		return validatorResult;
 	}
 	
@@ -97,6 +101,9 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 		Account account = accountRepository.findByUserId(userId);
 		
 		if(account == null) {
+			throw new UsernameNotFoundException(userId);
+		}else if(account.getStatus()==0) {
+			// 탈퇴한 계정이라면
 			throw new UsernameNotFoundException(userId);
 		}
 		return User.builder()

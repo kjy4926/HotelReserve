@@ -18,7 +18,7 @@
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
-	<form class="pwdck-form" method="post" action="${pageContext.request.contextPath}/pwdcheck?menu=${param.menu}">
+	<form class="pwdck-form" method="post" action="${pageContext.request.contextPath}/mypage/pwdcheck?menu=${param.menu}">
 		<fieldset>
 			<legend>비밀번호 확인</legend>
 			<div class="form-group">
