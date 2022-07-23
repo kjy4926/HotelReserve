@@ -21,7 +21,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class HotelScore extends BaseEntity<Long> {
 
 	// 호텔 id(외래키)

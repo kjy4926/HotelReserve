@@ -20,7 +20,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class InquireReply extends BaseEntity<Long>{
 	
 	// 문의글 id(외래키)

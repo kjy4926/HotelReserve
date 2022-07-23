@@ -16,7 +16,6 @@ import lombok.ToString;
 
 // 찜하기
 @Entity
-@ToString
 @Getter
 @Setter
 public class Stars extends BaseEntity<Long> {

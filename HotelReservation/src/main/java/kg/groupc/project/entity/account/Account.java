@@ -28,7 +28,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Account extends BaseEntity<Long>{
 
 	@Column(length=20, updatable = false, nullable=false, unique = true)

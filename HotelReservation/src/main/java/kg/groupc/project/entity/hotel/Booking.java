@@ -18,7 +18,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Booking extends BaseEntity<Long>{
 	
 	// 방 id(외래키)

@@ -24,7 +24,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Inquire extends BaseEntity<Long>{
 	
 	// 작성자(외래키)

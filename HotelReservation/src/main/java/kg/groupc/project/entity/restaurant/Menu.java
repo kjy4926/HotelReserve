@@ -17,7 +17,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Menu extends BaseEntity<Long>{
 
 	// 식당 id(외래키)

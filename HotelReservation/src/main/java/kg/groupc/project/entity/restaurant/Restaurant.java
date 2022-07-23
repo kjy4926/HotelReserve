@@ -26,7 +26,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Restaurant extends BaseEntity<Long>{
 
 	// 상호명
