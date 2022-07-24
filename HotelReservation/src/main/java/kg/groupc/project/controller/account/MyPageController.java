@@ -1,5 +1,7 @@
 package kg.groupc.project.controller.account;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,9 @@ import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
 import kg.groupc.project.entity.account.Account;
+import kg.groupc.project.entity.hotel.Booking;
+import kg.groupc.project.entity.hotel.Room;
+import kg.groupc.project.repository.hotel.RoomRepository;
 import kg.groupc.project.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
 
@@ -123,5 +128,24 @@ public class MyPageController extends BaseController{
 	@ResponseBody
 	public boolean resign(@AuthenticationPrincipal User user) {
 		return accountService.resignAccount(user.getUsername());
+	}
+	@GetMapping("/test/createBook")
+	public String createTestBooking(@AuthenticationPrincipal User user) {
+		Booking booking = new Booking();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String s = sdf.format(new java.util.Date());
+		System.out.println(s);
+		Date start = Date.valueOf(s);
+		Date end = Date.valueOf(s);
+		Room room = roomService.getRoomBySeq(4L);
+		booking.setReserver(accountService.getAccountById(user.getUsername()));
+		booking.setPeople(1L);
+		booking.setPrice(10000L);
+		booking.setReserveDate(start);
+		booking.setReserveEndDate(end);
+		booking.setStatus(1L);
+		booking.setRoom(room);
+		bookingService.saveBooking(booking);
+		return "/";
 	}
 }

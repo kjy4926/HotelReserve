@@ -1,6 +1,6 @@
 package kg.groupc.project.entity.hotel;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,6 @@ import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 // 예약
 @Entity
@@ -32,11 +31,11 @@ public class Booking extends BaseEntity<Long>{
 	
 	// 예약일
 	@Column(nullable = false)
-	private Timestamp reserveDate;
+	private Date reserveDate;
 	
 	// 예약 종료일
 	@Column(nullable = false)
-	private Timestamp reserveEndDate;
+	private Date reserveEndDate;
 	
 	// 예약 상태
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
