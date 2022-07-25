@@ -41,11 +41,11 @@ public class Restaurant extends BaseEntity<Long>{
 	private String phone;
 	
 	// 맛집 이미지
-	@Column(nullable = false, length = 255)
+	@Column(nullable = true, length = 255)
 	private String img;
 		
 	// 맛집 소개(내용)
-	@Column(nullable = false, length = 1000)
+	@Column(nullable = true, length = 1000)
 	private String description;
 	
 	// 맛집 상태

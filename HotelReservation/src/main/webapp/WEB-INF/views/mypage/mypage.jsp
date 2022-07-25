@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
-		.mypage{width: 50%; margin: auto;}
+		.mypage{width: 60%; margin: auto;}
 	</style>
 </head>
 <body>
@@ -38,18 +38,20 @@
 		        	<thead>
 						<tr>
 							<th>호텔명</th>
+							<th>방이름</th>
 							<th>예약자</th>
 							<th>예약일</th>
 							<th>종료일</th>
 						<tr>
 					</thead>
 					<tbody>
-					<c:forEach var="item" items="${accounts}" varStatus="a">
+					<c:forEach var="rbooking" items="${reserveBookingList}" varStatus="status" end="4">
 							<tr>
-								<td>호텔</td>
-								<td>${item.userId}</td>
-								<td>today</td>
-								<td>end</td>
+								<td>${rbooking.hotel}</td>
+								<td>${rbooking.room}</td>
+								<td>${rbooking.reserver}</td>
+								<td>${rbooking.reserveDate}</td>
+								<td>${rbooking.reserveEndDate}</td>
 							</tr>
 					</c:forEach>
 					</tbody>
@@ -66,7 +68,29 @@
 		    </h2>
 		    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style="">
 		      <div class="accordion-body">
-		        <strong>Two</strong>
+		        <table class="table">
+		        	<thead>
+						<tr>
+							<th>호텔명</th>
+							<th>방이름</th>
+							<th>예약자</th>
+							<th>예약일</th>
+							<th>종료일</th>
+						<tr>
+					</thead>
+					<tbody>
+					<c:forEach var="pbooking" items="${progressedBookingList}" varStatus="status" end="4">
+							<tr>
+								<td>${pbooking.hotel}</td>
+								<td>${pbooking.room}</td>
+								<td>${pbooking.reserver}</td>
+								<td>${pbooking.reserveDate}</td>
+								<td>${pbooking.reserveEndDate}</td>
+							</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>
