@@ -1,7 +1,8 @@
 package kg.groupc.project.controller.account;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kg.groupc.project.controller.BaseController;
+import kg.groupc.project.dto.account.BookingDto;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Booking;
 import kg.groupc.project.entity.hotel.Room;
-import kg.groupc.project.repository.hotel.RoomRepository;
-import kg.groupc.project.service.account.AccountService;
+import kg.groupc.project.entity.restaurant.Restaurant;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -34,15 +35,19 @@ public class MyPageController extends BaseController{
 	private final PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/mypage")
-	public String mypage(Model model) {
-		List<Account> list = accountService.getThreeAccounts();
-		model.addAttribute("accounts", list);
+	public String mypage(@AuthenticationPrincipal User user, Model model) {
+		String userId = user.getUsername();
+		List<ArrayList<BookingDto>> bookingList = accountService.getBookingList(userId);
+		model.addAttribute("reserveBookingList", bookingList.get(0));
+		model.addAttribute("progressedBookingList", bookingList.get(1));
 		return "/mypage/mypage";
 	}
+	
 	@GetMapping("/mypage/pwdcheck")
 	public String pwdCheck() {
 		return "/login/pwdCheckForm";
 	}
+	
 	@PostMapping("/mypage/pwdcheck")
 	public String postPwdCheck(@RequestParam String menu, @RequestParam String password,
 				@AuthenticationPrincipal User user,
@@ -70,22 +75,12 @@ public class MyPageController extends BaseController{
 		model.addAttribute("errorMsg", "비밀번호가 잘못되었습니다.");
 		return "/login/pwdCheckForm";
 	}
-//	@GetMapping("/mypage/infoChange")
-//	public String infoChange(@AuthenticationPrincipal User user, Model model,
-//			@RequestParam(value="pwdck", required=false, defaultValue="0") String pwdck) {
-//		Account account = accountService.getAccountById(user.getUsername());
-//		InfoChangeFormDto infoChangeFormDto = new InfoChangeFormDto();
-//		infoChangeFormDto.setUsername(account.getName());
-//		infoChangeFormDto.setUserId(account.getUserId());
-//		infoChangeFormDto.setEmail(account.getEmail());
-//		infoChangeFormDto.setPhone(account.getPhone());
-//		model.addAttribute("infoChangeFormDto", infoChangeFormDto);
-//		return "/mypage/account/infoChangeForm";
-//	}
+	
 	@GetMapping("/mypage/infoChange")
 	public String infoChange() {
 		return "/login/pwdCheckForm";
 	}
+	
 	@PostMapping("/mypage/infoChange")
 	public String postInfoChange(@Valid InfoChangeFormDto infoChangeFormDto, Errors errors, Model model,
 				@AuthenticationPrincipal User user) {
@@ -103,10 +98,12 @@ public class MyPageController extends BaseController{
 		model.addAttribute("type", "change");
 		return "/alert/success";
 	}
+	
 	@GetMapping("/mypage/pwdChange")
 	public String pwdChange() {
 		return "/login/pwdCheckForm";
 	}
+	
 	@PostMapping("/mypage/pwdChange")
 	public String postPwdChange(@AuthenticationPrincipal User user, Model model, 
 			@Valid PwdChangeFormDto pwdChangeFormDto, Errors errors) {
@@ -124,20 +121,20 @@ public class MyPageController extends BaseController{
 		model.addAttribute("type", "pwdchange");
 		return "/alert/success";
 	}
+	
 	@PostMapping("/mypage/resign")
 	@ResponseBody
 	public boolean resign(@AuthenticationPrincipal User user) {
 		return accountService.resignAccount(user.getUsername());
 	}
+	
 	@GetMapping("/test/createBook")
 	public String createTestBooking(@AuthenticationPrincipal User user) {
 		Booking booking = new Booking();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String s = sdf.format(new java.util.Date());
-		System.out.println(s);
-		Date start = Date.valueOf(s);
-		Date end = Date.valueOf(s);
-		Room room = roomService.getRoomBySeq(4L);
+		Date start = Date.valueOf(LocalDate.of(2022, 8, 1));
+		Date end = Date.valueOf(LocalDate.of(2022, 8, 1));
+		Room room = roomService.getRoomBySeq(8L);
+		System.out.println(start);
 		booking.setReserver(accountService.getAccountById(user.getUsername()));
 		booking.setPeople(1L);
 		booking.setPrice(10000L);
@@ -146,6 +143,12 @@ public class MyPageController extends BaseController{
 		booking.setStatus(1L);
 		booking.setRoom(room);
 		bookingService.saveBooking(booking);
+		return "/";
+	}
+	
+	@GetMapping("/test/createStar")
+	public String createTestStar(@AuthenticationPrincipal User user) {
+		Restaurant restaurant = new Restaurant();
 		return "/";
 	}
 }
