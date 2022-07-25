@@ -8,23 +8,29 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.data.annotation.Id;
+
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 // 문의글
 @Entity
 @Getter
 @Setter
 public class Inquire extends BaseEntity<Long>{
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(updatable = false)
+	private Long seq;
 	
 	// 작성자(외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
@@ -57,4 +63,17 @@ public class Inquire extends BaseEntity<Long>{
 	
 	@OneToMany(mappedBy = "inquire", targetEntity = InquireReply.class, fetch = FetchType.LAZY)
 	private List<InquireReply> replys;
+	
+	
+	@Builder
+	public Inquire(Long seq, Account writer, String category, Hotel hotel,  String title, String description, Date day, Long status) {
+		this.seq = seq;
+		this.writer = writer;
+		this.category = category;
+		this.hotel = hotel;
+		this.title = title;
+		this.description = description;
+		this.day = day;
+		this.status = status;
+	}
 }
