@@ -28,11 +28,14 @@ import com.querydsl.jpa.impl.JPAQuery;
 import kg.groupc.project.dto.account.BookingDto;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
+import kg.groupc.project.dto.account.StarsDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.account.QAccount;
 import kg.groupc.project.entity.hotel.Booking;
 import kg.groupc.project.entity.hotel.QBooking;
 import kg.groupc.project.entity.hotel.Room;
+import kg.groupc.project.entity.restaurant.Restaurant;
+import kg.groupc.project.entity.restaurant.Stars;
 import kg.groupc.project.repository.account.AccountRepository;
 import kg.groupc.project.service.BaseService;
 import lombok.RequiredArgsConstructor;
@@ -94,7 +97,7 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 	public List<ArrayList<BookingDto>> getBookingList(String userId){
 		Date today = Date.valueOf(LocalDate.now());
 		List<Booking> bookingList = accountRepository.findByUserId(userId).getBookings();
-		List<ArrayList<BookingDto>> bookingDtoList = new ArrayList<ArrayList<BookingDto>>(2);
+		List<ArrayList<BookingDto>> bookingDtoList = new ArrayList<ArrayList<BookingDto>>();
 		// list init
 		bookingDtoList.add(new ArrayList<BookingDto>());
 		bookingDtoList.add(new ArrayList<BookingDto>());
@@ -103,6 +106,7 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			Room room = booking.getRoom();
 			String roomName = room.getName();
 			String hotelName = room.getHotel().getName();
+			
 			bookingDto.setSeq(booking.getSeq());
 			bookingDto.setHotel(hotelName);
 			bookingDto.setRoom(roomName);
@@ -122,6 +126,23 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			}
 		}
 		return bookingDtoList;
+	}
+	
+	@Transactional
+	public List<StarsDto> getStarsList(String userId){
+		List<Stars> starsList = accountRepository.findByUserId(userId).getStars();
+		List<StarsDto> starsDtoList = new ArrayList<>();
+		for(Stars star : starsList) {
+			StarsDto starsDto = new StarsDto();
+			Restaurant restaurant = star.getRestaurant();
+			
+			starsDto.setSeq(star.getSeq());
+			starsDto.setRestaurantSeq(restaurant.getSeq());
+			starsDto.setRestaurantName(restaurant.getName());
+			starsDto.setRestaurantPhone(restaurant.getPhone());
+			starsDtoList.add(starsDto);
+		}
+		return starsDtoList;
 	}
 
 	public boolean idDuplicateCheck(String userId) {

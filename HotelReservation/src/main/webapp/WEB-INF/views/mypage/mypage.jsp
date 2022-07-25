@@ -13,6 +13,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
 		.mypage{width: 60%; margin: auto;}
+		.review-btn-field{width: 15%; text-align: center;}
 	</style>
 </head>
 <body>
@@ -76,6 +77,7 @@
 							<th>예약자</th>
 							<th>예약일</th>
 							<th>종료일</th>
+							<th class="review-btn-field"></th>
 						<tr>
 					</thead>
 					<tbody>
@@ -86,6 +88,7 @@
 								<td>${pbooking.reserver}</td>
 								<td>${pbooking.reserveDate}</td>
 								<td>${pbooking.reserveEndDate}</td>
+								<td class="review-btn-field"><a class="text-muted" href="${pageContext.request.contextPath}/mypage/review/hotel/write/${pbooking.seq}">리뷰 작성</a></td>
 							</tr>
 					</c:forEach>
 					</tbody>
@@ -126,7 +129,25 @@
 		    </h2>
 		    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample" style="">
 		      <div class="accordion-body">
-		        <strong>Five</strong>
+		        <table class="table">
+		        	<thead>
+						<tr>
+							<th>점포명</th>
+							<th>점포 전화번호</th>
+							<th class="review-btn-field"></th>
+						<tr>
+					</thead>
+					<tbody>
+					<c:forEach var="stars" items="${starsDtoList}" varStatus="status" end="4">
+							<tr>
+								<td>${stars.restaurantName}</td>
+								<td>${stars.restaurantPhone}</td>
+								<td class="review-btn-field"><a class="text-muted" href="${pageContext.request.contextPath}/mypage/review/restaurant/write/${stars.restaurantSeq}">리뷰 작성</a></td>
+							</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>
