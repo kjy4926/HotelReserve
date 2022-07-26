@@ -4,13 +4,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kg.groupc.project.entity.restaurant.Restaurant;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RestaurantAddFormDto {
-
+	
 	private Long seq;
 	private String name;
 	private String address;
@@ -18,10 +19,41 @@ public class RestaurantAddFormDto {
 	private String img;
 	private String description;
 	private Long status;
-		
+	
 	private MultipartFile uploadFile;
 	
-//	public Restaurant toRestaurant() {
-//		return new Restaurant(seq, name, address, phone, img, description, status);
-//	}
+	public Restaurant toEntity() {
+		Restaurant restaurant = Restaurant.builder()
+						.name(name)
+						.address(address)
+						.phone(phone)
+						.img(img)
+						.description(description)
+						.status(status)
+						.build();
+		return restaurant;
+	}
+	/*
+	@Builder
+	public RestaurantAddFormDto(String name, String address, String phone, String img, String description) {
+		this.name = name;
+		this.address = address;
+		this.phone = phone;
+		this.img = img;
+		this.description = description;
+	}
+	
+	public Restaurant toEntity() {
+		return Restaurant.builder()
+				.name(name)
+				.address(address)
+				.phone(phone)
+				.img(img)
+				.description(description)
+				.build();
+	}
+	public Restaurant toRestaurant() {
+		return new Restaurant(seq, name, address, phone, img, description, status);
+	}
+	*/
 }

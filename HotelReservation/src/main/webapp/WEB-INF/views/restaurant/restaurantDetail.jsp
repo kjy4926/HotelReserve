@@ -66,6 +66,34 @@
         </div>
     </div>
 	</div>
+	
+	<!-- 메뉴 -->
+	<table class="table table-hover">
+		<thead>
+	    	<tr>
+	      		<th scope="col">사진</th>
+	      		<th scope="col">메뉴명</th>
+	      		<th scope="col">가격</th>
+	      		<th scope="col">소개</th>
+	    	</tr>
+	  	</thead>
+	  	<tbody>
+	  		<c:forEach var="menu" items="${menuList}">
+	    		<tr class="table-active">
+	      		<td><img alt="" src="<c:url value="/resources/img/menuImg/${menu.img}"/>"/></td>
+	      		<td>${menu.name}</td>
+	      		<td>${menu.price}</td>
+	      		<td>${menu.description}</td>
+	    		</tr>
+	    	</c:forEach>
+	  	</tbody>
+	</table>
+	
+	<!-- 버튼 -->
+	<a class="btn btn-primary" href="/admin/${restaurant.seq}/new">메뉴등록</a>
+	<a class="btn btn-primary" href="/restaurant/update/${restaurant.seq}">수정</a>
+    <a class="btn btn-primary" href="/restaurant/delete/${restaurant.seq}">삭제</a>
+    <a class="btn btn-primary" href="/restaurant">이전</a>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

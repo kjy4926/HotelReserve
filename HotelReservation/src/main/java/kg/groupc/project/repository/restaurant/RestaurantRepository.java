@@ -2,6 +2,7 @@ package kg.groupc.project.repository.restaurant;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,4 +28,6 @@ public interface RestaurantRepository<T, ID extends Serializable> extends BaseRe
 	
 	//페이징
 	Page<Restaurant> findAll(Pageable pageable);
+	
+	Restaurant findBySeq(Long seq);
 }
