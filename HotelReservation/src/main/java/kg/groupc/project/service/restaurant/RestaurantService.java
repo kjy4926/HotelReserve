@@ -23,7 +23,11 @@ public class RestaurantService<T, ID extends Serializable> extends BaseService<R
 	
 	@Autowired
 	private RestaurantRepository<Restaurant, Long> restaurantRepository;
-		
+	
+	public Restaurant getRestaurantBySeq(Long seq) {
+		return restaurantRepository.findById(seq).get();
+	}
+	
 	// 맛집 전체 리스트 + 페이징
 	@Transactional(readOnly = true)
 	public Page<Restaurant> findAll(Pageable pageable) {
