@@ -52,8 +52,11 @@ public class Restaurant extends BaseEntity<Long>{
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private Long status;
 	
-	@OneToMany(mappedBy = "seq", targetEntity = Stars.class, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "restaurant", targetEntity = Stars.class, fetch = FetchType.LAZY)
 	private List<Stars> stars;
+	
+	@OneToMany(mappedBy = "restaurant", targetEntity = Menu.class, fetch = FetchType.LAZY)
+	private List<Menu> menus;
 	
 	public void patch(Restaurant restaurant) {
 		if (restaurant.name != null) {
