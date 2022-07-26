@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.account.BookingDto;
+import kg.groupc.project.dto.account.HotelScoreDto;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
+import kg.groupc.project.dto.account.RestaurantScoreDto;
 import kg.groupc.project.dto.account.StarsDto;
 import kg.groupc.project.dto.review.ReviewFormDto;
 import kg.groupc.project.entity.account.Account;
@@ -49,11 +51,17 @@ public class MyPageController extends BaseController{
 		String userId = user.getUsername();
 		List<ArrayList<BookingDto>> bookingList = accountService.getBookingList(userId);
 		List<StarsDto> starsList = accountService.getStarsList(userId);
+		List<HotelScoreDto> hotelScoreList = accountService.getHotelScoreList(userId);
+		List<RestaurantScoreDto> restaurantScoreList = accountService.getRestaurantScoreList(userId);
+		
 		bookingList.get(0).sort((Comparator.comparing(BookingDto::getReserveDate))); // 예약 현황은 빠른일 기준 먼저 출력
 		bookingList.get(1).sort((Comparator.comparing(BookingDto::getReserveDate).reversed())); // 이용 내역은 최신 내역 먼저 출력
+		
 		model.addAttribute("reserveBookingList", bookingList.get(0));
 		model.addAttribute("progressedBookingList", bookingList.get(1));
 		model.addAttribute("starsDtoList", starsList);
+		model.addAttribute("hotelScoreList", hotelScoreList);
+		model.addAttribute("restaurantScoreList", restaurantScoreList);
 
 		return "/mypage/mypage";
 	}
@@ -162,15 +170,18 @@ public class MyPageController extends BaseController{
 	
 	@GetMapping("/mypage/review/restaurant/write/{seq}")
 	public String restaurantReview(@PathVariable Long seq, Model model) {
+		Restaurant restaurant = restaurantService.getRestaurantBySeq(seq);
 		model.addAttribute("seq", seq);
-		model.addAttribute("name", "name");
+		model.addAttribute("name", restaurant.getName());
 		model.addAttribute("type", "restaurant");
 		model.addAttribute("img", seq+".jpg");
 		return "/mypage/review/reviewForm";
 	}
 	
 	@PostMapping("/mypage/review/restaurant/write/{seq}")
-	public String postRestaurantReview(@PathVariable Long seq, Model model) {
+	public String postRestaurantReview(@PathVariable Long seq, Model model, ReviewFormDto reviewFormDto,
+				@AuthenticationPrincipal User user) {
+		restaurantScoreService.saveRestaurantScore(reviewFormDto, seq, user.getUsername());
 		return "redirect:/mypage";
 	}
 	
