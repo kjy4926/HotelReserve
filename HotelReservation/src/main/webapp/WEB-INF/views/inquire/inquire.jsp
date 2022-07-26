@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>문의하기</title>
+<link rel="icon" href="resources/img/hotel.png">
 
 <%-- Main Style Sheet --%>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
@@ -54,18 +55,19 @@
 
 
 	<%-- 검색바 --%>
-	<div class="form-group">
-      <select class="form-select" id="search" style="width:100px;height:40px;"> <%-- 검색조건 --%>
-        <option value="제목">제목</option>
-        <option value="내용">내용</option>
-        <option value="작성자">작성자</option>
-      </select>
-      <input type="text" class="form-control" style="width:300px;height:40px;" placeholder="검색어를 입력하세요" id="keyword">
-		 <%-- 검색어 입력 --%>
-		<button class="btn btn-primary"> 검색  <%-- 검색 버튼 --%>	
-		</button>
-  		
-    </div>
+	<form action="/inquire" class="form-inline d-flex justify-center-center" method="GET">
+		<div class="form-group">	
+			<select class="form-select" id="cat" name="cat" style="width:100px"> <%-- 검색조건 --%>
+				<option value="title">제목</option>
+				<option value="description">내용</option>
+				<option value="writer">작성자</option>
+			</select>
+			<%-- 검색어 입력 --%>
+			<input type="text" class="form-control" placeholder="검색어를 입력하세요" id="keyword" name="keyword" style="width:400px" >&nbsp&nbsp
+			<%-- 검색 버튼 --%>
+			<button class="btn btn-primary" type="submit"> 검색 </button>
+		</div>
+    </form>
 	
 		
 
@@ -102,8 +104,8 @@
 		  </tbody>
 		</table>
 	</div>
-	
-	<%--Page Nation --%>
+
+  	
 	<ul class="pagination" style="align-center">
 		<!-- 첫 페이지로 이동 -->
 	<li>
@@ -141,26 +143,42 @@
 	</ul>					
 	<hr><br><br>
 
-
-<!-- 
-	{{! Page }}
-	<div class="pagination justify-content-center">
-		{{#hasPrev}}
-			<a href="?page={{previous}}" role="button" class=""></a>
-		{{/hasPrev}}
-		{{^hasPrev}}
-			<a href="?page={{previous}}" role="button" class=""></a>        
-		{{/hasPrev}}         
-		{{#hasNext}}            
-			<a href="?page={{next}}" role="button" class=""></a>        
-		{{/hasNext}}        
-		{{^hasNext}}            
-			<a href="?page={{next}}" role="button" class=""></a>        
-		{{/hasNext}}    
+ 	
+<%--
+	<!-- Pagination  -->
+	<div class="text-xs-center">
+		<ul class="pagination justify-content-center">
+			<!-- Previous -->
+			<c:choose>
+				<c:when test="${pageList.first}"></c:when>
+				<c:otherwise>
+					<li class="page-item"><a class="page-link" href="/inquire/?cat=${param.cat}&keyword=${param.keyword}&page=0">처음</a></li>
+					<li class="page-item"><a class="page-link" href="/inquire/?cat=${param.cat}&keyword=${param.keyword}&page=${pageList.number-1}">&larr;</a></li>
+				</c:otherwise>
+			</c:choose>
+			
+			<!-- Page Group -->
+			<c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
+				<c:choose>
+					<c:when test="${pageList.pageable.pageNumber+1 == i}">
+						<li class="page-item disabled"><a class="page-link" href="/inquire/?cat=${param.cat}&keyword=${param.keyword}&page=${i-1}">${i}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link" href="/inquire/?cat=${param.cat}&keyword=${param.keyword}&page=${i-1}">${i}</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			
+			<!-- Next -->
+			<c:choose>
+				<c:when test="${pageList.last}"></c:when>
+				<c:otherwise>
+					<li class="page-item"><a class="page-link" href="/inquire/?cat=${param.cat}&keyword=${param.keyword}&page=${pageList.number+1}">&rarr;</a></li>
+					<li class="page-item"><a class="page-link" href="/inquire/?cat=${param.cat}&keyword=${param.keyword}&page=${pageList.totalPages-1}">마지막</a></li>
+				</c:otherwise>
+			</c:choose>
+		</ul>		
 	</div>
- -->
-	
-	<%-- footer --%>
-
+ --%>
 </body>
 </html>

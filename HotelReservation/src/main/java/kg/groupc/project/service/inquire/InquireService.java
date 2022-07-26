@@ -1,7 +1,6 @@
 package kg.groupc.project.service.inquire;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,6 +52,7 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 	}
 	
 	// 문의 삭제
+	@Transactional
 	public Inquire delete(Long seq) {
 		Inquire inquire = inquireRepository.findById(seq).orElse(null);
 		
@@ -61,25 +61,5 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 		}
 		inquireRepository.delete(inquire);
 		return inquire;
-	}
-
-	public Object read(Long seq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void edit(InquireWriteForm inquireWriteForm) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public Page<Inquire> pageList(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Inquire> search(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

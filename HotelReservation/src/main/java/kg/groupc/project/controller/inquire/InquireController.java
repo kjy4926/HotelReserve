@@ -41,32 +41,28 @@ public class InquireController extends BaseController{
 	@GetMapping(value="/inquire")
 	public String list(Model model, 
 			@PageableDefault(size = 5, sort = "seq", direction = Sort.Direction.DESC) Pageable pageable,
-			@RequestParam(required = false, defaultValue = "") String field,
-			@RequestParam(required = false, defaultValue = "") String searchKeyword) {
+			@RequestParam(required = false, defaultValue = "") String cat,
+			@RequestParam(required = false, defaultValue = "") String keyword) {
 			
 		Page<Inquire> list = inquireRepository.findAll(pageable);
-		if(field.equals("writer")) {
-			list = inquireService.search1(searchKeyword, pageable);
-		} else if(field.equals("title")) {
-			list = inquireService.search2(searchKeyword, pageable);
+		if(cat.equals("writer")) {
+			list = inquireService.search1(keyword, pageable);
+		} else if(cat.equals("title")) {
+			list = inquireService.search2(keyword, pageable);
 		}
 		
-		model.addAttribute("posts", list);
-		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-		model.addAttribute("next", pageable.next().getPageNumber());
-		model.addAttribute("hasNext", list.hasNext());
-		model.addAttribute("hasPrev", list.hasPrevious());
+		int pageNumber = list.getPageable().getPageNumber();
+		int totalPages = list.getTotalPages();
+		int pageBlock = 5;
+		int startBlockPage = ((pageNumber)/pageBlock) * pageBlock + 1;
+		int endBlockPage = startBlockPage + pageBlock - 1;
+		endBlockPage = totalPages < endBlockPage ? totalPages : endBlockPage;
 		
+		model.addAttribute("startBlockPage", startBlockPage);
+		model.addAttribute("endBlockPage", endBlockPage);
+		model.addAttribute("pageList", list);
+				
 		return "/inquire/inquire";
-	}
-	
-	// 문의글 검색
-	@GetMapping("/inquire/search")
-	public String search(String keyword, Model model, @PageableDefault(sort= "id", 
-		direction = Sort.Direction.DESC) Pageable pageable) {
-		List<Inquire> searchList = inquireService.search(keyword);
-		model.addAttribute("searchList", searchList);
-		return "inquire-search";
 	}
 	
 	// 문의 상세 페이지
@@ -75,9 +71,9 @@ public class InquireController extends BaseController{
 		Inquire inquire = inquireService.readInquire(seq);
 		model.addAttribute("inquire", inquire);
 		
-		return "/inquire/inquire";
+		return "/inquire/read";
 	}
-	
+		
 	// 문의글 작성 페이지
 	@GetMapping(value="/inquire/write")
 	public String write(Model model) {
@@ -98,11 +94,11 @@ public class InquireController extends BaseController{
 	}
 	
 	// 문의 수정 페이지
-	@GetMapping("/inquire/edit")
+	@GetMapping("/inquire/edit/{seq}")
 	public String editInquire(@PathVariable Long seq, Model model) {
 		Inquire inquire = inquireService.readInquire(seq);
 		model.addAttribute("inquire", inquire);
-		return "/inquire/edit/{seq}";
+		return "/inquire/edit";
 	}
 
 	// 수정하기 눌렀을 때
@@ -137,14 +133,6 @@ public class InquireController extends BaseController{
 			}
 		}
 		return "/inquire/edit";
-	}
-	
-	
-	// 문의글 열람 페이지
-	@GetMapping(value="/inquire/read/{seq}")
-	public String read(Model model, @PathVariable Long seq) {
-		model.addAttribute("inquireWriteForm", inquireService.read(seq));
-		return "/inquire/read";
 	}
 	
 	// 문의글 삭제 페이지

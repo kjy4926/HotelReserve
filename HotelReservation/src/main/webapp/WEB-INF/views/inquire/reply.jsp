@@ -45,17 +45,17 @@
 	<%-- 문의글 본문 --%>
 		<table class="inquire-tableLayout">
 			<tr>
-				<td>글 번호</td>
+				<td>Number</td>
 				<td>
 					<span id="in_seq">${inquire.seq}</span>
 				</td>
-				<td>작성일</td>
+				<td>Date</td>
 				<td>
 					<span id="in_day">${inquire.regDate}</span>
 				</td>
 			</tr>
 			<tr>
-				<td>카테고리</td>
+				<td>Category</td>
 				<td>
 					<span id="in_cat">${inquire.category}</span>
 				</td>
@@ -64,13 +64,13 @@
 				</td>
 			</tr>
 			<tr>
-				<td>제목</td>
+				<td>title</td>
 				<td>
 					<span id="in_title">${inquire.title}</span>
 				</td>
 			</tr>
 			<tr>
-				<td>문의내용</td>
+				<td>Description</td>
 				<td>
 					<p id="in_desc">
 						${inquire.description}
@@ -78,7 +78,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>답변내용</td>
+				<td>reply</td>
 				<td>
 					<p id="in_desc">
 						${inquire.reply}

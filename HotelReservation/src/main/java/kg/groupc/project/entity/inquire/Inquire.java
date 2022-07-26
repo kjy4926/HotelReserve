@@ -27,18 +27,13 @@ import lombok.Setter;
 @Setter
 public class Inquire extends BaseEntity<Long>{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(updatable = false)
-	private Long seq;
-	
 	// 작성자(외래키)
 	@ManyToOne(optional = false, targetEntity = Account.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer")
 	private Account writer;
 	
 	// 호텔 id(외래키) -> 카테고리 호텔 문의 일 경우만 값이 입력됨(nullable)
-	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
+	@ManyToOne(optional = true, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
 	private Hotel hotel;
 	
@@ -66,8 +61,7 @@ public class Inquire extends BaseEntity<Long>{
 	
 	
 	@Builder
-	public Inquire(Long seq, Account writer, String category, Hotel hotel,  String title, String description, Date day, Long status) {
-		this.seq = seq;
+	public Inquire(Account writer, String category, Hotel hotel,  String title, String description, Date day, Long status) {
 		this.writer = writer;
 		this.category = category;
 		this.hotel = hotel;
