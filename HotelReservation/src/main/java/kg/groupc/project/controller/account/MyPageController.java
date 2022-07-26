@@ -1,5 +1,9 @@
 package kg.groupc.project.controller.account;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,32 +16,53 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kg.groupc.project.controller.BaseController;
+import kg.groupc.project.dto.account.BookingDto;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
+import kg.groupc.project.dto.account.StarsDto;
+import kg.groupc.project.dto.review.ReviewFormDto;
 import kg.groupc.project.entity.account.Account;
-import kg.groupc.project.service.account.AccountService;
+import kg.groupc.project.entity.hotel.Booking;
+import kg.groupc.project.entity.hotel.Hotel;
+import kg.groupc.project.entity.hotel.HotelScore;
+import kg.groupc.project.entity.hotel.Room;
+import kg.groupc.project.entity.restaurant.Restaurant;
+import kg.groupc.project.entity.restaurant.Stars;
+import kg.groupc.project.repository.restaurant.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class MyPageController extends BaseController{
+	//test
+	private final RestaurantRepository<Restaurant, Long> rr;
 	private final PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/mypage")
-	public String mypage(Model model) {
-		List<Account> list = accountService.getThreeAccounts();
-		model.addAttribute("accounts", list);
+	public String mypage(@AuthenticationPrincipal User user, Model model) {
+		String userId = user.getUsername();
+		List<ArrayList<BookingDto>> bookingList = accountService.getBookingList(userId);
+		List<StarsDto> starsList = accountService.getStarsList(userId);
+		bookingList.get(0).sort((Comparator.comparing(BookingDto::getReserveDate))); // 예약 현황은 빠른일 기준 먼저 출력
+		bookingList.get(1).sort((Comparator.comparing(BookingDto::getReserveDate).reversed())); // 이용 내역은 최신 내역 먼저 출력
+		model.addAttribute("reserveBookingList", bookingList.get(0));
+		model.addAttribute("progressedBookingList", bookingList.get(1));
+		model.addAttribute("starsDtoList", starsList);
+
 		return "/mypage/mypage";
 	}
+	
 	@GetMapping("/mypage/pwdcheck")
 	public String pwdCheck() {
 		return "/login/pwdCheckForm";
 	}
+	
 	@PostMapping("/mypage/pwdcheck")
 	public String postPwdCheck(@RequestParam String menu, @RequestParam String password,
 				@AuthenticationPrincipal User user,
@@ -65,22 +90,12 @@ public class MyPageController extends BaseController{
 		model.addAttribute("errorMsg", "비밀번호가 잘못되었습니다.");
 		return "/login/pwdCheckForm";
 	}
-//	@GetMapping("/mypage/infoChange")
-//	public String infoChange(@AuthenticationPrincipal User user, Model model,
-//			@RequestParam(value="pwdck", required=false, defaultValue="0") String pwdck) {
-//		Account account = accountService.getAccountById(user.getUsername());
-//		InfoChangeFormDto infoChangeFormDto = new InfoChangeFormDto();
-//		infoChangeFormDto.setUsername(account.getName());
-//		infoChangeFormDto.setUserId(account.getUserId());
-//		infoChangeFormDto.setEmail(account.getEmail());
-//		infoChangeFormDto.setPhone(account.getPhone());
-//		model.addAttribute("infoChangeFormDto", infoChangeFormDto);
-//		return "/mypage/account/infoChangeForm";
-//	}
+	
 	@GetMapping("/mypage/infoChange")
 	public String infoChange() {
 		return "/login/pwdCheckForm";
 	}
+	
 	@PostMapping("/mypage/infoChange")
 	public String postInfoChange(@Valid InfoChangeFormDto infoChangeFormDto, Errors errors, Model model,
 				@AuthenticationPrincipal User user) {
@@ -98,10 +113,12 @@ public class MyPageController extends BaseController{
 		model.addAttribute("type", "change");
 		return "/alert/success";
 	}
+	
 	@GetMapping("/mypage/pwdChange")
 	public String pwdChange() {
 		return "/login/pwdCheckForm";
 	}
+	
 	@PostMapping("/mypage/pwdChange")
 	public String postPwdChange(@AuthenticationPrincipal User user, Model model, 
 			@Valid PwdChangeFormDto pwdChangeFormDto, Errors errors) {
@@ -119,9 +136,101 @@ public class MyPageController extends BaseController{
 		model.addAttribute("type", "pwdchange");
 		return "/alert/success";
 	}
+	
 	@PostMapping("/mypage/resign")
 	@ResponseBody
 	public boolean resign(@AuthenticationPrincipal User user) {
 		return accountService.resignAccount(user.getUsername());
+	}
+	
+	@GetMapping("/mypage/review/hotel/write/{seq}")
+	public String hotelReview(@PathVariable Long seq, Model model) {
+		Hotel hotel = hotelService.getHotelBySeq(seq);
+		model.addAttribute("seq", seq);
+		model.addAttribute("name", hotel.getName());
+		model.addAttribute("type", "hotel");
+		model.addAttribute("img", hotel.getImg());
+		return "/mypage/review/reviewForm";
+	}
+	
+	@PostMapping("/mypage/review/hotel/write/{seq}")
+	public String postHotelReview(@PathVariable Long seq, Model model, ReviewFormDto reviewFormDto,
+				@AuthenticationPrincipal User user) {
+		hotelScoreService.saveHotelScore(reviewFormDto, seq, user.getUsername());
+		return "redirect:/mypage";
+	}
+	
+	@GetMapping("/mypage/review/restaurant/write/{seq}")
+	public String restaurantReview(@PathVariable Long seq, Model model) {
+		model.addAttribute("seq", seq);
+		model.addAttribute("name", "name");
+		model.addAttribute("type", "restaurant");
+		model.addAttribute("img", seq+".jpg");
+		return "/mypage/review/reviewForm";
+	}
+	
+	@PostMapping("/mypage/review/restaurant/write/{seq}")
+	public String postRestaurantReview(@PathVariable Long seq, Model model) {
+		return "redirect:/mypage";
+	}
+	
+	//test page
+	@GetMapping("/test/createBook")
+	public String createTestBooking(@AuthenticationPrincipal User user) {
+		Booking booking = new Booking();
+		Date start = Date.valueOf(LocalDate.of(2022, 7, 26));
+		Date end = Date.valueOf(LocalDate.of(2022, 7, 26));
+		Room room = roomService.getRoomBySeq(12L);
+		System.out.println(start);
+		booking.setReserver(accountService.getAccountById(user.getUsername()));
+		booking.setPeople(1L);
+		booking.setPrice(10000L);
+		booking.setReserveDate(start);
+		booking.setReserveEndDate(end);
+		booking.setStatus(1L);
+		booking.setRoom(room);
+		bookingService.saveBooking(booking);
+		return "/";
+	}
+	
+	@GetMapping("/test/createStar")
+	public String createTestStar(@AuthenticationPrincipal User user) {
+		Account account = accountService.getAccountById(user.getUsername());
+		Restaurant r1 = rr.findById(24L).get();
+		Restaurant r2 = rr.findById(25L).get();
+		Restaurant r3 = rr.findById(26L).get();
+		Stars s1 = new Stars();
+		Stars s2 = new Stars();
+		Stars s3 = new Stars();
+		
+		s1.setUserId(account);
+		s1.setRestaurant(r1);
+		s2.setUserId(account);
+		s2.setRestaurant(r2);
+		s3.setUserId(account);
+		s3.setRestaurant(r3);
+		
+//		starsService.saveStars(s1);
+//		starsService.saveStars(s2);
+//		starsService.saveStars(s3);
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping("/test/hotelscore") 
+	public String createTestHS(@AuthenticationPrincipal User user) {
+		Account account = accountService.getAccountById(user.getUsername());
+		Hotel hotel = hotelService.getHotelBySeq(2L);
+		HotelScore hs = new HotelScore();
+		
+		hs.setHotel(hotel);
+		hs.setWriter(account);
+		hs.setScore(1L);
+		hs.setDescription("너무너무 좋았어요!");
+		hs.setDay(Date.valueOf(LocalDate.now()));
+		
+//		hotelScoreService.saveHotelScore(hs);
+		
+		return "redirect:/";
 	}
 }

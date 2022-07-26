@@ -33,6 +33,29 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 	
 	private final HotelRepository<Hotel, Long> hotelRepository;
 	
+	public Hotel getHotelBySeq(Long seq) {
+		return hotelRepository.findById(seq).get();
+	}
+	
+	public List<Hotel> getAllHotel() {
+		return hotelRepository.findAll();
+	}
+	
+	@Transactional
+	public double getHotelScoreAvg(Long seq) {
+		List<HotelScore> hotelScoreList = hotelRepository.findById(seq).get().getHotelScores();
+		System.out.println(hotelScoreList.size());
+		double avg = 0.0;
+		double sum = 0.0;
+		for(HotelScore hs : hotelScoreList) {
+			sum += hs.getScore();
+		}
+		avg = sum / hotelScoreList.size();
+		System.out.println(avg);
+		System.out.println(sum);
+		return avg;
+	}
+	
 	public Long getHotelCount(String keyword){//검색해서 나오는 데이터 수로 최대 페이지 정하는 용도
 //		long count;
 //		JPAQueryFactory queryFactory = new JPAQueryFactory(em);

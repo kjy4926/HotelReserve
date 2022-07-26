@@ -1,13 +1,19 @@
 package kg.groupc.project.service.account;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,9 +23,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import kg.groupc.project.dto.account.BookingDto;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
+import kg.groupc.project.dto.account.StarsDto;
 import kg.groupc.project.entity.account.Account;
+import kg.groupc.project.entity.hotel.Booking;
+import kg.groupc.project.entity.hotel.Hotel;
+import kg.groupc.project.entity.hotel.Room;
+import kg.groupc.project.entity.restaurant.Restaurant;
+import kg.groupc.project.entity.restaurant.Stars;
 import kg.groupc.project.repository.account.AccountRepository;
 import kg.groupc.project.service.BaseService;
 import lombok.RequiredArgsConstructor;
@@ -77,7 +90,59 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 		}
 		return false;
 	}
+	@Transactional
+	public List<ArrayList<BookingDto>> getBookingList(String userId){
+		Date today = Date.valueOf(LocalDate.now());
+		List<Booking> bookingList = accountRepository.findByUserId(userId).getBookings();
+		List<ArrayList<BookingDto>> bookingDtoList = new ArrayList<ArrayList<BookingDto>>();
+		// list init
+		bookingDtoList.add(new ArrayList<BookingDto>());
+		bookingDtoList.add(new ArrayList<BookingDto>());
+		for(Booking booking : bookingList) {
+			BookingDto bookingDto = new BookingDto();
+			Room room = booking.getRoom();
+			String roomName = room.getName();
+			Hotel hotel = room.getHotel();
+			
+			bookingDto.setSeq(booking.getSeq());
+			bookingDto.setHotelSeq(hotel.getSeq());
+			bookingDto.setHotel(hotel.getName());
+			bookingDto.setRoom(roomName);
+			bookingDto.setReserver(booking.getReserver().getUserId());
+			bookingDto.setReserveDate(booking.getReserveDate());
+			bookingDto.setReserveEndDate(booking.getReserveEndDate());
+			bookingDto.setStatus(booking.getStatus());
+			bookingDto.setPrice(booking.getPrice());
+			bookingDto.setPeople(booking.getPeople());
+			// 예약 내역
+			if(booking.getReserveDate().after(today)) {
+				bookingDtoList.get(0).add(bookingDto);
+			}
+			// 이용 내역
+			else { 
+				bookingDtoList.get(1).add(bookingDto);
+			}
+		}
+		return bookingDtoList;
+	}
 	
+	@Transactional
+	public List<StarsDto> getStarsList(String userId){
+		List<Stars> starsList = accountRepository.findByUserId(userId).getStars();
+		List<StarsDto> starsDtoList = new ArrayList<>();
+		for(Stars star : starsList) {
+			StarsDto starsDto = new StarsDto();
+			Restaurant restaurant = star.getRestaurant();
+			
+			starsDto.setSeq(star.getSeq());
+			starsDto.setRestaurantSeq(restaurant.getSeq());
+			starsDto.setRestaurantName(restaurant.getName());
+			starsDto.setRestaurantPhone(restaurant.getPhone());
+			starsDtoList.add(starsDto);
+		}
+		return starsDtoList;
+	}
+
 	public boolean idDuplicateCheck(String userId) {
 		Account account = accountRepository.findByUserId(userId);
 		if(account == null) 
