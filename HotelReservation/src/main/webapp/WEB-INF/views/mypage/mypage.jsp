@@ -88,7 +88,7 @@
 								<td>${pbooking.reserver}</td>
 								<td>${pbooking.reserveDate}</td>
 								<td>${pbooking.reserveEndDate}</td>
-								<td class="review-btn-field"><a class="text-muted" href="${pageContext.request.contextPath}/mypage/review/hotel/write/${pbooking.seq}">리뷰 작성</a></td>
+								<td class="review-btn-field"><a class="text-muted" href="${pageContext.request.contextPath}/mypage/review/hotel/write/${pbooking.hotelSeq}">리뷰 작성</a></td>
 							</tr>
 					</c:forEach>
 					</tbody>

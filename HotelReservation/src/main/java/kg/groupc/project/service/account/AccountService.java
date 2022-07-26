@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,16 +23,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
-import com.querydsl.jpa.impl.JPAQuery;
-
 import kg.groupc.project.dto.account.BookingDto;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
 import kg.groupc.project.dto.account.StarsDto;
 import kg.groupc.project.entity.account.Account;
-import kg.groupc.project.entity.account.QAccount;
 import kg.groupc.project.entity.hotel.Booking;
-import kg.groupc.project.entity.hotel.QBooking;
+import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.Room;
 import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.entity.restaurant.Stars;
@@ -105,10 +102,11 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			BookingDto bookingDto = new BookingDto();
 			Room room = booking.getRoom();
 			String roomName = room.getName();
-			String hotelName = room.getHotel().getName();
+			Hotel hotel = room.getHotel();
 			
 			bookingDto.setSeq(booking.getSeq());
-			bookingDto.setHotel(hotelName);
+			bookingDto.setHotelSeq(hotel.getSeq());
+			bookingDto.setHotel(hotel.getName());
 			bookingDto.setRoom(roomName);
 			bookingDto.setReserver(booking.getReserver().getUserId());
 			bookingDto.setReserveDate(booking.getReserveDate());

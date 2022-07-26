@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookingDto {
 	private Long seq;
+	private Long hotelSeq;
 	private String hotel;
 	private String room;
 	private String reserver;
