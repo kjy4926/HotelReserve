@@ -22,7 +22,6 @@ import kg.groupc.project.entity.restaurant.RestaurantScore;
 import kg.groupc.project.entity.restaurant.Stars;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 // 계정
 @Entity

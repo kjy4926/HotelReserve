@@ -1,6 +1,6 @@
 package kg.groupc.project.controller.retaurant;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,8 +10,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.restaurant.RestaurantAddFormDto;
+import kg.groupc.project.entity.restaurant.Menu;
 import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.repository.restaurant.RestaurantRepository;
+import kg.groupc.project.service.restaurant.MenuService;
 import kg.groupc.project.service.restaurant.RestaurantService;
 
 @Controller
@@ -31,6 +33,9 @@ public class RestaurantController extends BaseController{
 	
 	@Autowired
 	private RestaurantService restaurantService;
+	
+	@Autowired
+	private MenuService menuService;
 		
 	// 맛집 리스트 + 검색 + 페이징
 	@RequestMapping(value="/restaurant")
@@ -60,49 +65,67 @@ public class RestaurantController extends BaseController{
 		return "/restaurant/restaurant";
 	}
 	
-	// 맛집 상세 페이지
-	@GetMapping("/restaurant/restaurantDetail/{seq}")
-	public String detailRestaurant(@PathVariable Long seq, Model model) {
+	// 맛집 상세(사용자)
+	@GetMapping("/restaurant/{seq}")
+	public String adminRestaurantDetail(@PathVariable Long seq, Model model) {
 		Restaurant restaurant = restaurantService.findRestaurant(seq);
 		model.addAttribute("restaurant", restaurant);
 		
+		List<Menu> menuList = menuService.findAll();
+		model.addAttribute("menuList", menuList);
 		return "/restaurant/restaurantDetail";
-	}
-	
-	// 맛집 등록 GET(관리자)
-	@RequestMapping(value="/restaurant/admin/new", method=RequestMethod.GET)
+	}	
+		
+	// 맛집 등록
+	@RequestMapping(value="/admin/restaurant/new", method=RequestMethod.GET)
 	public String newRestaurantPage() {
 		return "/restaurant/restaurantAdd";
 	}
 	
-	// 맛집 등록 POST(관리자)
-	@RequestMapping(value="/restaurant/admin/new", method=RequestMethod.POST)
-	public String createRestaurant(RestaurantAddFormDto restaurantAddFormDto, @RequestParam("uploadFile") MultipartFile img) throws Exception {
-//		Restaurant restaurant = restaurantService.create(restaurantAddFormDto, img);
+	// 맛집 등록
+	@RequestMapping(value="/admin/restaurant/new", method=RequestMethod.POST)
+	public String createRestaurant(RestaurantAddFormDto restaurantAddFormDto, 
+			@RequestParam("uploadFile") MultipartFile img) throws Exception {		
+		restaurantService.create(restaurantAddFormDto, img);
 		
 		return "redirect:/restaurant";
 	}
 		
-	// 맛집 수정 페이지(관리자)
-	@GetMapping("/restaurant/admin/update/{seq}")
-	public String updateRestaurantPage(@PathVariable Long seq, Model model) {
+	// 맛집 수정
+	@GetMapping("/restaurant/update/{seq}")
+	public String updateRestaurantPage(@PathVariable("seq") Long seq, Model model) {
 		Restaurant restaurant = restaurantService.findRestaurant(seq);
 		model.addAttribute("restaurant", restaurant);
 		return "/restaurant/restaurantUpdate";
 	}
 	
-	// 맛집 수정 patch(관리자)
-	@PatchMapping("/restaurant/admin/edit")
-	public String editRestaurant(@PathVariable Long seq, RestaurantAddFormDto restaurantAddFormDto) {
-//		Restaurant restaurant = restaurantService.edit(seq, restaurantAddFormDto);
+	@PostMapping("/restaurant/update")
+	public String editRestaurant(Long seq, RestaurantAddFormDto restaurantAddFormDto) {
+		restaurantService.edit(seq, restaurantAddFormDto);
 		
-		return "redirect:/restaurantDetail";
+		return "redirect:/restaurant/restaurantDetail/" + restaurantAddFormDto.getSeq();	
 	}
 	
+	// 맛집 삭제
+	@GetMapping("/restaurant/delete/{seq}")
+	public String deleteRestaurantPage(@PathVariable Long seq) {
+		Restaurant restaurantDelete = restaurantService.delete(seq);
+		return "redirect:/restaurant";
+	}
+	
+//	@PostMapping("/restaurant/update")
+//	public String editRestaurant(@PathVariable Long seq, @RequestParam("editForm") RestaurantAddFormDto restaurantAddFormDto) {
+//		restaurantService.edit(seq, restaurantAddFormDto);
+//		
+//		return "redirect:/restaurant";
+//	}
+	
+	/*
 	// 맛집 삭제 (관리자)
 	public String deleteRestaurant(@PathVariable Long seq) {
 		Restaurant restaurant = restaurantService.delete(seq);
 		
 		return "redirect:/restaurantDetail";
 	}
+	*/
 }

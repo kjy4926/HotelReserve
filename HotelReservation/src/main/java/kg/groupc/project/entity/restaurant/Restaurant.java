@@ -5,27 +5,24 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 
 import kg.groupc.project.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@Getter
 @Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@DynamicInsert
 public class Restaurant extends BaseEntity<Long>{
 
 	// 상호명
@@ -41,19 +38,22 @@ public class Restaurant extends BaseEntity<Long>{
 	private String phone;
 	
 	// 맛집 이미지
-	@Column(nullable = false, length = 255)
+	@Column(nullable = true, length = 255)
 	private String img;
 		
 	// 맛집 소개(내용)
-	@Column(nullable = false, length = 1000)
+	@Column(nullable = true, length = 1000)
 	private String description;
 	
 	// 맛집 상태
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private Long status;
 	
-	@OneToMany(mappedBy = "seq", targetEntity = Stars.class, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "restaurant", targetEntity = Stars.class, fetch = FetchType.LAZY)
 	private List<Stars> stars;
+	
+	@OneToMany(mappedBy = "restaurant", targetEntity = Menu.class, fetch = FetchType.LAZY)
+	private List<Menu> menus;
 	
 	public void patch(Restaurant restaurant) {
 		if (restaurant.name != null) {
