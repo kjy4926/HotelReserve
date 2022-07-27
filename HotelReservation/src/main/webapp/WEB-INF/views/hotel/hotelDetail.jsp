@@ -16,7 +16,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	
 	<div style="display: inline-flex;">
-		<div class="card mb-3" style="width: 35%; height:30px; display: inline-flex;">
+		<div class="card mb-3" style="width: 35%;">
 			<h3 class="card-header">Card header</h3>
 			<div class="card-body">
 				<h5 class="card-title">Special title treatment</h5>
@@ -34,34 +34,34 @@
 				<li class="list-group-item">Dapibus ac facilisis in</li>
 				<li class="list-group-item">Vestibulum at eros</li>
 			</ul>
-			<div class="card-body">
+			<div class="card-body" style="width: 100%">
 				<a href="#" class="card-link">Card link</a>
 				<a href="#" class="card-link">Another link</a>
 			</div>
-			
-			
-			
-			<div class="card-footer text-muted" style="margin-top: 20%">
-			  리뷰
-			</div>
-			<div class="accordion" id="accordionExample">
-				<c:forEach var="i" begin="0" end="2">
-					<div class="accordion-item">
-						<h2 class="accordion-header">
-							<button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="false">
-								리뷰<c:out value="i"/>
-							</button>
-						</h2>
-						<div class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-							<div class="accordion-body">
-								<strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+			<div style="margin-top: 60%;">
+				<div class="card-footer text-muted">
+						 리뷰
+				</div>
+				<div class="accordion" id="accordionExample">
+					<c:forEach var="i" begin="0" end="2">
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									리뷰<c:out value="${i}"/>
+								</button>
+							</h2>
+							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+								<div class="accordion-body">
+									<strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+								</div>
 							</div>
 						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
+				</div>
 			</div>
-	
 		</div>
+		
+	
 		<div style="width: 100%; position: relative; margin-left: 7%">
 			<div style="width : 80%; top: 0px; right: 0;">
 				<table class="table table-hover">
@@ -112,6 +112,7 @@
 					</div>
 				</c:forEach>
 			</div>
+			
 		</div>
 	</div>
 	

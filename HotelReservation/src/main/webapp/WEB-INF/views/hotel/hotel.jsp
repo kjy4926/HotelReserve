@@ -127,16 +127,5 @@
 			</c:if>
 		</ul>
 	
-	<div style="float:left; width: 20%;">
-		<form action="hotelDetail" method="get">
-					<button>hotelDetail 확인용</button>
-			
-		</form>
-		
-		<form action="roomReservation" method="get">
-					<button>roomReservation 확인용</button>
-			
-		</form>
-	</div>
 </body>
 </html>
