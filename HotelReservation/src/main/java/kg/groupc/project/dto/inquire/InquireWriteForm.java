@@ -11,9 +11,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+<<<<<<< Updated upstream
 
 @Getter
 @Setter
+=======
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+>>>>>>> Stashed changes
 @NoArgsConstructor
 public class InquireWriteForm {
 	private String category; // 카테고리
@@ -32,13 +40,24 @@ public class InquireWriteForm {
 	
 	public Inquire toEntity() {
 		Inquire inquire = Inquire.builder()
+<<<<<<< Updated upstream
+=======
+				.category(category)
+				.hotel(getHotel()) // 외래키
+>>>>>>> Stashed changes
 				.title(title)
 				.category(category)
 				.writer(writer)
 				.hotel(hotel)
 				.day(day)
 				.description(description)
+<<<<<<< Updated upstream
 				.status(status)
+=======
+				.writer(getWriter()) // 외래키
+				.day(day) // 자동생성
+				.status(status) // 자동생성
+>>>>>>> Stashed changes
 				.build();
 		return inquire;
 	}
@@ -52,5 +71,10 @@ public class InquireWriteForm {
 		this.writer = writer;
 		this.day = day;
 		this.status = status;
+	}
+
+	public void setUsername(String username) {
+		// TODO Auto-generated method stub
+		
 	}
 }

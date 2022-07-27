@@ -9,16 +9,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.inquire.InquireWriteForm;
+import kg.groupc.project.entity.account.Account;
+import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.inquire.Inquire;
 import kg.groupc.project.repository.inquire.InquireRepository;
 import kg.groupc.project.service.account.AccountService;
@@ -83,12 +89,16 @@ public class InquireController extends BaseController{
 	
 	// 게시글 등록버튼 눌렀을 때
 	@PostMapping(value="/inquire/write")
-	public String write(@Valid InquireWriteForm idto, BindingResult br, Model model) {
+	public String write(@Valid InquireWriteForm idto, BindingResult br, 
+						@AuthenticationPrincipal User user,
+						Model model) {
+		Account account = accountService.getAccountById(user.getUsername());
 		if(br.hasErrors()) {
 			// 입력 데이터 값 유지
 			model.addAttribute("inquireWriteForm", inquireService);			
 			return "/inquire/inquireWriteForm";
 		}
+		idto.setWriter(account);
 		inquireService.saveInquire(idto);
 		return "redirect:/inquire/inquire";
 	}
@@ -102,13 +112,34 @@ public class InquireController extends BaseController{
 	}
 
 	// 수정하기 눌렀을 때
+	@SuppressWarnings("unlikely-arg-type")
+	@PostMapping(value="inquire/edit/{seq}")
+	public String edit(@ModelAttribute Long seq, InquireWriteForm idto, BindingResult result,
+			User user, Model model) {
+		Account account = accountService.getAccountById(user.getUsername());
+		if(result.hasErrors()) {
+			return "inquire/edit";
+		}
+		else if((idto.getWriter()).equals(account.getUserId())) {
+				inquireService.edit(seq, idto);
+		}
+		return "redirect:/inquire/inquire";
+	}
 	
 	// 문의글 삭제
+<<<<<<< Updated upstream
 	public String deleteInquire(@PathVariable Long seq) {
 		Inquire inquire = inquireService.delete(seq);
 		
 		return "redirect:/inquireDetail";
+=======
+	@GetMapping(value="inquire/delete/{seq}")
+	public String delete(@PathVariable Long seq, Model model) {
+		model.addAttribute("seq", seq);
+		return "inquire/delete";
+>>>>>>> Stashed changes
 	}
+	
 	
 /*	
 	// 문의글 수정 페이지
@@ -133,13 +164,6 @@ public class InquireController extends BaseController{
 			}
 		}
 		return "/inquire/edit";
-	}
-	
-	// 문의글 삭제 페이지
-	@GetMapping(value="inquire/delete/{seq}")
-	public String delete(@PathVariable long seq, Model model) {
-		model.addAttribute("seq", seq);
-		return "inquire/delete";
 	}
 	
 	// 삭제기능 실행

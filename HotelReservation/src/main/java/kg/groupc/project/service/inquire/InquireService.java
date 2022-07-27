@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kg.groupc.project.dto.inquire.InquireWriteForm;
+import kg.groupc.project.entity.account.Account;
+import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.inquire.Inquire;
 import kg.groupc.project.repository.inquire.InquireRepository;
 import kg.groupc.project.service.BaseService;
@@ -62,4 +64,20 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 		inquireRepository.delete(inquire);
 		return inquire;
 	}
+<<<<<<< Updated upstream
 }
+=======
+	
+	// 문의 수정
+	@Transactional
+	public Inquire edit(Long seq, InquireWriteForm idto) {
+		Inquire inquire = idto.toEntity();
+		Inquire target = inquireRepository.findById(seq).orElse(null);
+		if(target == null) {
+			return null;
+		}
+		return inquireRepository.save(target);
+	}
+	
+}
+>>>>>>> Stashed changes
