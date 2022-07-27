@@ -15,13 +15,21 @@
 	div {
 		justify-content: center;
 	}
+	
 </style>
+<script type="text/javascript">
+	
+</script>
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<!-- 검색바 -->
 	<form action="hotel" method="get">
 		<div class="form-group" style="width: 50%; margin: auto;">
+			<select class="form-select" name="num">
+			       <option value="1">호텔명으로 검색</option>
+			       <option value="2">지역명으로 검색</option>
+			</select>
 			<div class="input-group">
 			<input class="form-control me-sm-2" type="text" name="keyword" placeholder="주소 또는 호텔명으로 검색">
 			<button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
@@ -74,22 +82,22 @@
 			
 			<c:if test="${prevPage == -1 }">
 				<li class="page-item disabled">
-			    	<a class="page-link" href="#">&laquo;</a>
+			    	<a class="page-link" href="#">&lt;</a>
 				</li>
 			</c:if>
 			<c:if test="${prevPage != -1 }">
 				<li class="page-item">
-			    	<a class="page-link" href="hotel?keyword=${keyword}&page=${prevPage}">&laquo;</a>
+			    	<a class="page-link" href="hotel?keyword=${keyword}&page=${prevPage}">&lt;</a>
 				</li>
 			</c:if>
 
 			<c:forEach var="i" begin="${startPage}" end="${lastPage}">
-				<c:if test="${page == i}">
+				<c:if test="${page == i-1}">
 					<li class="page-item disabled">
 						<a class="page-link" href="hotel?keyword=${keyword}&page=${i}"><c:out value="${i}"/></a>
 					</li>
 				</c:if>
-				<c:if test="${page != i}">
+				<c:if test="${page != i-1}">
 					<li class="page-item">
 						<a class="page-link" href="hotel?keyword=${keyword}&page=${i}"><c:out value="${i}"/></a>
 					</li>
@@ -99,12 +107,12 @@
 			
 			<c:if test="${nextPage == -1}">
 				<li class="page-item disabled">
-					<a class="page-link" href="#">&raquo;</a>
+					<a class="page-link" href="#">&gt;</a>
 				</li>
 			</c:if>
 			<c:if test="${nextPage != -1}">
 				<li class="page-item">
-					<a class="page-link" href="hotel?keyword=${keyword}&page=${nextPage}">&raquo;</a>
+					<a class="page-link" href="hotel?keyword=${keyword}&page=${nextPage}">&gt;</a>
 				</li>
 			</c:if>
 			<c:if test="${nextPage == -1}">

@@ -10,7 +10,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor//모든 필드에 대한 생성자 자동생성
 public class HotelDetailFormDto {//호텔 상세보기 페이지에서 사용합니다(hotelDetail.jsp)
 
 	public long hotel;//호텔id
@@ -19,10 +18,11 @@ public class HotelDetailFormDto {//호텔 상세보기 페이지에서 사용합
 	public String address;//호텔 주소
 	public String description;//호텔 설명
 	public String img;//호텔 사진
-	public double avg;//호텔 평점,리뷰테이블의 평균값을 가져옴
+	public double avg;//호텔 평점, 리뷰테이블의 평균값을 가져옴
 	
 	public List<Long> hotelScore;//리뷰테이블 id
 	public List<Long> room;//room의 id
 	
+	public HotelDetailFormDto() {}
 	
 }

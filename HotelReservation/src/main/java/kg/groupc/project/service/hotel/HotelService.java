@@ -39,43 +39,16 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 	}
 	
 	
-	public Long getHotelCount(String keyword){//검색해서 나오는 데이터 수로 최대 페이지 정하는 용도
-		
-		
-		
-		
-//		long count;
-//		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-//		QHotel hotel = QHotel.hotel;
-//		if(keyword == null |keyword == "") {//호텔메뉴 눌렀을 시 최초로 보여지는 화면, 데이터의 개수를 넘겨줍니다
-//	 		count = queryFactory.select(hotel.count())
-//	 				.from(hotel)
-//	 				.where(hotel.status.eq(1L))
-//	 				.fetchOne();
-//			return count;
-//		}else {//키워드에 값이 있을 경우 지역명 또는 호텔명으로 검색합니다
-//			count = queryFactory.select(hotel.count())
-//					.from(hotel)
-//					.where(hotel.name.contains(keyword)
-//							.or(hotel.address.contains(keyword))//contiains(keyword):keyword를 포함하고 있으면 출력
-//							.and(hotel.status.eq(1L)))
-//					.fetchOne();
-//			return count;
-//		}
-		return null;
-	}
-
-	
-	public int dataCount = 0;//데이터 전체 개수 반환 용도
+	public long dataCount;//데이터 전체 개수 반환 용도
 	
 	@Transactional
 	public List<HotelMainFormDto> getHotelList(String keyword, int num, Pageable pageable){
 		//num = 0(검색어 조건x), 1(호텔명), 2(지역명)
 		if(num == 0 && (keyword == null || keyword == "")) {
 			Page<Hotel> hotell = hotelRepository.findByStatus(1L, pageable);//status 1인것만
-			this.setDataCount(dataCount += Long.valueOf(hotell.getTotalElements()).intValue());
-			System.out.println("데이터 개수" + Long.valueOf(hotell.getTotalElements()).intValue());
 			List<Hotel> hotelList = hotell.getContent();
+			long count = hotell.getTotalElements();
+			this.setDataCount(count);
 			List<HotelMainFormDto> hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
 			for(Hotel hotel : hotelList) {
 				Double sum = 0.0;
@@ -92,7 +65,6 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 				hotelMainFormDto.setDescription(hotel.getDescription());
 				hotelMainFormDto.setImg(hotel.getImg());
 				hotelMainFormDto.setAvg(avg);
-				
 				hotelMainFormDtoList.add(hotelMainFormDto);
 			}
 			
@@ -100,11 +72,10 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 			
 		}else if(num == 1) {//호텔명
 			Page<Hotel> hotell = hotelRepository.findByNameContainingAndStatusOrderByName(keyword, 1L, pageable);
-			this.setDataCount(dataCount += Long.valueOf(hotell.getTotalElements()).intValue());
 			List<Hotel> hotelList = hotell.getContent();
-			
+			long count = hotell.getTotalElements();
+			this.setDataCount(count);
 			List<HotelMainFormDto> hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
-			
 			for(Hotel hotel : hotelList) {
 				Double sum = 0.0;
 				List<HotelScore> hotelScores = hotel.getHotelScores();
@@ -120,17 +91,15 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 				hotelMainFormDto.setDescription(hotel.getDescription());
 				hotelMainFormDto.setImg(hotel.getImg());
 				hotelMainFormDto.setAvg(avg);
-				
 				hotelMainFormDtoList.add(hotelMainFormDto);
-
 			}
 			return hotelMainFormDtoList;
 			
 		}else if(num == 2) {//지역명
 			Page<Hotel> hotell = hotelRepository.findByNameContainingAndStatusOrderByName(keyword, 1L, pageable);
-			this.setDataCount(dataCount += Long.valueOf(hotell.getTotalElements()).intValue());
 			List<Hotel> hotelList = hotell.getContent();
-			
+			long count = hotell.getTotalElements();
+			this.setDataCount(count);
 			List<HotelMainFormDto> hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
 			for(Hotel hotel : hotelList) {
 				Double sum = 0.0;
@@ -147,9 +116,8 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 				hotelMainFormDto.setDescription(hotel.getDescription());
 				hotelMainFormDto.setImg(hotel.getImg());
 				hotelMainFormDto.setAvg(avg);
-				
 				hotelMainFormDtoList.add(hotelMainFormDto);
-			}	
+			}
 			return hotelMainFormDtoList;
 			
 		}else {//에러
@@ -233,6 +201,17 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 	
 	
 	public HotelMainFormDto getHotelDetail(long seq){
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 //		//hotel.jsp에서 전달하는 seq값으로 호텔 상세를 가져옵니다.
 //		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 //		

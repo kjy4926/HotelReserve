@@ -30,7 +30,7 @@ class HotelServiceTest {
 	
 	@Test
 	void testgetHotelListDefault() {//검색x 테스트용 메소드
-		long avg = hotelService.getHotelCount(keyword);
+//		long avg = hotelService.getHotelCount(keyword);
 		
 	}
 
