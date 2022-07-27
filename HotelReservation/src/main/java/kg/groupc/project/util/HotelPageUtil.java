@@ -80,14 +80,7 @@ public class HotelPageUtil {
 			}else {
 				this.setLastPage(num * buttonNum + buttonNum);
 			}
-			
 		}
-		
-		
-		
 		return this.getMaxPage();
 	};
-	
-	
-	
 }
