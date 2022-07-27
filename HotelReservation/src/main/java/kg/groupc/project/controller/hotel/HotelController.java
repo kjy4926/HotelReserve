@@ -62,7 +62,7 @@ public class HotelController extends BaseController{
 		
 		List<HotelMainFormDto> hotelMainFormDtoList = //데이터 전체 반환
 				hotelService.getHotelList(keyword, num, pageable);
-		int maxPage = HotelPageUtil.pageButtonInitialize(Math.toIntExact(hotelService.getDataCount()), pageable);
+		int maxPage = HotelPageUtil.pageButtonInitialize((int)1L, pageable);
 		
 		model.addAttribute("num", num);//검색 조건 유지
 		model.addAttribute("keyword", keyword);//페이지 이동 후에도 keyword를 유지시키기 위함
@@ -76,16 +76,6 @@ public class HotelController extends BaseController{
 		model.addAttribute("nextPage", HotelPageUtil.getNextPage());//다음 10개 페이지 중 첫번째 페이지
 		model.addAttribute("startPage", HotelPageUtil.getStartPage());//페이지 이동버튼 출력범위, forEach문 시작값
 		model.addAttribute("lastPage", HotelPageUtil.getLastPage());//페이지 이동버튼 출력범위, forEach문 끝값
-		
-//		System.out.println("pageable.getPageSize()(한 화면에 보여줄 데이터 개수):" + pageable.getPageSize());
-//		System.out.println("pageable.getPageNumber()(현재 페이지, 첫페이지는 0페이지부터 시작) :" + pageable.getPageNumber());
-//		System.out.println("pageable.getOffset()(몇번째 데이터부터 조회할 것인지, page*size를 반환) : " + pageable.getOffset());
-//		System.out.println("firstPage : " + hotelPageRequest.getFirstPage());
-//		System.out.println("prevPage : " + hotelPageRequest.getPrevPage());
-//		System.out.println("nextPage : " + hotelPageRequest.getNextPage());
-//		System.out.println("lastPage : " + hotelPageRequest.getLastPage());
-//		System.out.println("maxPage(최대 페이지) : " + maxPage);
-//		System.out.println("keyword(검색 키워드) : " + keyword);
 
 		return "/hotel/hotel";
 	}
@@ -98,48 +88,10 @@ public class HotelController extends BaseController{
 		
 		return "/hotel/hotelDetail";
 	}
-	//	/hotel/reserve/{seq}
-	@RequestMapping(value="/roomReservation", method=RequestMethod.GET)
-	public String roomReservation(Model model) {//객실 상세보기/예약하기 화면
-		return "/hotel/roomReservation";
-	}
 	
-	
-//	@RequestMapping(value="/roomReservation", method=RequestMethod.POST)
-//	public String roomReservation() {
-//		
-//		return "/hotel/roomReservation";
-//	}
-	
-//	@GetMapping("/test/hotelscore1") //샘플 리뷰
-//	public String createTestHS(@AuthenticationPrincipal User user) {
-//		Account account = accountService.getAccountById(user.getUsername());
-//		Hotel hotel = hotelService.getHotelBySeq(16L);
-//		HotelScore hs = new HotelScore();
-//		
-//		hs.setHotel(hotel);
-//		hs.setWriter(account);
-//		hs.setScore(5L);
-//		hs.setDescription("너무너무 좋았어요!");
-//		hs.setDay(Date.valueOf(LocalDate.now()));
-//		
-//		hotelScoreService.saveHotelScore(hs);
-//		
-//		return "redirect:/";
-//		
-//	}
-	
-//	@GetMapping("/test/avgtest")//평균 테스트
-//	public String createAvg(){
-//		List<HotelMainFormDto> hotelMainFormDtoList =
-//				hotelService.getHotelList("", 1, PageRequest.of(0, 10));
-//		for(HotelMainFormDto hotelMainFormDto : hotelMainFormDtoList) {
-//			System.out.println(hotelMainFormDto.getName());
-//			System.out.println(hotelMainFormDto.getAvg());
-//		}
-//		
-//		return "redirect:/";
-//	}
-	
-	
+	@GetMapping(value="/reservation")
+	public String reservation(Model model) {
+		
+		return "/hotel/reservation";
+	}	
 }
