@@ -86,12 +86,12 @@
 			<c:forEach var="i" begin="${startPage}" end="${lastPage}">
 				<c:if test="${page == i}">
 					<li class="page-item disabled">
-						<a class="page-link" href="hotel?keyword=${keyword}&page=${i}"><c:out value="${i+1}"/></a>
+						<a class="page-link" href="hotel?keyword=${keyword}&page=${i}"><c:out value="${i}"/></a>
 					</li>
 				</c:if>
 				<c:if test="${page != i}">
 					<li class="page-item">
-						<a class="page-link" href="hotel?keyword=${keyword}&page=${i}"><c:out value="${i+1}"/></a>
+						<a class="page-link" href="hotel?keyword=${keyword}&page=${i}"><c:out value="${i}"/></a>
 					</li>
 				</c:if>
 			</c:forEach>

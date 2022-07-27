@@ -5,30 +5,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import kg.groupc.project.dto.hotel.HotelDetailFormDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.HotelScore;
 import kg.groupc.project.entity.hotel.Room;
-import kg.groupc.project.repository.account.AccountRepository;
 import kg.groupc.project.repository.hotel.HotelRepository;
-import kg.groupc.project.repository.hotel.HotelScoreRepository;
 import kg.groupc.project.repository.hotel.RoomRepository;
 import kg.groupc.project.service.BaseService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Service
 @RequiredArgsConstructor
+@Setter
+@Getter
 public class HotelService<T, ID extends Serializable> extends BaseService<Hotel, Long> {
 	
 	private final HotelRepository<Hotel, Long> hotelRepository;
@@ -41,22 +38,12 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 		return hotelRepository.findAll();
 	}
 	
-	@Transactional
-	public double getHotelScoreAvg(Long seq) {
-		List<HotelScore> hotelScoreList = hotelRepository.findById(seq).get().getHotelScores();
-		System.out.println(hotelScoreList.size());
-		double avg = 0.0;
-		double sum = 0.0;
-		for(HotelScore hs : hotelScoreList) {
-			sum += hs.getScore();
-		}
-		avg = sum / hotelScoreList.size();
-		System.out.println(avg);
-		System.out.println(sum);
-		return avg;
-	}
 	
 	public Long getHotelCount(String keyword){//검색해서 나오는 데이터 수로 최대 페이지 정하는 용도
+		
+		
+		
+		
 //		long count;
 //		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 //		QHotel hotel = QHotel.hotel;
@@ -79,7 +66,98 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 	}
 
 	
-	public List<HotelMainFormDto> getHotelList(String keyword, Pageable pageable){
+	public int dataCount = 0;//데이터 전체 개수 반환 용도
+	
+	@Transactional
+	public List<HotelMainFormDto> getHotelList(String keyword, int num, Pageable pageable){
+		//num = 0(검색어 조건x), 1(호텔명), 2(지역명)
+		if(num == 0 && (keyword == null || keyword == "")) {
+			Page<Hotel> hotell = hotelRepository.findByStatus(1L, pageable);//status 1인것만
+			this.setDataCount(dataCount += Long.valueOf(hotell.getTotalElements()).intValue());
+			System.out.println("데이터 개수" + Long.valueOf(hotell.getTotalElements()).intValue());
+			List<Hotel> hotelList = hotell.getContent();
+			List<HotelMainFormDto> hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
+			for(Hotel hotel : hotelList) {
+				Double sum = 0.0;
+				List<HotelScore> hotelScores = hotel.getHotelScores();
+				for(HotelScore hotelScore : hotelScores) {
+					sum += hotelScore.getScore();
+				}
+				Double avg = sum/hotelList.size();
+				HotelMainFormDto hotelMainFormDto = new HotelMainFormDto();
+				hotelMainFormDto.setSeq(hotel.getSeq());
+				hotelMainFormDto.setName(hotel.getName());
+				hotelMainFormDto.setPhone(hotel.getPhone());
+				hotelMainFormDto.setAddress(hotel.getAddress());
+				hotelMainFormDto.setDescription(hotel.getDescription());
+				hotelMainFormDto.setImg(hotel.getImg());
+				hotelMainFormDto.setAvg(avg);
+				
+				hotelMainFormDtoList.add(hotelMainFormDto);
+			}
+			
+			return hotelMainFormDtoList;
+			
+		}else if(num == 1) {//호텔명
+			Page<Hotel> hotell = hotelRepository.findByNameContainingAndStatusOrderByName(keyword, 1L, pageable);
+			this.setDataCount(dataCount += Long.valueOf(hotell.getTotalElements()).intValue());
+			List<Hotel> hotelList = hotell.getContent();
+			
+			List<HotelMainFormDto> hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
+			
+			for(Hotel hotel : hotelList) {
+				Double sum = 0.0;
+				List<HotelScore> hotelScores = hotel.getHotelScores();
+				for(HotelScore hotelScore : hotelScores) {
+					sum += hotelScore.getScore();
+				}
+				Double avg = sum/hotelList.size();
+				HotelMainFormDto hotelMainFormDto = new HotelMainFormDto();
+				hotelMainFormDto.setSeq(hotel.getSeq());
+				hotelMainFormDto.setName(hotel.getName());
+				hotelMainFormDto.setPhone(hotel.getPhone());
+				hotelMainFormDto.setAddress(hotel.getAddress());
+				hotelMainFormDto.setDescription(hotel.getDescription());
+				hotelMainFormDto.setImg(hotel.getImg());
+				hotelMainFormDto.setAvg(avg);
+				
+				hotelMainFormDtoList.add(hotelMainFormDto);
+
+			}
+			return hotelMainFormDtoList;
+			
+		}else if(num == 2) {//지역명
+			Page<Hotel> hotell = hotelRepository.findByNameContainingAndStatusOrderByName(keyword, 1L, pageable);
+			this.setDataCount(dataCount += Long.valueOf(hotell.getTotalElements()).intValue());
+			List<Hotel> hotelList = hotell.getContent();
+			
+			List<HotelMainFormDto> hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
+			for(Hotel hotel : hotelList) {
+				Double sum = 0.0;
+				List<HotelScore> hotelScores = hotel.getHotelScores();
+				for(HotelScore hotelScore : hotelScores) {
+					sum += hotelScore.getScore();
+				}
+				Double avg = sum/hotelList.size();
+				HotelMainFormDto hotelMainFormDto = new HotelMainFormDto();
+				hotelMainFormDto.setSeq(hotel.getSeq());
+				hotelMainFormDto.setName(hotel.getName());
+				hotelMainFormDto.setPhone(hotel.getPhone());
+				hotelMainFormDto.setAddress(hotel.getAddress());
+				hotelMainFormDto.setDescription(hotel.getDescription());
+				hotelMainFormDto.setImg(hotel.getImg());
+				hotelMainFormDto.setAvg(avg);
+				
+				hotelMainFormDtoList.add(hotelMainFormDto);
+			}	
+			return hotelMainFormDtoList;
+			
+		}else {//에러
+			return null;
+		}
+		
+		
+		
 		//keyword는 검색 키워드, page는 페이지 번호
 //		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 //		
@@ -125,7 +203,7 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 //	
 //		}
 		
-		return null;
+//		return null;
 	}
 	
 	//QueryDSL을 사용하기 위해선 먼저 QueryDSL이 제공하는 JPAQueryFactory 클래스의 인스턴스를 생성해야 합니다
@@ -189,8 +267,49 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 
 	}
 	
+//	@Transactional
+//	public List<HotelMainFormDto> getHotelScore(Pageable pageable) {//검색어 없는 목록 반환
+//		List<Hotel> hotelList = hotelRepository.findByStatus(1L, pageable).getContent();//status 1인것만
+//		List<HotelMainFormDto> hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
+//		
+//		for(Hotel hotel : hotelList) {
+//			Double sum = 0.0;
+//			List<HotelScore> hotelScores = hotel.getHotelScores();
+//			for(HotelScore hotelScore : hotelScores) {
+//				sum += hotelScore.getScore();
+//			}
+//			Double avg = sum/hotelList.size();
+//			HotelMainFormDto hotelMainFormDto = new HotelMainFormDto();
+//			hotelMainFormDto.setSeq(hotel.getSeq());
+//			hotelMainFormDto.setName(hotel.getName());
+//			hotelMainFormDto.setPhone(hotel.getPhone());
+//			hotelMainFormDto.setAddress(hotel.getAddress());
+//			hotelMainFormDto.setDescription(hotel.getDescription());
+//			hotelMainFormDto.setImg(hotel.getImg());
+//			hotelMainFormDto.setAvg(avg);
+//			hotelMainFormDtoList.add(hotelMainFormDto);
+//		}
+//		
+//		return hotelMainFormDtoList;
+//	}
 	
-	public final RoomRepository roomRepository;
+	
+	@Transactional
+	public double getHotelScoreAvg(Long seq) {//샘플 평균 조회, seq는 호텔id
+		List<HotelScore> hotelScoreList = hotelRepository.findById(seq).get().getHotelScores();
+		System.out.println(hotelScoreList.size());
+		double avg = 0.0;
+		double sum = 0.0;
+		for(HotelScore hs : hotelScoreList) {
+			sum += hs.getScore();
+		}
+		avg = sum / hotelScoreList.size();
+		System.out.println(avg);
+		System.out.println(sum);
+		return avg;
+	}
+	
+	public final RoomRepository<Room, Long> roomRepository;
 	
 	
 	public List<Room> getRoomList(Hotel hotel){//해당 방의 seq값으로 방 목록을 가져옵니다.

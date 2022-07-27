@@ -17,4 +17,6 @@ public class HotelScoreService<T, ID extends Serializable> extends BaseService<H
 	public HotelScore saveHotelScore(HotelScore hotelScore) {
 		return hotelScoreRepository.save(hotelScore);
 	}
+	
+	
 }
