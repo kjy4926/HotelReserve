@@ -9,6 +9,20 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<link href="${pageContext.request.contextPath}/resources/css/restaurant.css" rel="stylesheet" type="text/css">
+<style>
+	img {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+	}
+	div {
+		text-align: center;
+	}
+	table {
+		width: 100%;
+		table-layout: fixed;
+	}
+</style>
 </head>
 <body>
 	<!-- 상단메뉴 -->
@@ -81,7 +95,7 @@
 	  		<c:forEach var="menu" items="${menuList}">
 	    		<tr class="table-active">
 	      		<td><img alt="" src="<c:url value="/resources/img/menuImg/${menu.img}"/>"/></td>
-	      		<td>${menu.name}</td>
+	      		<td><a href="<c:url value="/restaurant/menu/${menu.seq}"/>">${menu.name}</a></td>
 	      		<td>${menu.price}</td>
 	      		<td>${menu.description}</td>
 	    		</tr>
