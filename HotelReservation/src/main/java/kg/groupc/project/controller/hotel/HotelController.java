@@ -62,7 +62,7 @@ public class HotelController extends BaseController{
 		
 		List<HotelMainFormDto> hotelMainFormDtoList = //데이터 전체 반환
 				hotelService.getHotelList(keyword, num, pageable);
-		int maxPage = HotelPageUtil.pageButtonInitialize((int)1L, pageable);
+		int maxPage = HotelPageUtil.pageButtonInitialize((int) hotelMainFormDtoList.get(1).getDataCount(), pageable);
 		
 		model.addAttribute("num", num);//검색 조건 유지
 		model.addAttribute("keyword", keyword);//페이지 이동 후에도 keyword를 유지시키기 위함

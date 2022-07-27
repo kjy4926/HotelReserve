@@ -45,10 +45,10 @@ public class HotelPageUtil {
 		
 		
 //		this.setMaxPage(data);//데이터 1개전용 코드
+		
+//		System.out.println("데이터 개수 : " + data);
+		
 		this.setMaxPage(limit);//maxPage 지정
-		
-		System.out.println("데이터 개수 : " + data);
-		
 		
 		
 		if(num >= this.getMaxPage()/buttonNum) {//다음페이지(>)로 이동용도

@@ -4,26 +4,24 @@ package kg.groupc.project.dto.hotel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
 public class HotelMainFormDto {//
 
-	public long seq;
-	public String name;
-	public String phone;
-	public String address;
-	public String description;
-	public String img;
-	public long status;
+	private long dataCount;
+	private long seq;
+	private String name;
+	private String phone;
+	private String address;
+	private String description;
+	private String img;
+	private long status;
 	
-	public double avg; //평점
-	
-	public HotelMainFormDto() {}
-
-	
+	private double avg; //평점
 }
