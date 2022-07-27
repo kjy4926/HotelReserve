@@ -115,7 +115,7 @@
 						<tr>
 					</thead>
 					<tbody>
-					<c:forEach var="hotelScore" items="${hotelScoreList}" varStatus="status" end="4">
+					<c:forEach var="hotelScore" items="${hotelScoreList}" varStatus="status" end="2">
 							<tr>
 								<td>${hotelScore.hotelName}</td>
 								<td>${hotelScore.scoreString}</td>
@@ -136,7 +136,7 @@
 						<tr>
 					</thead>
 					<tbody>
-					<c:forEach var="restaurantScore" items="${restaurantScoreList}" varStatus="status" end="4">
+					<c:forEach var="restaurantScore" items="${restaurantScoreList}" varStatus="status" end="2">
 							<tr>
 								<td>${restaurantScore.restaurantName}</td>
 								<td>${restaurantScore.scoreString}</td>
