@@ -33,7 +33,7 @@ public class Inquire extends BaseEntity<Long>{
 	private Account writer;
 	
 	// 호텔 id(외래키) -> 카테고리 호텔 문의 일 경우만 값이 입력됨(nullable)
-	@ManyToOne(optional = true, targetEntity = Hotel.class, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
 	private Hotel hotel;
 	
