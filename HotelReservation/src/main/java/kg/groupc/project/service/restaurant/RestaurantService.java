@@ -1,9 +1,7 @@
 package kg.groupc.project.service.restaurant;
 
 import java.io.File;
-
 import java.io.Serializable;
-import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +60,9 @@ public class RestaurantService<T, ID extends Serializable> extends BaseService<R
 			String originalFileName = uploadFile.getOriginalFilename();
 			String ext = FilenameUtils.getExtension(originalFileName);
 			
-			UUID uuid = UUID.randomUUID();
-			img = uuid+"."+ext;
+			//UUID uuid = UUID.randomUUID();
+			//img = uuid+"."+ext;
+			img = restaurant.getSeq()+"."+ext;
 			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\restaurantImg\\" + img));
 		}
 		restaurant.setImg(img);

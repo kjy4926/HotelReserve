@@ -30,9 +30,7 @@ img {
 	<form class="container" action="/admin/${restaurant.seq}/new" method="post" enctype="multipart/form-data">
 	  <fieldset>
 	    <legend>메뉴 등록</legend>
-	    <!--
 	    <input type="hidden" name="restaurant" value="${restaurant.seq}">
-	    -->
 	    <div class="form-group">
 	      <label for="name" class="form-label mt-4">메뉴명</label>
 	      <input type="text" class="form-control" id="name" name="name" placeholder="메뉴명을 입력하세요">
