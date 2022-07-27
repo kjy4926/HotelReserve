@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MenuAddFormDto {
 	
-	private Restaurant restaurant;
+	private Long restaurant; //restaurant의 pk값
 	private String name;
 	private Long price;
 	private String description;

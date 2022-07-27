@@ -3,11 +3,9 @@ package kg.groupc.project.service.restaurant;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +17,6 @@ import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.repository.restaurant.MenuRepository;
 import kg.groupc.project.repository.restaurant.RestaurantRepository;
 import kg.groupc.project.service.BaseService;
-import lombok.RequiredArgsConstructor;
 
 @Service
 public class MenuService <T, ID extends Serializable> extends BaseService<Menu, Long> {
@@ -30,13 +27,13 @@ public class MenuService <T, ID extends Serializable> extends BaseService<Menu, 
 	@Autowired
 	private RestaurantRepository<Restaurant, Long> restaurantRepository;
 	
-	public Menu create(MenuAddFormDto menuAddFormDto, MultipartFile file) throws Exception {
-		
+	// 메뉴 등록
+	public Menu create(MenuAddFormDto menuAddFormDto, MultipartFile file, String path) throws Exception {
 		//Restaurant restaurant_id = restaurantRepository.findById(restaurant).get();
-		Restaurant restaurant = restaurantRepository.findBySeq(menuAddFormDto.getRestaurant().getSeq());
-		System.out.println("입력되었음");
+		System.out.println("uloki"+menuAddFormDto.getRestaurant());
+		Restaurant restaurant = restaurantRepository.findBySeq(menuAddFormDto.getRestaurant());
+		//Restaurant restaurant = restaurantRepository.findBySeq(menuAddFormDto.getRestaurant().getSeq());
 		Menu menu = Menu.createMenu(menuAddFormDto, restaurant);
-		
 		String img = null;
 		MultipartFile uploadFile = menuAddFormDto.getUploadFile();
 		if(!uploadFile.isEmpty()) {
@@ -45,7 +42,7 @@ public class MenuService <T, ID extends Serializable> extends BaseService<Menu, 
 			
 			UUID uuid = UUID.randomUUID();
 			img = uuid+"."+ext;
-			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\menuImg\\" + img));
+			uploadFile.transferTo(new File(path + img));
 		}
 		menu.setImg(img);
 		
@@ -54,11 +51,37 @@ public class MenuService <T, ID extends Serializable> extends BaseService<Menu, 
 	
 	// 메뉴 리스트
 	@Transactional(readOnly = true)
+	public List<Menu> menuList(Long restaurant) {
+		return menuRepository.findByRestaurant(restaurant);
+	}
+	
+	// 메뉴 상세보기
+	@Transactional(readOnly = true)
+	public Menu findMenu(Long seq) {
+		return menuRepository.findById(seq).orElse(null);
+	}
+	
+	// 메뉴 삭제
+	public Menu delete(Long seq) {
+		Menu menu = menuRepository.findById(seq).orElse(null);
+		
+		if(menu == null) {
+			return null;
+		}
+		
+		menuRepository.delete(menu);
+		return menu;
+		
+	}
+		
+	/*
+	// 메뉴 리스트 - 수정 전
+	@Transactional(readOnly = true)
 	public List<Menu> findAll() {
 		return menuRepository.findAll();
 	}
 	
-	/*
+	
 	@Transactional
 	public Menu create(MenuAddFormDto menuAddFormDto, MultipartFile file) throws Exception {
 		

@@ -51,7 +51,7 @@ public class Inquire extends BaseEntity<Long>{
 	// 카테고리
 	@Column(nullable = false)
 	private String category;
-
+	
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private Long status;
 	
