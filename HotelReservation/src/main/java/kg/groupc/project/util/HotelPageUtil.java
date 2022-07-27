@@ -40,7 +40,7 @@ public class HotelPageUtil {
 		if(data % dataNum == 0) {
 			limit = data/dataNum;//마지막 데이터 개수가 0으로 끝나면 끝
 		}else {
-			limit = data/dataNum + 1;//마지막 데이터 개수가 0으로 안끝나면 한페이지 더 만들기
+			limit = data/dataNum + 1;//마지막 데이터 개수가 0으로 안끝나면 maxPage하나 더 추가
 		}
 		
 		
@@ -82,5 +82,5 @@ public class HotelPageUtil {
 			}
 		}
 		return this.getMaxPage();
-	};
+	}
 }
