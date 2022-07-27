@@ -12,16 +12,17 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
-		.title{vertical-align: middle;}
-		.img-field{display:table-cell; vertical-align:middle; overflow: hidden; }
-		.review-img{max-width: 600px; max-height: 600px;}
+ 		.title{vertical-align: middle;}
+		.img-field{display: flex; justify-content: center; align-items: center; height: 100%}
+		.review-img{width: 100%;}
 		.button-area{float: right;}
 		.table{table-layout: fixed;}
 	</style>
 </head>
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import><br>
-	<div class="review container">
+	
+	<div class="container">
 		<fieldset class="form-group">
 			<legend>리뷰 작성</legend>
 			<form method="post">
@@ -32,12 +33,12 @@
 				      <th>Input</th>
 				    </tr>
 				  </thead>
-				  <tbody class="form-controll">
+				  <tbody>
 				    <tr>
-				      <th scope="row" rowspan="6" class="img-field">
-				      	<div style="text-align: center;">
+				      <th scope="row" rowspan="4" style="height: 0px">
+				      	<div class="img-field">
 				      		<c:if test="${type eq 'hotel'}">
-				      			<img class="review-img" src="${pageContext.request.contextPath}/resources/img/hotel/${img}" alt="review-target-image" id="image">
+				      			<img class="review-img" src="${pageContext.request.contextPath}/resources/img/hotel/${img}" alt="review-target-image" id="image" style="vertical-align: middle;">
 				      		</c:if>
 				      		<c:if test="${type eq 'restaurant'}">
 				      			<img class="review-img" src="${pageContext.request.contextPath}/resources/img/restaurantImg/${img}" alt="review-target-image" id="image">
@@ -63,7 +64,7 @@
 				    	<th class="title">리뷰 내용</th>
 				    </tr>
 				    <tr>
-				    	<td rowspan="3"><textarea class="form-control" id="reviewDesc" name="reviewDesc" rows="15"></textarea></td>
+				    	<td><textarea class="form-control" id="reviewDesc" name="reviewDesc" rows="16"></textarea></td>
 				    </tr>
 				  </tbody>
 				</table>
