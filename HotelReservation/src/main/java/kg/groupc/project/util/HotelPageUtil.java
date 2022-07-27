@@ -16,12 +16,12 @@ public class HotelPageUtil {
 	@Autowired
 	HotelService hotelService;
 	
-	int prevPage;//이전 10개 페이지(<), 9로 끝남, 클릭하면 9로 끝나는 페이지로 이동
-	int firstPage;//처음 페이지(<<), 클릭하면 첫페이지로 이동
+	int prevPage; //이전 10개 페이지(<), 9로 끝남, 클릭하면 9로 끝나는 페이지로 이동
+	int firstPage; //처음 페이지(<<), 클릭하면 첫페이지로 이동
 	
-	int nextPage;//다음페이지(>), 0으로 끝남, 클릭하면 0으로 끝나는 페이지로 이동
-	int maxPage;//마지막 페이지(>>), 첫 페이지가 0부터 시작한다는걸 감안하고 계산
-	//현재페이지를 10으로 나눈 몫이 마지막 페이지를 10으로 나눈 몫과 같거나 크면 비활성화 
+	int nextPage; //다음페이지(>), 0으로 끝남, 클릭하면 0으로 끝나는 페이지로 이동
+	int maxPage; //마지막 페이지(>>), 첫 페이지가 0부터 시작한다는걸 감안하고 계산
+		//현재페이지를 10으로 나눈 몫이 마지막 페이지를 10으로 나눈 몫과 같거나 크면 비활성화 
 	
 	int startPage;//c:forEach안의 시작값
 	int lastPage;//c:forEach안의 끝값
@@ -67,12 +67,8 @@ public class HotelPageUtil {
 				this.setLastPage(this.getMaxPage());
 			}else {
 				this.setLastPage(num * 10 + 9);
-			}
-			
-		}
-		
-		
-		
+			}			
+		}		
 		return this.getMaxPage();
 	};
 	

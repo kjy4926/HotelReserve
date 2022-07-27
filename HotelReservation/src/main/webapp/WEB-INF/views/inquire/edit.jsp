@@ -1,14 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>문의 작성</title>
-<link rel="icon" href="resources/img/hotel.png">
 
+<meta charset="UTF-8">
+<title>문의 수정</title>
+<link rel="icon" href="/img/hotel.png">
 <!-- include css -->
    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -44,7 +45,7 @@
 
 <%-- 제목 --%>
 	<div class="common-iuTop--title" style="font-size: 30px; color:#F4B7B4">
-		문의 작성
+		문의 수정
 	</div>
 	<br><br>
 
@@ -79,31 +80,14 @@
                         </div>
                     </td>
                 </tr>
-                
-				<%-- 작성자 --%>
-				<tr class="common-tbl__item">
-                    <td style="width: 170px" align="center">
-                        name
-                    </td>
-                    <td>
-                        <input  name="writer" class="form-control" placeholder="이름 입력" style="width: 100px" type="text"/>
-                    </td>
-                </tr>
-                <tr class="common-tbl__item">
-                    <td style="width: 170px" align="center">
-                        Date
-                    </td>
-                    <td>
-                        <input  name="day" class="form-control" placeholder="날짜 입력" style="width: 200px" type="text"/>
-                    </td>
-                </tr>
+
                 <%-- 제목 : text --%>
                 <tr class="common-tbl__item">
                     <td style="width: 170px" align="center">
                         title
                     </td>
                     <td>
-                        <input  name="title" class="form-control" placeholder="제목 입력" style="width: 600px" type="text"/>
+                        <input  name="title" class="form-control" style="width: 600px" type="text"/>
                     </td>
                 </tr>
 
@@ -113,21 +97,20 @@
                         Description
                     </td>
                     <td>
-                        <textarea class="form-control" name="description" placeholder="무엇을 도와드릴까요?" rows="30" cols="84"></textarea>
+                        <textarea class="form-control" name="description" rows="30" cols="84"></textarea>
                     </td>
                 </tr>
             </table>
 			<br>
 			<%-- 등록 버튼 --%>
             <div id="reviewIU-container--bottom" align="center">
-            	<button type="button" class="invisible"> 목록으로 </button>
+            	<button type="button" class="invisible">목록으로</button>
             	&nbsp
 				<button type="submit" onclick="uploadCanvasData(save);" id="inquire-btn-submit"
-                        class="btn btn-danger"> 작성</button>
+                        class="btn btn-danger"> 수정</button>
 				&nbsp
-				<button type="button" onclick="location.href='/inquire'" class="btn btn-success"> 목록으로 </button>
+				<button type="button" onclick="location.href='/inquire'" class="btn btn-success">목록으로</button>
             </div>
-            
         </form>
 	</div>
 	 <br><br>
