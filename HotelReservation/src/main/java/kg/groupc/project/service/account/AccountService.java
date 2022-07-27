@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,18 +23,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
-import com.querydsl.jpa.impl.JPAQuery;
-
 import kg.groupc.project.dto.account.BookingDto;
+import kg.groupc.project.dto.account.HotelScoreDto;
 import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
+import kg.groupc.project.dto.account.RestaurantScoreDto;
 import kg.groupc.project.dto.account.StarsDto;
 import kg.groupc.project.entity.account.Account;
-import kg.groupc.project.entity.account.QAccount;
 import kg.groupc.project.entity.hotel.Booking;
-import kg.groupc.project.entity.hotel.QBooking;
+import kg.groupc.project.entity.hotel.Hotel;
+import kg.groupc.project.entity.hotel.HotelScore;
 import kg.groupc.project.entity.hotel.Room;
 import kg.groupc.project.entity.restaurant.Restaurant;
+import kg.groupc.project.entity.restaurant.RestaurantScore;
 import kg.groupc.project.entity.restaurant.Stars;
 import kg.groupc.project.repository.account.AccountRepository;
 import kg.groupc.project.service.BaseService;
@@ -47,10 +48,16 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 	private final AccountRepository<Account, Long> accountRepository;
 	private final PasswordEncoder passwordEncoder;
 	
-	//test method
-	public List<Account> getThreeAccounts(){
-		Pageable limit = PageRequest.of(0, 3);
-		return accountRepository.findAll(limit).getContent();
+	private Map<Long, String> getScoreMap(){
+		Map<Long, String> scoreMap = new HashMap<>();
+		scoreMap.put(0L, "☆☆☆☆☆");
+		scoreMap.put(1L, "★☆☆☆☆");
+		scoreMap.put(2L, "★★☆☆☆");
+		scoreMap.put(3L, "★★★☆☆");
+		scoreMap.put(4L, "★★★★☆");
+		scoreMap.put(5L, "★★★★★");
+		
+		return scoreMap;
 	}
 	
 	public Account getAccountById(String userId) {
@@ -93,6 +100,7 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 		}
 		return false;
 	}
+	
 	@Transactional
 	public List<ArrayList<BookingDto>> getBookingList(String userId){
 		Date today = Date.valueOf(LocalDate.now());
@@ -105,10 +113,11 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			BookingDto bookingDto = new BookingDto();
 			Room room = booking.getRoom();
 			String roomName = room.getName();
-			String hotelName = room.getHotel().getName();
+			Hotel hotel = room.getHotel();
 			
 			bookingDto.setSeq(booking.getSeq());
-			bookingDto.setHotel(hotelName);
+			bookingDto.setHotelSeq(hotel.getSeq());
+			bookingDto.setHotel(hotel.getName());
 			bookingDto.setRoom(roomName);
 			bookingDto.setReserver(booking.getReserver().getUserId());
 			bookingDto.setReserveDate(booking.getReserveDate());
@@ -144,7 +153,51 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 		}
 		return starsDtoList;
 	}
-
+	
+	@Transactional
+	public List<HotelScoreDto> getHotelScoreList(String userId){
+		Map<Long, String> scoreMap = getScoreMap();
+		List<HotelScore> hotelScoreList = accountRepository.findByUserId(userId).getHotelScores();
+		List<HotelScoreDto> hotelScoreDtoList = new ArrayList<>();
+		for(HotelScore hotelScore : hotelScoreList) {
+			HotelScoreDto hotelScoreDto = new HotelScoreDto();
+			Hotel hotel = hotelScore.getHotel();
+			
+			hotelScoreDto.setSeq(hotelScore.getSeq());
+			hotelScoreDto.setHotelSeq(hotel.getSeq());
+			hotelScoreDto.setHotelName(hotel.getName());
+			hotelScoreDto.setScore(hotelScore.getScore());
+			hotelScoreDto.setScoreString(scoreMap.get(hotelScore.getScore()));
+			hotelScoreDto.setDesc(hotelScore.getDescription().replace("\n", "<br>"));
+			hotelScoreDto.setWriter(hotelScore.getWriter().getName());
+			hotelScoreDto.setDay(hotelScore.getDay());
+			hotelScoreDtoList.add(hotelScoreDto);
+		}
+		return hotelScoreDtoList;
+	}
+	
+	@Transactional
+	public List<RestaurantScoreDto> getRestaurantScoreList(String userId){
+		Map<Long, String> scoreMap = getScoreMap();
+		List<RestaurantScore> restaurantScoreList = accountRepository.findByUserId(userId).getRestaurantScores();
+		List<RestaurantScoreDto> restaurantScoreDtoList = new ArrayList<>();
+		for(RestaurantScore restaurantScore : restaurantScoreList) {
+			RestaurantScoreDto restaurantScoreDto = new RestaurantScoreDto();
+			Restaurant restaurant = restaurantScore.getRestaurant();
+			
+			restaurantScoreDto.setSeq(restaurantScore.getSeq());
+			restaurantScoreDto.setRestaurantSeq(restaurant.getSeq());
+			restaurantScoreDto.setRestaurantName(restaurant.getName());
+			restaurantScoreDto.setScore(restaurantScore.getScore());
+			restaurantScoreDto.setScoreString(scoreMap.get(restaurantScore.getScore()));
+			restaurantScoreDto.setDesc(restaurantScore.getDescription().replace("\n", "<br>"));
+			restaurantScoreDto.setWriter(restaurantScore.getWriter().getName());
+			restaurantScoreDto.setDay(restaurantScore.getDay());
+			restaurantScoreDtoList.add(restaurantScoreDto);
+		}
+		return restaurantScoreDtoList;
+	}
+	
 	public boolean idDuplicateCheck(String userId) {
 		Account account = accountRepository.findByUserId(userId);
 		if(account == null) 

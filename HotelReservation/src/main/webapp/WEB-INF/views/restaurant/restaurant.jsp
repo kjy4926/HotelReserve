@@ -9,6 +9,7 @@
 	<title>맛집 리스트</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/restaurant.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/restaurant.css" rel="stylesheet" type="text/css">
 <style>
 	img {
@@ -29,10 +30,27 @@
 	<!-- 상단메뉴 -->
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
-    <!--배경사진-->
-    	<div class="image-box">
-    		<img class="image-banner" src="${pageContext.request.contextPath}/resources/img/default.png">
-    	</div>
+    <!-- 배너 -->
+	<div class="banner-container">
+  		<div class="banner">
+    	<div data-index=1></div>
+    	<div data-index=2></div>
+    	<div data-index=3></div>
+    	<div data-index=4></div>
+  	</div>
+	</div>
+	<div class="list-button">
+  		<span class="list-button-item active"></span> 
+  		<span class="list-button-item"></span> 
+  		<span class="list-button-item"></span> 
+  		<span class="list-button-item"></span> 
+	</div>
+    
+    <!--
+    <div class="image-box">
+    	<img class="image-banner" src="${pageContext.request.contextPath}/resources/img/default.png">
+    </div>
+    -->
 		  	
     <form action="/restaurant" class="form-inline d-flex justify-content-center" method="GET">
 		<div class="form-group">
@@ -46,6 +64,7 @@
       		<button class="btn btn-primary" type="submit">검색</button>
     	</div>
 	</form>
+	<a class="btn btn-primary" href="/admin/restaurant/new">맛집 등록</a>
 
     <!-- 맛집 목록 -->
 	<table class="table table-hover">
@@ -61,7 +80,7 @@
 	  		<c:forEach var="restaurant" items="${pageList.content}">
 	    		<tr class="table-active">
 	      		<td><img alt="" src="<c:url value="/resources/img/restaurantImg/${restaurant.img}"/>"/></td>
-	      		<td><a href="<c:url value="/restaurant/restaurantDetail/${restaurant.seq}"/>">${restaurant.name}</a></td>
+	      		<td><a href="<c:url value="/restaurant/${restaurant.seq}"/>">${restaurant.name}</a></td>
 	      		<td>${restaurant.address}</td>
 	      		<td>${restaurant.phone}</td>
 	    		</tr>

@@ -88,7 +88,7 @@
 								<td>${pbooking.reserver}</td>
 								<td>${pbooking.reserveDate}</td>
 								<td>${pbooking.reserveEndDate}</td>
-								<td class="review-btn-field"><a class="text-muted" href="${pageContext.request.contextPath}/mypage/review/hotel/write/${pbooking.seq}">리뷰 작성</a></td>
+								<td class="review-btn-field"><a class="text-muted" href="${pageContext.request.contextPath}/mypage/review/hotel/write/${pbooking.hotelSeq}">리뷰 작성</a></td>
 							</tr>
 					</c:forEach>
 					</tbody>
@@ -105,7 +105,48 @@
 		    </h2>
 		    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="">
 		      <div class="accordion-body">
-		        <strong>Three</strong>
+		        <table class="table">
+		        	<thead>
+						<tr>
+							<th style="width: 20%">호텔명</th>
+							<th style="width: 10%">별점</th>
+							<th style="width: 50%">내용</th>
+							<th style="width: 20%">작성일</th>
+						<tr>
+					</thead>
+					<tbody>
+					<c:forEach var="hotelScore" items="${hotelScoreList}" varStatus="status" end="4">
+							<tr>
+								<td>${hotelScore.hotelName}</td>
+								<td>${hotelScore.scoreString}</td>
+								<td>${hotelScore.desc}</td>
+								<td>${hotelScore.day}</td>
+							</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
+				<table class="table">
+		        	<thead>
+						<tr>
+							<th style="width: 20%">점포명</th>
+							<th style="width: 10%">별점</th>
+							<th style="width: 50%">내용</th>
+							<th style="width: 20%">작성일</th>
+						<tr>
+					</thead>
+					<tbody>
+					<c:forEach var="restaurantScore" items="${restaurantScoreList}" varStatus="status" end="4">
+							<tr>
+								<td>${restaurantScore.restaurantName}</td>
+								<td>${restaurantScore.scoreString}</td>
+								<td>${restaurantScore.desc}</td>
+								<td>${restaurantScore.day}</td>
+							</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>

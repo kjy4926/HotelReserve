@@ -1,6 +1,7 @@
 package kg.groupc.project.service.restaurant;
 
 import java.io.File;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -22,7 +23,11 @@ public class RestaurantService<T, ID extends Serializable> extends BaseService<R
 	
 	@Autowired
 	private RestaurantRepository<Restaurant, Long> restaurantRepository;
-		
+	
+	public Restaurant getRestaurantBySeq(Long seq) {
+		return restaurantRepository.findById(seq).get();
+	}
+	
 	// 맛집 전체 리스트 + 페이징
 	@Transactional(readOnly = true)
 	public Page<Restaurant> findAll(Pageable pageable) {
@@ -47,8 +52,70 @@ public class RestaurantService<T, ID extends Serializable> extends BaseService<R
 	}
 	
 	// 맛집 등록(관리자)
-//	public Restaurant create(RestaurantAddFormDto restaurantAddFormDto, MultipartFile file) throws Exception {
-//		Restaurant restaurant = restaurantAddFormDto.toRestaurant();
+	public Restaurant create(RestaurantAddFormDto restaurantAddFormDto, 
+			MultipartFile file) throws Exception {
+		Restaurant restaurant = restaurantAddFormDto.toEntity();
+		
+		String img = null;
+		MultipartFile uploadFile = restaurantAddFormDto.getUploadFile();
+		if(!uploadFile.isEmpty()) {
+			String originalFileName = uploadFile.getOriginalFilename();
+			String ext = FilenameUtils.getExtension(originalFileName);
+			
+			UUID uuid = UUID.randomUUID();
+			img = uuid+"."+ext;
+			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\restaurantImg\\" + img));
+		}
+		restaurant.setImg(img);
+		
+		return restaurantRepository.save(restaurant);
+	}
+	
+	// 맛집 수정(관리자)
+	@Transactional
+	public Restaurant edit(Long seq, RestaurantAddFormDto restaurantAddFormDto) {
+		Restaurant restaurant = restaurantAddFormDto.toEntity();
+		Restaurant target = restaurantRepository.findById(seq).orElse(null);
+		if(target==null) {
+			return null;
+		}
+		
+		target.patch(restaurant);
+		return restaurantRepository.save(target);
+	}
+	
+	// 맛집 삭제(관리자)
+	public Restaurant delete(Long seq) {
+		Restaurant restaurant = restaurantRepository.findById(seq).orElse(null);
+		
+		if(restaurant==null) {
+			return null;
+		}
+		
+		restaurantRepository.delete(restaurant);
+		return restaurant;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+//		String projectPath = System.getProperty("user.dir") + "\\src\\main\\webapp\\resources\\img\\\\restaurantImg\\";
+//		UUID uuid = UUID.randomUUID();
+//		String fileName = uuid + "_" + file.getOriginalFilename();
+//		File saveFile = new File(projectPath, fileName);
+//		file.transferTo(saveFile);
+//		
+//		restaurant.setImg(fileName);
+//		
+//		return restaurantRepository.save(restaurant);
+//	}
 //		
 //		String img = null;
 //		MultipartFile uploadFile = restaurantAddFormDto.getUploadFile();
@@ -60,23 +127,24 @@ public class RestaurantService<T, ID extends Serializable> extends BaseService<R
 //			img = uuid+"."+ext;
 //			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\restaurantImg\\" + img));
 //		}
-//		restaurant.setImg(img);
+//		restaurantAddFormDto.setImg(img);
 //		
 //		return restaurantRepository.save(restaurant);
 //	}
 	
-//	//맛집 수정(관리자)
-//	public Restaurant edit(Long seq, RestaurantAddFormDto restaurantAddFormDto) {
-//		Restaurant restaurant = restaurantAddFormDto.toRestaurant();
-//		Restaurant target = restaurantRepository.findById(seq).orElse(null);
-//		
-//		if(target==null) {
-//			return null;
-//		}
-//		
-//		target.patch(restaurant);
-//		return restaurantRepository.save(target);
-//	}
+	/*
+	//맛집 수정(관리자)
+	public Restaurant edit(Long seq, RestaurantAddFormDto restaurantAddFormDto) {
+		Restaurant restaurant = restaurantAddFormDto.toRestaurant();
+		Restaurant target = restaurantRepository.findById(seq).orElse(null);
+		
+		if(target==null) {
+			return null;
+		}
+		
+		target.patch(restaurant);
+		return restaurantRepository.save(target);
+	}
 	
 	//맛집 삭제(관리자)
 	public Restaurant delete(Long seq) {
@@ -89,4 +157,5 @@ public class RestaurantService<T, ID extends Serializable> extends BaseService<R
 		restaurantRepository.delete(restaurant);
 		return restaurant;
 	}
+	*/
 }
