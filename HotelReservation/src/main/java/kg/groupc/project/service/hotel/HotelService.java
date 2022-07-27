@@ -39,7 +39,7 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 	}
 	
 	
-	public long dataCount;//데이터 전체 개수 반환 용도
+	private long dataCount;//데이터 전체 개수 반환 용도
 	
 	@Transactional
 	public List<HotelMainFormDto> getHotelList(String keyword, int num, Pageable pageable){
