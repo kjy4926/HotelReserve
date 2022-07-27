@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,6 +60,20 @@ public class MenuController {
 		return "redirect:/restaurant";
 	}
 	
+	// 메뉴 수정 : 7.27 저녁 이후
+	@GetMapping("/restaurant/menu/update/{seq}")
+	public String updateMenuPage(@PathVariable("seq") Long seq, Model model) {
+		Menu menu = menuService.findMenu(seq);
+		model.addAttribute("menu", menu);
+		return "/restaurant/menuUpdate";
+	}
+	
+	@PostMapping("/restaurant/menu/update")
+	public String editMenu(Long seq, MenuAddFormDto menuAddFormDto, Menu menu) {
+		menuService.edit(seq, menuAddFormDto);
+		
+		return "redirect:/restaurant/menu/" + menu.getSeq();
+	}
 	
 	/*
 	@GetMapping("/restaurant/{seq}")
@@ -113,25 +128,4 @@ public class MenuController {
 		return ResponseEntity.status(HttpStatus.OK).body(createDto);
 	}
 	*/
-	
-	
-	
-	
-	
-	
-	/*
-	// 메뉴 등록
-	@RequestMapping(value="/admin/{seq}/new", method=RequestMethod.GET)
-	public String newMenuPage() {
-		return "/restaurant/menuAdd";
-	}
-	
-	@RequestMapping(value="/admin/{seq}/new", method=RequestMethod.POST)
-	public String createMenu(MenuAddFormDto menuAddFormDto, @RequestParam("uploadFile") MultipartFile img) throws Exception {
-		menuService.create(menuAddFormDto, img);
-		
-		return "redirect:/restaurant";
-	}
-	*/
-
 }

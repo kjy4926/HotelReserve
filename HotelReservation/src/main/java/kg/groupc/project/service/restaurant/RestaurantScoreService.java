@@ -9,5 +9,6 @@ import kg.groupc.project.service.BaseService;
 
 @Service
 public class RestaurantScoreService<T, ID extends Serializable> extends BaseService<RestaurantScore, Long> {
-
+	
+	
 }
