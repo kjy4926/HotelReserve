@@ -71,7 +71,19 @@ public class MenuService <T, ID extends Serializable> extends BaseService<Menu, 
 		
 		menuRepository.delete(menu);
 		return menu;
+	}
+	
+	// 메뉴 수정 : 7.27 저녁
+	public Menu edit(Long seq, MenuAddFormDto menuAddFormDto) {
+		Restaurant restaurant = restaurantRepository.findBySeq(menuAddFormDto.getRestaurant());
+		Menu menu = Menu.createMenu(menuAddFormDto, restaurant);
+		Menu target = menuRepository.findById(seq).orElse(null);
+		if(target==null) {
+			return null;
+		}
 		
+		target.patch(menu);
+		return menuRepository.save(target);	
 	}
 		
 	/*
@@ -79,79 +91,6 @@ public class MenuService <T, ID extends Serializable> extends BaseService<Menu, 
 	@Transactional(readOnly = true)
 	public List<Menu> findAll() {
 		return menuRepository.findAll();
-	}
-	
-	
-	@Transactional
-	public Menu create(MenuAddFormDto menuAddFormDto, MultipartFile file) throws Exception {
-		
-		//Restaurant restaurant_id = restaurantRepository.findById(restaurant).get();
-		Restaurant restaurant_id = restaurantRepository.findBySeq(menuAddFormDto.getRestaurant());
-		Menu menu = Menu.createMenu(menuAddFormDto, restaurant_id);
-		
-		String img = null;
-		MultipartFile uploadFile = menuAddFormDto.getUploadFile();
-		if(!uploadFile.isEmpty()) {
-			String originalFileName = uploadFile.getOriginalFilename();
-			String ext = FilenameUtils.getExtension(originalFileName);
-			
-			UUID uuid = UUID.randomUUID();
-			img = uuid+"."+ext;
-			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\menuImg\\" + img));
-		}
-		menu.setImg(img);
-		
-		return menuRepository.save(menu);
-	}
-	
-	/*
-	@Transactional
-	public MenuAddFormDto create(Long seq, MenuAddFormDto menuAddFormDto, MultipartFile file) throws Exception {
-		
-		//Restaurant restaurant_id = restaurantRepository.findById(restaurant).get();
-		Restaurant restaurant = restaurantRepository.findBySeq(seq);
-		Menu menu = Menu.createMenu(menuAddFormDto, restaurant);
-		
-		String img = null;
-		MultipartFile uploadFile = null;
-		if(!uploadFile.isEmpty()) {
-			String originalFileName = uploadFile.getOriginalFilename();
-			String ext = FilenameUtils.getExtension(originalFileName);
-			
-			UUID uuid = UUID.randomUUID();
-			img = uuid+"."+ext;
-			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\menuImg\\" + img));
-		}
-		menu.setImg(img);
-		Menu created = menuRepository.save(menu);
-		
-		return MenuAddFormDto.createMenuAddFormDto(created);
-	}
-	*/
-	
-	/*
-	// 메뉴 등록(관리자)
-	@Transactional
-	public MenuAddFormDto create(Long restaurant, MenuAddFormDto menuAddFormDto, MultipartFile file) throws Exception {
-		
-		//Restaurant restaurant_id = restaurantRepository.findById(restaurant).get();
-		Restaurant restaurant_id = restaurantRepository.findBySeq(
-		
-		Menu menu = Menu.createMenu(menuAddFormDto, restaurant_id);
-		String img = null;
-		MultipartFile uploadFile = null;
-		if(!uploadFile.isEmpty()) {
-			String originalFileName = uploadFile.getOriginalFilename();
-			String ext = FilenameUtils.getExtension(originalFileName);
-			
-			UUID uuid = UUID.randomUUID();
-			img = uuid+"."+ext;
-			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\menuImg\\" + img));
-		}
-		menu.setImg(img);
-		Menu created = menuRepository.save(menu);
-		
-		return MenuAddFormDto.createMenuAddFormDto(created);
 	}
 	*/
 }

@@ -60,4 +60,22 @@ public class Menu extends BaseEntity<Long>{
 		
 		return menu;
 	}
+	
+	public void patch(Menu menu) {
+		if (menu.restaurant != null) {
+			this.restaurant = menu.restaurant;
+		}
+		if (menu.name != null) {
+			this.name = menu.name;
+		}
+		if (menu.price != null) {
+			this.price = menu.price;
+		}
+		if (menu.description != null) {
+			this.description = menu.description;
+		}
+		if (menu.img != null) {
+			this.img = menu.img;
+		}
+	}
 }
