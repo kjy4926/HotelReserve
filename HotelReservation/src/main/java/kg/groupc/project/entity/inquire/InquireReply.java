@@ -5,17 +5,14 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
@@ -43,4 +40,14 @@ public class InquireReply extends BaseEntity<Long>{
 	// 작성일
 	@Column(nullable = false)
 	private Date day;
+	
+	@Builder
+	public InquireReply(Inquire inquire, Account admin, String title, String description, Date day) {
+		this.inquire = inquire;
+		this.admin = admin;
+		this.title = title;
+		this.description = description;
+		this.day = day;		
+	}
+	
 }

@@ -13,7 +13,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
 		.title{vertical-align: middle;}
-		.img-field{display:table-cell; vertical-align:middle;}
+		.img-field{display:table-cell; vertical-align:middle; overflow: hidden; }
 		.review-img{max-width: 600px; max-height: 600px;}
 		.button-area{float: right;}
 		.table{table-layout: fixed;}
@@ -40,7 +40,7 @@
 				      			<img class="review-img" src="${pageContext.request.contextPath}/resources/img/hotel/${img}" alt="review-target-image" id="image">
 				      		</c:if>
 				      		<c:if test="${type eq 'restaurant'}">
-				      			<img class="review-img" src="${pageContext.request.contextPath}/resources/img/room/${img}" alt="review-target-image" id="image">
+				      			<img class="review-img" src="${pageContext.request.contextPath}/resources/img/restaurantImg/${img}" alt="review-target-image" id="image">
 				      		</c:if>
 				      	</div>
 				      </th>

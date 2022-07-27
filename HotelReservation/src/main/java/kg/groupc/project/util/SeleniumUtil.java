@@ -77,7 +77,7 @@ public class SeleniumUtil {
 			
 			try {	
 				driver.get(url);
-				Thread.sleep(5000); // 페이지 로딩 대기
+				Thread.sleep(10000); // 페이지 로딩 대기
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -99,7 +99,7 @@ public class SeleniumUtil {
 				// 호텔 세부정보 가져오기
 				try {
 					driver2.get(hdetailLink);
-					Thread.sleep(5000); // 페이지 로딩 대기
+					Thread.sleep(8000); // 페이지 로딩 대기
 					List<WebElement> roomName = driver2.findElements(By.className("hlkvoo"));
 					List<WebElement> priceField = driver2.findElements(By.className("iQUJmh"));
 					List<WebElement> peopleAndDescField = driver2.findElements(By.className("bmxinM"));
