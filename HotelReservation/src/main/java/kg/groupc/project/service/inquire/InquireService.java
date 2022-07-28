@@ -1,6 +1,11 @@
 package kg.groupc.project.service.inquire;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,8 +13,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import kg.groupc.project.dto.inquire.InquireWriteForm;
 import kg.groupc.project.entity.account.Account;
+import kg.groupc.project.entity.hotel.Booking;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.inquire.Inquire;
 import kg.groupc.project.repository.inquire.InquireRepository;
@@ -22,6 +32,19 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 
 	@Autowired
 	private InquireRepository<Inquire, Long> inquireRepository;
+	
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("kg.groupc.project");
+	EntityManager em = emf.createEntityManager();
+	JPAQueryFactory jpaQF = new JPAQueryFactory(em);
+	
+	Hotel hotel = new Hotel();
+	Booking booking = new Booking();
+	Account account = new Account();
+	@SuppressWarnings("unchecked")
+	JPAQuery<Hotel> query = jpaQF.selectFrom((EntityPath<Account>) account)
+			.where(account.getSeq).eq(booking.getReserver())
+			.groupBy(hotel.getName());
+	List<Hotel> inqlist = query.fetch();
 
 	// 문의 전체 리스트
 	@Transactional(readOnly = true)
@@ -64,9 +87,7 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 		inquireRepository.delete(inquire);
 		return inquire;
 	}
-<<<<<<< Updated upstream
-}
-=======
+
 	
 	// 문의 수정
 	@Transactional
@@ -78,6 +99,6 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 		}
 		return inquireRepository.save(target);
 	}
-	
 }
->>>>>>> Stashed changes
+	
+

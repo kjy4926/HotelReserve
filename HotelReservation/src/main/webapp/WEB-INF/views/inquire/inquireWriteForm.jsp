@@ -68,36 +68,21 @@
                             <option value="guituar"> 기타 </option>
                         </select>
                         
-                        <c:if test="${category eq 'hotel'}">
+                        <!--  display:none; -->
 							<select name="hotelCode" class="form-select" style="width:200px;height:40px;">
 	                        	<%-- 호텔코드 선택하는 메뉴 출력--%>
 	                        	<option selected disabled> hotelcode 선택 </option>
-	                        	<option value="${hotel.code}">${hotel.code}</option>
-	                            <option value="${hotel.code}">${hotel.code}</option>
+	                        	<option value="${hotel.code}1">${hotel.name}ah</option>
+	                            <option value="${hotel.code}2">${hotel.name}bh</option>
+	                            <option value="3">ah</option>
+	                            <option value="4">bh</option>
+	                            
 	                        </select>
-                        </c:if>
                         </div>
                     </td>
                 </tr>
                 
-				<%-- 작성자 --%>
-				<tr class="common-tbl__item">
-                    <td style="width: 170px" align="center">
-                        name
-                    </td>
-                    <td>
-                        <input  name="writer" class="form-control" placeholder="이름 입력" style="width: 100px" type="text"/>
-                    </td>
-                </tr>
-                <tr class="common-tbl__item">
-                    <td style="width: 170px" align="center">
-                        Date
-                    </td>
-                    <td>
-                        <input  name="day" class="form-control" placeholder="날짜 입력" style="width: 200px" type="text"/>
-                    </td>
-                </tr>
-                <%-- 제목 : text --%>
+				<%-- 제목 : text --%>
                 <tr class="common-tbl__item">
                     <td style="width: 170px" align="center">
                         title

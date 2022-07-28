@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
@@ -21,6 +24,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@DynamicInsert
 public class Inquire extends BaseEntity<Long>{
 	
 	// 작성자(외래키)
@@ -29,7 +33,7 @@ public class Inquire extends BaseEntity<Long>{
 	private Account writer;
 	
 	// 호텔 id(외래키) -> 카테고리 호텔 문의 일 경우만 값이 입력됨(nullable)
-	@ManyToOne(optional = true, targetEntity = Hotel.class, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
 	private Hotel hotel;
 	
@@ -42,12 +46,14 @@ public class Inquire extends BaseEntity<Long>{
 	private String description;
 	
 	// 작성일
+	@CreationTimestamp
 	@Column(nullable = false)
 	private Date day;
 	
 	// 카테고리
 	@Column(nullable = false)
 	private String category;
+	
 	
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private Long status;

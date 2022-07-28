@@ -98,13 +98,11 @@
 			      <td>${inquire.title}</td>
 			      <td>${inquire.regDate}</td>
 			      <td>${inquire.writer}</td>
-			      <td>${inquire.status}</td>
 			    </tr>		  	
 		  	</c:forEach>		    
 		  </tbody>
 		</table>
 	</div>
-
   	
 	<ul class="pagination" style="align-center">
 		<!-- 첫 페이지로 이동 -->

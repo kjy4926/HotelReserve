@@ -91,8 +91,9 @@ public class InquireController extends BaseController{
 	@PostMapping(value="/inquire/write")
 	public String write(@Valid InquireWriteForm idto, BindingResult br, 
 						@AuthenticationPrincipal User user,
-						Model model) {
+						Long seq, Model model) {
 		Account account = accountService.getAccountById(user.getUsername());
+//		Hotel hotel = hotelService.getHotelBySeq(seq);
 		if(br.hasErrors()) {
 			// 입력 데이터 값 유지
 			model.addAttribute("inquireWriteForm", inquireService);			
@@ -127,17 +128,12 @@ public class InquireController extends BaseController{
 	}
 	
 	// 문의글 삭제
-<<<<<<< Updated upstream
-	public String deleteInquire(@PathVariable Long seq) {
-		Inquire inquire = inquireService.delete(seq);
-		
-		return "redirect:/inquireDetail";
-=======
+
 	@GetMapping(value="inquire/delete/{seq}")
 	public String delete(@PathVariable Long seq, Model model) {
 		model.addAttribute("seq", seq);
 		return "inquire/delete";
->>>>>>> Stashed changes
+
 	}
 	
 	
