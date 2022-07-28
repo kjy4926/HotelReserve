@@ -31,7 +31,7 @@
 	<div class="card border-primary mb-3">
     <div class="row no-gutters">
         <div class="col-md-4" style="text-align:center; align-items:center; display: flex; justify-content:center;">
-            <img alt="" src="<c:url value="/resources/img/menuImg/${menu.img}"/>"/>        	
+            <img alt="" src="<c:url value="${pageContext.request.contextPath}/resources/img/menuImg/${menu.img}"/>"/>        	
         </div>
             <div class="col-md-8">
             <div class="card-body">

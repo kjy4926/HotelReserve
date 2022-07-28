@@ -9,14 +9,8 @@
 	<title>맛집 리스트</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/restaurant.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/restaurant.css" rel="stylesheet" type="text/css">
 <style>
-	img {
-	width: 100%;
-	height: 150px;
-	object-fit: cover;
-	}
 	div {
 		text-align: center;
 	}
@@ -31,20 +25,46 @@
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
     <!-- 배너 -->
-	<div class="banner-container">
-  		<div class="banner">
-    	<div data-index=1></div>
-    	<div data-index=2></div>
-    	<div data-index=3></div>
-    	<div data-index=4></div>
-  	</div>
+	<div class="slideshow-container">
+	  <div class="mySlides fade">
+	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantBanner/banner1.jpg"/>" style="width:100%">
+	  </div>
+	  <div class="mySlides fade">
+	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantBanner/banner2.jpg"/>" style="width:100%">
+	  </div>
+	  <div class="mySlides fade">
+	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantBanner/banner3.jpg"/>" style="width:100%">
+	  </div>
 	</div>
-	<div class="list-button">
-  		<span class="list-button-item active"></span> 
-  		<span class="list-button-item"></span> 
-  		<span class="list-button-item"></span> 
-  		<span class="list-button-item"></span> 
+	<br>
+	
+	<div style="text-align:center">
+	  <span class="dot" onclick="currentSlide(1)"></span>
+	  <span class="dot" onclick="currentSlide(2)"></span>
+	  <span class="dot" onclick="currentSlide(3)"></span>
 	</div>
+    
+    <script>
+	let slideIndex = 0;
+	showSlides();
+	
+	function showSlides() {
+	  let i;
+	  let slides = document.getElementsByClassName("mySlides");
+	  let dots = document.getElementsByClassName("dot");
+	  for (i = 0; i < slides.length; i++) {
+	    slides[i].style.display = "none";  
+	  }
+	  slideIndex++;
+	  if (slideIndex > slides.length) {slideIndex = 1}    
+	  for (i = 0; i < dots.length; i++) {
+	    dots[i].className = dots[i].className.replace(" active", "");
+	  }
+	  slides[slideIndex-1].style.display = "block";  
+	  dots[slideIndex-1].className += " active";
+	  setTimeout(showSlides, 2000); // Change image every 2 seconds
+	}
+	</script>
     
     <!--
     <div class="image-box">
@@ -79,7 +99,7 @@
 	  	<tbody>
 	  		<c:forEach var="restaurant" items="${pageList.content}">
 	    		<tr class="table-active">
-	      		<td><img alt="" src="<c:url value="/resources/img/restaurantImg/${restaurant.img}"/>"/></td>
+	      		<td><img alt="" src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantImg/${restaurant.img}"/>" style="width: 100%; height: 150px; object-fit: cover;"/></td>
 	      		<td><a href="<c:url value="/restaurant/${restaurant.seq}"/>">${restaurant.name}</a></td>
 	      		<td>${restaurant.address}</td>
 	      		<td>${restaurant.phone}</td>
