@@ -33,20 +33,20 @@ public class SeleniumUtil {
 	@RequestMapping("/craw")
 	public void crawling() {
 		Map<String, String> map = new HashMap<>();
-		map.put("서울","3124");
-		map.put("제주","850");
-		map.put("여수","3042");
-		map.put("대구","6337926");
-		map.put("광주","1970");
+//		map.put("서울","3124");
+//		map.put("제주","850");
+//		map.put("여수","3042");
+//		map.put("대구","6337926");
+//		map.put("광주","1970");
 		map.put("부산","602043");
-		map.put("경기","6129075");
-		map.put("강원","6129076");
-		map.put("충북","6129077");
-		map.put("충남","6129078");
-		map.put("전북","6129079");
-		map.put("전남","6129080");
-		map.put("경북","6129081");
-		map.put("경남","6129082");
+//		map.put("경기","6129075");
+//		map.put("강원","6129076");
+//		map.put("충북","6129077");
+//		map.put("충남","6129078");
+//		map.put("전북","6129079");
+//		map.put("전남","6129080");
+//		map.put("경북","6129081");
+//		map.put("경남","6129082");
 		
 		String uri = "https://www.tripbtoz.com/list/";
 		ChromeOptions options = new ChromeOptions();
@@ -77,7 +77,7 @@ public class SeleniumUtil {
 			
 			try {	
 				driver.get(url);
-				Thread.sleep(5000); // 페이지 로딩 대기
+				Thread.sleep(10000); // 페이지 로딩 대기
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -99,7 +99,7 @@ public class SeleniumUtil {
 				// 호텔 세부정보 가져오기
 				try {
 					driver2.get(hdetailLink);
-					Thread.sleep(5000); // 페이지 로딩 대기
+					Thread.sleep(8000); // 페이지 로딩 대기
 					List<WebElement> roomName = driver2.findElements(By.className("hlkvoo"));
 					List<WebElement> priceField = driver2.findElements(By.className("iQUJmh"));
 					List<WebElement> peopleAndDescField = driver2.findElements(By.className("bmxinM"));
@@ -131,7 +131,7 @@ public class SeleniumUtil {
 						String rname = roomName.get(j).getText();
 						String rprice = priceField.get(j).getText().replaceAll("[0-9]박", "").replaceAll("[^0-9]", "");
 						String pad = peopleAndDescField.get(j).getText();
-						String rpeople = pad.split(" ")[1].replaceAll("[^0-9]", "");
+						String rpeople = pad.split(" ")[4].replaceAll("[^0-9]", "");
 						String rdesc;
 						try {
 							rdesc = pad.split("/")[1].trim();

@@ -2,7 +2,7 @@ package kg.groupc.project.dto.restaurant;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import kg.groupc.project.entity.restaurant.Restaurant;
+import kg.groupc.project.entity.restaurant.Menu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MenuAddFormDto {
 	
-	private Restaurant restaurant;
+	private Long restaurant; //restaurant의 pk값
 	private String name;
 	private Long price;
 	private String description;

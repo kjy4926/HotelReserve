@@ -24,7 +24,7 @@ import lombok.Setter;
 @Builder
 @DynamicInsert
 public class Restaurant extends BaseEntity<Long>{
-
+	
 	// 상호명
 	@Column(nullable = false, length = 50)
 	private String name;

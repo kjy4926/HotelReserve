@@ -29,14 +29,14 @@ import kg.groupc.project.service.restaurant.RestaurantService;
 public class RestaurantController extends BaseController{
 	
 	@Autowired
-	private RestaurantRepository restaurantRepository;
+	private RestaurantRepository<Restaurant, Long> restaurantRepository;
 	
 	@Autowired
-	private RestaurantService restaurantService;
+	private RestaurantService<Restaurant, Long> restaurantService;
 	
 	@Autowired
-	private MenuService menuService;
-		
+	private MenuService<Menu, Long> menuService;
+	
 	// 맛집 리스트 + 검색 + 페이징
 	@RequestMapping(value="/restaurant")
 	public String allRestaurantPage(Model model,
@@ -67,15 +67,15 @@ public class RestaurantController extends BaseController{
 	
 	// 맛집 상세(사용자)
 	@GetMapping("/restaurant/{seq}")
-	public String adminRestaurantDetail(@PathVariable Long seq, Model model) {
+	public String restaurantDetailPage(@PathVariable Long seq, Model model) {
 		Restaurant restaurant = restaurantService.findRestaurant(seq);
 		model.addAttribute("restaurant", restaurant);
 		
-		List<Menu> menuList = menuService.findAll();
+		List<Menu> menuList = menuService.menuList(seq);
 		model.addAttribute("menuList", menuList);
 		return "/restaurant/restaurantDetail";
-	}	
-		
+	}
+			
 	// 맛집 등록
 	@RequestMapping(value="/admin/restaurant/new", method=RequestMethod.GET)
 	public String newRestaurantPage() {
@@ -103,7 +103,7 @@ public class RestaurantController extends BaseController{
 	public String editRestaurant(Long seq, RestaurantAddFormDto restaurantAddFormDto) {
 		restaurantService.edit(seq, restaurantAddFormDto);
 		
-		return "redirect:/restaurant/restaurantDetail/" + restaurantAddFormDto.getSeq();	
+		return "redirect:/restaurant/" + restaurantAddFormDto.getSeq();	
 	}
 	
 	// 맛집 삭제

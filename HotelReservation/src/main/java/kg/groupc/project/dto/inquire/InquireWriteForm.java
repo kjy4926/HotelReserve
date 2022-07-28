@@ -10,16 +10,16 @@ import kg.groupc.project.entity.inquire.Inquire;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
 @Getter
-@ToString
+@Setter
 @NoArgsConstructor
 public class InquireWriteForm {
-	private Account writer; // 작성자
-	private Hotel hotel; // 호텔코드
 	private String category; // 카테고리
+	private Hotel hotel; // 호텔코드
 	private String title; // 제목
+	private Account writer; // 작성자
 	private String description; // 내용
 	private Date day; // 등록일
 	private Long status; // 처리상태

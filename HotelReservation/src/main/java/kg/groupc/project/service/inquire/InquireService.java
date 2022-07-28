@@ -20,42 +20,37 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 
 	@Autowired
 	private InquireRepository<Inquire, Long> inquireRepository;
-	
 	// 문의 전체 리스트
 	@Transactional(readOnly = true)
 	public Page<Inquire> findAll(Pageable pageable){
 		return inquireRepository.findAll(pageable);
 	}
-	
 	// 검색(작성자)
 	@Transactional(readOnly = true)
 	public Page<Inquire> search1(String searchKeyword, Pageable pageable) {
 		return inquireRepository.findByWriterContaining(searchKeyword, pageable);
 	}
-	
 	// 검색(제목)
 	@Transactional(readOnly = true)
 	public Page<Inquire> search2(String searchKeyword, Pageable pageable) {
 		return inquireRepository.findByTitleContaining(searchKeyword, pageable);
 	}
-	
 	// 문의 상세보기
 	@Transactional(readOnly = true)
 	public Inquire readInquire(Long seq) {
 		return inquireRepository.findById(seq).orElse(null);
 	}
-	
+
 	// 문의 작성
 	@Transactional
 	public Long saveInquire(InquireWriteForm idto) {
-		return inquireRepository.save(idto.toEntity()).getSeq();
+		return inquireRepository.save(idto.toEntity()).getSeq();	
 	}
-	
+
 	// 문의 삭제
 	@Transactional
 	public Inquire delete(Long seq) {
 		Inquire inquire = inquireRepository.findById(seq).orElse(null);
-		
 		if(inquire == null) {
 			return null;
 		}

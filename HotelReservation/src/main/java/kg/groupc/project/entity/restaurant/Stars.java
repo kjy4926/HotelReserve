@@ -2,17 +2,13 @@ package kg.groupc.project.entity.restaurant;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 // 찜하기
 @Entity
