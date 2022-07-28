@@ -15,18 +15,18 @@ import lombok.Setter;
 public class HotelPageUtil {
 	
 	@Autowired
-	HotelService<Hotel, Long> hotelService;
+	private HotelService<Hotel, Long> hotelService;
 	
-	int prevPage;//이전 10개 페이지(<), 10으로 끝남, 클릭하면 10으로 끝나는 페이지로 이동
-	int firstPage;//처음 페이지(<<), 클릭하면 첫페이지로 이동
+	private int prevPage;//이전 10개 페이지(<), 10으로 끝남, 클릭하면 10으로 끝나는 페이지로 이동
+	private int firstPage;//처음 페이지(<<), 클릭하면 첫페이지로 이동
 	
-	int nextPage;//다음페이지(>), 10으로 끝남, 클릭하면 10으로 끝나는 페이지로 이동
-	int maxPage;
+	private int nextPage;//다음페이지(>), 10으로 끝남, 클릭하면 10으로 끝나는 페이지로 이동
+	private int maxPage;
 	//마지막 페이지(>>), 첫 페이지가 0부터 시작한다는 것에 대한 처리는 controller에서 했음
 	//현재페이지를 10으로 나눈 몫이 마지막 페이지를 10으로 나눈 몫과 같거나 크면 비활성화 
 	
-	int startPage;//c:forEach안의 시작값
-	int lastPage;//c:forEach안의 끝값
+	private int startPage;//c:forEach안의 시작값
+	private int lastPage;//c:forEach안의 끝값
 	
 	public int pageButtonInitialize(int data, Pageable pageable) {
 		//첫 페이지가 0부터 시작하는 것에 대한 처리는 controller에서 해놓음
@@ -45,10 +45,10 @@ public class HotelPageUtil {
 		
 		
 //		this.setMaxPage(data);//데이터 1개전용 코드
+		
+//		System.out.println("데이터 개수 : " + data);
+		
 		this.setMaxPage(limit);//maxPage 지정
-		
-		System.out.println("데이터 개수 : " + data);
-		
 		
 		
 		if(num >= this.getMaxPage()/buttonNum) {//다음페이지(>)로 이동용도

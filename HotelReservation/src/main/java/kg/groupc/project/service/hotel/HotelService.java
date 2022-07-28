@@ -66,6 +66,7 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 				hotelMainFormDto.setImg(hotel.getImg());
 				hotelMainFormDto.setAvg(avg);
 				hotelMainFormDtoList.add(hotelMainFormDto);
+				hotelMainFormDto.setDataCount(count);
 			}
 			
 			return hotelMainFormDtoList;
