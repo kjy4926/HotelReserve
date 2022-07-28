@@ -27,7 +27,7 @@ img {
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
-	<form class="container" action="/restaurant/menu/update" method="post" enctype="multipart/form-data">
+	<form class="container" action="/admin/restaurant/menu/update" method="post" enctype="multipart/form-data">
 	  <fieldset>
 	    <legend>메뉴 정보 수정</legend>
 	    <input type="hidden" name="restaurant" value="${restaurant.seq}">
