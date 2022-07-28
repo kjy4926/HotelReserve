@@ -1,11 +1,11 @@
 package kg.groupc.project.controller.hotel;
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -17,17 +17,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kg.groupc.project.controller.BaseController;
+import kg.groupc.project.dto.account.BookingDto;
+import kg.groupc.project.dto.hotel.BookingFormDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
-import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
-import kg.groupc.project.entity.hotel.HotelScore;
+import kg.groupc.project.entity.hotel.Room;
 import kg.groupc.project.service.hotel.HotelService;
 import kg.groupc.project.util.HotelPageUtil;
-import lombok.RequiredArgsConstructor;
 
 @Controller
 public class HotelController extends BaseController{
@@ -91,7 +91,36 @@ public class HotelController extends BaseController{
 	
 	@GetMapping("/hotel/reservation/{seq}")
 	public String reservation(Model model, @PathVariable Long seq) {
+		Room room = roomService.getRoomBySeq(seq);
+		String price = new DecimalFormat("#,###").format(room.getPrice());
+		model.addAttribute("seq", room.getSeq());
+		model.addAttribute("img", room.getImg());
+		model.addAttribute("roomName", room.getName());
+		model.addAttribute("roomPeople", room.getPeople());
+		model.addAttribute("basePrice", room.getPrice());
+		model.addAttribute("roomPrice", price);
+		model.addAttribute("roomDesc", room.getDescription());
+		model.addAttribute("now", LocalDate.now());
+		model.addAttribute("next", LocalDate.now().plusDays(1));
 		
 		return "/hotel/reservation";
-	}	
+	}
+	
+	@PostMapping("/hotel/reservation/{seq}")
+	public String postReservation(Model model, @PathVariable Long seq, BookingFormDto bookingFormDto,
+				@AuthenticationPrincipal User user) {
+		bookingService.saveBooking(bookingFormDto, user.getUsername());
+		return "redirect:/mypage";
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("/hotel/reservation/datecheck")
+	public boolean dateCheck(Long roomSeq, String checkin, String checkout,
+			@AuthenticationPrincipal User user) {
+		if(bookingService.reserveDateValidCheck(roomSeq, checkin, checkout, user.getUsername())) {
+			return true;
+		}
+		return false;
+	}
 }

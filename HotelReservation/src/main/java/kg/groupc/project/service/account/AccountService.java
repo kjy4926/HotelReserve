@@ -126,12 +126,12 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			bookingDto.setPrice(booking.getPrice());
 			bookingDto.setPeople(booking.getPeople());
 			// 예약 내역
-			if(booking.getReserveDate().after(today)) {
-				bookingDtoList.get(0).add(bookingDto);
+			if(booking.getReserveDate().before(today)) {
+				bookingDtoList.get(1).add(bookingDto);
 			}
 			// 이용 내역
 			else { 
-				bookingDtoList.get(1).add(bookingDto);
+				bookingDtoList.get(0).add(bookingDto);
 			}
 		}
 		return bookingDtoList;

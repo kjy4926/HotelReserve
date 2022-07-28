@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
-		li::marker{content: '- ';}
+		warning li::marker{content: '- ';}
 		ul{padding-left: 10px;}
 	</style>
 </head>
@@ -30,7 +30,7 @@
 		<p class="card-text">
 			1. 탈퇴 시 유의사항을 확인해 주시기 바랍니다.
 		</p>
-		<ul class="text-muted">
+		<ul class="warning text-muted">
 			<li>회원 탈퇴 시 회원전용 웹 서비스 이용이 불가합니다.</li>
 			<li>탈퇴 후에도, 문의 내역 및 리뷰 작성 기록은 보존됩니다.</li>
 			<li>삭제를 원하시는 경우 먼저 해당 게시물을 삭제하신 후 탈퇴를 신청하시기 바랍니다.</li>

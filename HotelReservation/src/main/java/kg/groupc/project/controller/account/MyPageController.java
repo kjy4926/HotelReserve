@@ -1,7 +1,5 @@
 package kg.groupc.project.controller.account;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,10 +28,7 @@ import kg.groupc.project.dto.account.RestaurantScoreDto;
 import kg.groupc.project.dto.account.StarsDto;
 import kg.groupc.project.dto.review.ReviewFormDto;
 import kg.groupc.project.entity.account.Account;
-import kg.groupc.project.entity.hotel.Booking;
 import kg.groupc.project.entity.hotel.Hotel;
-import kg.groupc.project.entity.hotel.HotelScore;
-import kg.groupc.project.entity.hotel.Room;
 import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.entity.restaurant.Stars;
 import kg.groupc.project.repository.restaurant.RestaurantRepository;
@@ -186,24 +181,6 @@ public class MyPageController extends BaseController{
 	}
 	
 	//test page
-	@GetMapping("/test/createBook")
-	public String createTestBooking(@AuthenticationPrincipal User user) {
-		Booking booking = new Booking();
-		Date start = Date.valueOf(LocalDate.of(2022, 7, 26));
-		Date end = Date.valueOf(LocalDate.of(2022, 7, 26));
-		Room room = roomService.getRoomBySeq(12L);
-		System.out.println(start);
-		booking.setReserver(accountService.getAccountById(user.getUsername()));
-		booking.setPeople(1L);
-		booking.setPrice(10000L);
-		booking.setReserveDate(start);
-		booking.setReserveEndDate(end);
-		booking.setStatus(1L);
-		booking.setRoom(room);
-		bookingService.saveBooking(booking);
-		return "/";
-	}
-	
 	@GetMapping("/test/createStar")
 	public String createTestStar(@AuthenticationPrincipal User user) {
 		Account account = accountService.getAccountById(user.getUsername());
@@ -224,23 +201,6 @@ public class MyPageController extends BaseController{
 //		starsService.saveStars(s1);
 //		starsService.saveStars(s2);
 //		starsService.saveStars(s3);
-		
-		return "redirect:/";
-	}
-	
-	@GetMapping("/test/hotelscore") 
-	public String createTestHS(@AuthenticationPrincipal User user) {
-		Account account = accountService.getAccountById(user.getUsername());
-		Hotel hotel = hotelService.getHotelBySeq(2L);
-		HotelScore hs = new HotelScore();
-		
-		hs.setHotel(hotel);
-		hs.setWriter(account);
-		hs.setScore(1L);
-		hs.setDescription("너무너무 좋았어요!");
-		hs.setDay(Date.valueOf(LocalDate.now()));
-		
-//		hotelScoreService.saveHotelScore(hs);
 		
 		return "redirect:/";
 	}
