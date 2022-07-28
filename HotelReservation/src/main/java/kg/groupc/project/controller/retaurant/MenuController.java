@@ -54,78 +54,24 @@ public class MenuController {
 	}
 	
 	// 메뉴 삭제
-	@GetMapping("/restaurant/menu/delete/{seq}")
+	@GetMapping("/admin/restaurant/menu/delete/{seq}")
 	public String deleteMenuPage(@PathVariable Long seq) {
 		Menu menuDelete = menuService.delete(seq);
 		return "redirect:/restaurant";
 	}
 	
-	// 메뉴 수정 : 7.27 저녁 이후
-	@GetMapping("/restaurant/menu/update/{seq}")
+	// 메뉴 수정
+	@GetMapping("/admin/restaurant/menu/update/{seq}")
 	public String updateMenuPage(@PathVariable("seq") Long seq, Model model) {
 		Menu menu = menuService.findMenu(seq);
 		model.addAttribute("menu", menu);
 		return "/restaurant/menuUpdate";
 	}
 	
-	@PostMapping("/restaurant/menu/update")
+	@PostMapping("/admin/restaurant/menu/update")
 	public String editMenu(Long seq, MenuAddFormDto menuAddFormDto, Menu menu) {
 		menuService.edit(seq, menuAddFormDto);
 		
 		return "redirect:/restaurant/menu/" + menu.getSeq();
 	}
-	
-	/*
-	@GetMapping("/restaurant/{seq}")
-	public String menuPage(@PathVariable Long restaurant, Model model) {
-		List<Menu> menuList = menuService.findAll();
-		model.addAttribute("menuList", menuList);
-		return "/restaurant/restaurantDetail";
-	}
-	
-	/*
-	// 메뉴 등록
-	@RequestMapping(value="/admin/{seq}/new", method=RequestMethod.GET)
-	public String newMenuPage(@PathVariable("seq") Long restaurant, Model model) {
-		model.addAttribute("menuAddFormDto", new MenuAddFormDto());
-		return "/restaurant/menuAdd";
-	}
-	
-	@RequestMapping(value="/admin/{seq}/new", method=RequestMethod.POST)
-	public String createMenu(Long restaurant,
-			MenuAddFormDto menuAddFormDto, @RequestParam("uploadFile") 
-					MultipartFile img) throws Exception {
-		menuService.create(restaurant, menuAddFormDto, img);
-		
-		return "redirect:/restaurant/{seq}";
-	}
-	
- 	레스토랑 상세페이지에 같이
-	// 메뉴 리스트
-	@GetMapping("/restaurant/{seq}")
-	public String MenuPage(Model model) {
-		List<Menu> menuList = menuService.findAll();
-		model.addAttribute("menuList", menuList);
-		
-		return "/restaurant/restaurantDetail";
-	}
-	
-	
-	@GetMapping("/admin/menu/new")
-	// 메뉴 보기
-	public ResponseEntity<List<MenuAddFormDto>> menus(@PathVariable Long restaurant) {
-		List<MenuAddFormDto> dtos = menuService.menus(restaurant);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(dtos);
-	}
-	
-	@PostMapping("/admin/menu/new")
-	public ResponseEntity<MenuAddFormDto> create(@PathVariable Long restaurant,
-			@RequestBody MenuAddFormDto dto, @RequestParam("uploadFile")
-					MultipartFile img) throws Exception {
-		MenuAddFormDto createDto = menuService.create(restaurant, dto, img);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(createDto);
-	}
-	*/
 }
