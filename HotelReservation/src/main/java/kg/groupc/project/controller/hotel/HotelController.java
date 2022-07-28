@@ -3,6 +3,7 @@ package kg.groupc.project.controller.hotel;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +63,13 @@ public class HotelController extends BaseController{
 		
 		List<HotelMainFormDto> hotelMainFormDtoList = //데이터 전체 반환
 				hotelService.getHotelList(keyword, num, pageable);
+//		if(hotelMainFormDtoList == null) {//데이터 없을 때 에러페이지 방지용
+//			hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
+//		}
+		
 		int maxPage = HotelPageUtil.pageButtonInitialize((int) hotelMainFormDtoList.get(1).getDataCount(), pageable);
+		
+		
 		
 		model.addAttribute("num", num);//검색 조건 유지
 		model.addAttribute("keyword", keyword);//페이지 이동 후에도 keyword를 유지시키기 위함
