@@ -52,7 +52,7 @@ public class SignupController extends BaseController{
 	
 	@PostMapping("/signup/dupCheck")
 	@ResponseBody
-	public boolean dupCheck(String userId, boolean result) {
+	public boolean dupCheck(String userId) {
 		if(!accountService.idDuplicateCheck(userId)) {
 			return true;
 		}

@@ -14,6 +14,7 @@
 	<style type="text/css">
 		.mypage{width: 60%; margin: auto;}
 		.review-btn-field{width: 15%; text-align: center;}
+		td{vertical-align: middle;}
 	</style>
 </head>
 <body>
@@ -38,11 +39,11 @@
 				<table class="table">
 		        	<thead>
 						<tr>
-							<th>호텔명</th>
-							<th>방이름</th>
-							<th>예약자</th>
-							<th>예약일</th>
-							<th>종료일</th>
+							<th style="width: 20%">호텔명</th>
+							<th style="width: 40%">방이름</th>
+							<th style="width: 14%">예약자</th>
+							<th style="width: 13%">예약일</th>
+							<th style="width: 13%">종료일</th>
 						<tr>
 					</thead>
 					<tbody>
@@ -72,12 +73,12 @@
 		        <table class="table">
 		        	<thead>
 						<tr>
-							<th>호텔명</th>
-							<th>방이름</th>
-							<th>예약자</th>
-							<th>예약일</th>
-							<th>종료일</th>
-							<th class="review-btn-field"></th>
+							<th style="width: 15%">호텔명</th>
+							<th style="width: 35%">방이름</th>
+							<th style="width: 14%">예약자</th>
+							<th style="width: 13%">예약일</th>
+							<th style="width: 13%">종료일</th>
+							<th class="review-btn-field" style="width: 10%"></th>
 						<tr>
 					</thead>
 					<tbody>

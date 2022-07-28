@@ -1,7 +1,4 @@
-function getContextPath() {
-    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-}
+const SERVER_ADDRESS = 'http://localhost:8080'
 function autoHypenPhone(str){
 	str = str.replace(/[^0-9]/g, '');
 	var tmp = '';
@@ -51,7 +48,7 @@ function idDuplicateCheck(){
 	var idResult2 = document.getElementById('idResultInvalid')
 	if(idValidCheck(input)){
 		$.ajax({
-			url:`${getContextPath()}/signup/dupCheck`,
+			url:`${SERVER_ADDRESS}/signup/dupCheck`,
 			type:'POST',
 			data:{userId: input.value},
 			success: function(result){
