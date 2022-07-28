@@ -126,12 +126,12 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			bookingDto.setPrice(booking.getPrice());
 			bookingDto.setPeople(booking.getPeople());
 			// 예약 내역
-			if(booking.getReserveDate().after(today)) {
-				bookingDtoList.get(0).add(bookingDto);
+			if(booking.getReserveDate().before(today)) {
+				bookingDtoList.get(1).add(bookingDto);
 			}
 			// 이용 내역
 			else { 
-				bookingDtoList.get(1).add(bookingDto);
+				bookingDtoList.get(0).add(bookingDto);
 			}
 		}
 		return bookingDtoList;
@@ -168,7 +168,7 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			hotelScoreDto.setHotelName(hotel.getName());
 			hotelScoreDto.setScore(hotelScore.getScore());
 			hotelScoreDto.setScoreString(scoreMap.get(hotelScore.getScore()));
-			hotelScoreDto.setDesc(hotelScore.getDescription() == null ? null : hotelScore.getDescription());
+			hotelScoreDto.setDesc(hotelScore.getDescription() == null ? null : hotelScore.getDescription().replace("\n", "<br>"));
 			hotelScoreDto.setWriter(hotelScore.getWriter().getName());
 			hotelScoreDto.setDay(hotelScore.getDay());
 			hotelScoreDtoList.add(hotelScoreDto);
@@ -190,7 +190,7 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			restaurantScoreDto.setRestaurantName(restaurant.getName());
 			restaurantScoreDto.setScore(restaurantScore.getScore());
 			restaurantScoreDto.setScoreString(scoreMap.get(restaurantScore.getScore()));
-			restaurantScoreDto.setDesc(restaurantScore.getDescription() == null ? null : restaurantScore.getDescription());
+			restaurantScoreDto.setDesc(restaurantScore.getDescription() == null ? null : restaurantScore.getDescription().replace("\n", "<br>"));
 			restaurantScoreDto.setWriter(restaurantScore.getWriter().getName());
 			restaurantScoreDto.setDay(restaurantScore.getDay());
 			restaurantScoreDtoList.add(restaurantScoreDto);

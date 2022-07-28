@@ -31,7 +31,7 @@
 	<div class="card border-primary mb-3">
     <div class="row no-gutters">
         <div class="col-md-4" style="text-align:center; align-items:center; display: flex; justify-content:center;">
-            <img alt="" class="detail-restaurant-img" src="<c:url value="/resources/img/restaurantImg/${restaurant.img}"/>"/>        	
+            <img alt="" class="detail-restaurant-img" src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantImg/${restaurant.img}"/>"/>        	
         </div>
             <div class="col-md-8">
             <div class="card-body">
@@ -105,8 +105,8 @@
 	
 	<!-- 버튼 -->
 	<a class="btn btn-primary" href="/admin/${restaurant.seq}/new">메뉴등록</a>
-	<a class="btn btn-primary" href="/restaurant/update/${restaurant.seq}">수정</a>
-    <a class="btn btn-primary" href="/restaurant/delete/${restaurant.seq}">삭제</a>
+	<a class="btn btn-primary" href="/admin/restaurant/update/${restaurant.seq}">수정</a>
+    <a class="btn btn-primary" href="/admin/restaurant/delete/${restaurant.seq}">삭제</a>
     <a class="btn btn-primary" href="/restaurant">이전</a>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

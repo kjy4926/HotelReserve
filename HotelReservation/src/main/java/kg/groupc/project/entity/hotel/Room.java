@@ -32,7 +32,7 @@ public class Room extends BaseEntity<Long> {
 	private Hotel hotel;
 	
 	// 방 이름
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 200)
 	private String name;
 	
 	// 가격

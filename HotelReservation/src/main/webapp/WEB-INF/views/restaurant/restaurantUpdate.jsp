@@ -18,7 +18,7 @@
 	<!-- 상단메뉴 -->
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
-	<form class="container" method="POST" action="/restaurant/update">
+	<form class="container" method="POST" action="/admin/restaurant/update">
 	  <fieldset>
 	    <legend>${restaurant.name} 맛집 정보 수정</legend>
 	    <div class="form-group">
@@ -40,12 +40,11 @@
 	      <label for="description" class="form-label mt-4">소개</label>
 	      <input value="${restaurant.description}" type="text" class="form-control" id="description" name="description" placeholder="맛집에 대한 정보를 입력하세요">
 	    </div>
-	    	<input type="hidden" name="seq" value="${restaurant.seq}">
+	   	   	<input type="hidden" name="seq" value="${restaurant.seq}">
 	    <button type="submit" class="btn btn-primary">수정</button>
         <a class="btn btn-primary" href="/restaurant/restaurantDetail/${restaurant.seq}">이전</a>
 	 </fieldset>
-	 </form>
-	 
+	 </form>	 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

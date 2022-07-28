@@ -29,10 +29,8 @@ public class MenuService <T, ID extends Serializable> extends BaseService<Menu, 
 	
 	// 메뉴 등록
 	public Menu create(MenuAddFormDto menuAddFormDto, MultipartFile file, String path) throws Exception {
-		//Restaurant restaurant_id = restaurantRepository.findById(restaurant).get();
 		System.out.println("uloki"+menuAddFormDto.getRestaurant());
 		Restaurant restaurant = restaurantRepository.findBySeq(menuAddFormDto.getRestaurant());
-		//Restaurant restaurant = restaurantRepository.findBySeq(menuAddFormDto.getRestaurant().getSeq());
 		Menu menu = Menu.createMenu(menuAddFormDto, restaurant);
 		String img = null;
 		MultipartFile uploadFile = menuAddFormDto.getUploadFile();
@@ -73,7 +71,7 @@ public class MenuService <T, ID extends Serializable> extends BaseService<Menu, 
 		return menu;
 	}
 	
-	// 메뉴 수정 : 7.27 저녁
+	// 메뉴 수정
 	public Menu edit(Long seq, MenuAddFormDto menuAddFormDto) {
 		Restaurant restaurant = restaurantRepository.findBySeq(menuAddFormDto.getRestaurant());
 		Menu menu = Menu.createMenu(menuAddFormDto, restaurant);
@@ -85,12 +83,4 @@ public class MenuService <T, ID extends Serializable> extends BaseService<Menu, 
 		target.patch(menu);
 		return menuRepository.save(target);	
 	}
-		
-	/*
-	// 메뉴 리스트 - 수정 전
-	@Transactional(readOnly = true)
-	public List<Menu> findAll() {
-		return menuRepository.findAll();
-	}
-	*/
 }
