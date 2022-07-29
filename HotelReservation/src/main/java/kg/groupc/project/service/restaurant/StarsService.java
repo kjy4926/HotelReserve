@@ -17,4 +17,8 @@ public class StarsService<T, ID extends Serializable> extends BaseService<Stars,
 	public Stars saveStars(Stars stars) {
 		return starsRepository.save(stars);
 	}
+	
+	public void deleteStars(Long seq) {
+		starsRepository.deleteById(seq);
+	}
 }
