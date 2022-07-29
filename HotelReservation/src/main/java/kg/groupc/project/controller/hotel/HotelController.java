@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.account.BookingDto;
 import kg.groupc.project.dto.hotel.BookingFormDto;
+import kg.groupc.project.dto.hotel.HotelDetailFormDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.Room;
@@ -34,10 +35,7 @@ import kg.groupc.project.util.HotelPageUtil;
 public class HotelController extends BaseController{
 	
 	@Autowired
-	private HotelService<Hotel, Long> hotelService;
-	
-	@Autowired
-	HotelPageUtil HotelPageUtil;
+	HotelPageUtil hotelPageUtil;
 	
 	@GetMapping("/hotel")
 	public String hotel(HttpServletRequest request, Model model,
@@ -46,11 +44,11 @@ public class HotelController extends BaseController{
 		int page;
 		String keyword = request.getParameter("keyword");
 		
-		int num;
-		if(request.getParameter("num")== null) {//검색 키워드 조건
-			num = 0;
+		int type;
+		if(request.getParameter("type")== null) {//검색 키워드 조건
+			type = 0;
 		}else {
-			num = Integer.parseInt(request.getParameter("num"));
+			type = Integer.parseInt(request.getParameter("type"));
 		}
 
 		if(request.getParameter("page") == null) {//페이지
@@ -62,44 +60,40 @@ public class HotelController extends BaseController{
 		pageable = PageRequest.of(page-1, 10);
 		
 		List<HotelMainFormDto> hotelMainFormDtoList = //데이터 전체 반환
-				hotelService.getHotelList(keyword, num, pageable);
-//		if(hotelMainFormDtoList == null) {//데이터 없을 때 에러페이지 방지용
-//			hotelMainFormDtoList = new ArrayList<HotelMainFormDto>();
-//		}
+				hotelService.getHotelList(keyword, type, pageable);
+
 		if(hotelMainFormDtoList.size() == 0) {//데이터 없을 때 에러페이지 방지용
-			return "redirect:/";
+			return "redirect:/hotel";
 		}
 		
-		int maxPage = HotelPageUtil.pageButtonInitialize((int) hotelMainFormDtoList.get(1).getDataCount(), pageable);
-
-		model.addAttribute("num", num);//검색 조건 유지
+		
+		int maxPage = hotelPageUtil.pageButtonInitialize((int) hotelMainFormDtoList.get(1).getDataCount(), pageable);
+		
+		model.addAttribute("type", type);//검색 조건 유지
 		model.addAttribute("keyword", keyword);//페이지 이동 후에도 keyword를 유지시키기 위함
 		model.addAttribute("hotelMainFormDtoList", hotelMainFormDtoList);//호텔 목록 전달
 		model.addAttribute("maxPage", maxPage);
 //		페이지에 maxPage만큼 이동버튼이 생김, 마지막 페이지
 //		마지막 페이지, 첫 페이지가 0부터 시작한다는걸 감안하고 계산
 		model.addAttribute("page", pageable.getPageNumber());//현재 페이지값 유지용
-		model.addAttribute("firstPage", HotelPageUtil.getFirstPage());//제일 첫번째 페이지
-		model.addAttribute("prevPage", HotelPageUtil.getPrevPage());//이전 10개 페이지 중 마지막 페이지
-		model.addAttribute("nextPage", HotelPageUtil.getNextPage());//다음 10개 페이지 중 첫번째 페이지
-		model.addAttribute("startPage", HotelPageUtil.getStartPage());//페이지 이동버튼 출력범위, forEach문 시작값
-		model.addAttribute("lastPage", HotelPageUtil.getLastPage());//페이지 이동버튼 출력범위, forEach문 끝값
+		model.addAttribute("firstPage", hotelPageUtil.getFirstPage());//제일 첫번째 페이지
+		model.addAttribute("prevPage", hotelPageUtil.getPrevPage());//이전 10개 페이지 중 마지막 페이지
+		model.addAttribute("nextPage", hotelPageUtil.getNextPage());//다음 10개 페이지 중 첫번째 페이지
+		model.addAttribute("startPage", hotelPageUtil.getStartPage());//페이지 이동버튼 출력범위, forEach문 시작값
+		model.addAttribute("lastPage", hotelPageUtil.getLastPage());//페이지 이동버튼 출력범위, forEach문 끝값
 
 		return "/hotel/hotel";
 	}
 	
 	@GetMapping("/hotel/detail/{seq}")
-	public String hotelDetail(@PathVariable int seq) {//호텔 상세보기/객실리스트 화면
+	public String hotelDetail(@PathVariable int seq, Model model) {//호텔 상세보기/객실리스트 화면
 		
 		HotelDetailFormDto hotelDetailFormDto = hotelService.getHotelDetail(seq);
 		if(hotelDetailFormDto == null) {//에러방지용
 			return "redirect:/";
 		}
-		System.out.println(hotelDetailFormDto.getName());//확인용
-		for(int i = 0; i< hotelDetailFormDto.getRoomList().size(); i++) {
-			System.out.println("방이름" + hotelDetailFormDto.getRoomList().get(i).getName());
-		}
 		
+		model.addAttribute("hotelDetailFormDto", hotelDetailFormDto);
 		
 		return "/hotel/hotelDetail";
 	}
@@ -138,4 +132,16 @@ public class HotelController extends BaseController{
 		}
 		return false;
 	}
+	
+	
+//	@GetMapping("/hotel/samplescore")
+//	public String sampleScore() {
+//	//샘플 스코어 생성용도, 
+//	//사용할 경우 hotelService에 있는 addSampleScore의 주석 해제 및 yangchi97아이디 추가
+//		
+//		 hotelService.addSampleScore();
+//		
+//		
+//		return "redirect:/";
+//	}
 }
