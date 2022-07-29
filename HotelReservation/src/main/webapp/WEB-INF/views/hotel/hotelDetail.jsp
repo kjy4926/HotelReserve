@@ -20,21 +20,17 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	
 	<div style="display: inline-flex;">
-		<div class="card mb-3" style="width: 35%; height: 500px; margin-left: 3.5%;">
-			<div style="height :10%;">
-				<h3 class="card-header"><c:out value="${hotelDetailFormDto.name}"/></h3>
+		<div class="card mb-3" style="width: 35%; max-height: 400px; margin-left: 3.5%;">
+			<div>
+				<h5 class="card-header"><c:out value="${hotelDetailFormDto.name}"/></h5>
 			</div>
-			<div style="height: 50%;">
-				<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-					<rect width="100%" height="100%" fill="#868e96"></rect>
-					<img src="${pageContext.request.contextPath}/resources/img/hotel/${hotelDetailFormDto.img}" width="100%" height="100%">
-					<text x="50%" y="50%" fill="#dee2e6" dy=".3em"></text>
-				</svg>
+			<div style="display: flex; align-items: center; justify-content: center;">
+				<img src="${pageContext.request.contextPath}/resources/img/hotel/${hotelDetailFormDto.img}" width="100%" height="100%">
 			</div>
 			<div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">평점</li>
-					<li class="list-group-item"><c:out value="${hotelDetailFormDto.avg}"/></li>
+					<li class="list-group-item"><c:out value="${hotelDetailFormDto.avg}"/>(<c:out value="${hotelDetailFormDto.scoreString}"></c:out>)</li>
 				</ul>
 			</div>
 		</div>
@@ -49,19 +45,19 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="table-active">
+						<tr>
 							<th scope="row">호텔명</th>
 							<td colspan="3">${hotelDetailFormDto.name}</td>
 						</tr>
 						<tr>
 							<th scope="row">주소</th>
-							<td colspan="3">${hotelDetailFormDto.address }</td>
+							<td colspan="3">${hotelDetailFormDto.address}</td>
 						</tr>
-						<tr class="table-primary">
+						<tr>
 							<th scope="row">연락처</th>
 							<td colspan="3">${hotelDetailFormDto.phone}</td>
 						</tr>
-						<tr class="table-secondary" height="300">
+						<tr>
 							<th scope="row">호텔 소개</th>
 							<td colspan="3">${hotelDetailFormDto.description}</td>
 						</tr>
@@ -75,7 +71,7 @@
 							<div class="card-header">호텔 사진</div>
 							<div class="card-body">
 								<div class="container img-field">
-									<img src="${pageContext.request.contextPath}/resources/img/room/${room.seq}.jpg"/>
+									<img src="${pageContext.request.contextPath}/resources/img/room/${room.img}"/>
 								</div>
 							</div>
 						</div>
@@ -83,17 +79,18 @@
 							<div class="card-body">
 								<h4 class="card-title">${room.name}</h4>
 								<h6 class="card-subtitle mb-2 text-muted">${room.people}명(인원수)</h6>
-								<p class="card-text">방 설명</p>
+								<p class="card-text">${room.desc}</p>
 								<a href="#" class="card-link">이 방으로</a>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
 			</div>
-			
 		</div>
 	</div>
-	
+	<div style="width: 90%">
+		ddddddddddd
+	</div>
 
 		
 		

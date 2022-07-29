@@ -20,9 +20,13 @@ public class HotelDetailFormDto {//호텔 상세보기 페이지에서 사용합
 	private String description;//호텔 설명
 	private String img;//호텔 사진
 	private double avg;//호텔 평점, 리뷰테이블의 평균값을 가져옴
+	private String scoreString;//평점에 대한 별의 개수를 표현하기 위함
+	
+	
 	
 	private List<Long> hotelScore;//리뷰테이블 id
-	private List<HotelDetailRoomFormDto> roomList;//room의 id
+	private List<HotelDetailRoomFormDto> roomList;
+	//Room 엔티티에서 꺼내올 정보를 저장할 DTO
 	
 
 }
