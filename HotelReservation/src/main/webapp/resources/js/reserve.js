@@ -1,17 +1,5 @@
 const SERVER_ADDRESS = 'http://localhost:8080'
-// 체크인 날짜 입력 시 체크아웃 날짜 자동 조정
-// function setCheckoutDate(){
-//     var checkin = document.getElementById('checkin')
-//     var checkout = document.getElementById('checkout')
 
-//     checkout.value = checkin.value
-//     checkout.stepUp()
-//     checkout.min = checkout.value
-//     console.log(checkout.min)
-//     setPrice()
-//     checkDate()
-//  }
-// 숙박 일수에 따른 가격 측정
 function setPrice(start, end){
     var checkinDate = start
     var checkoutDate = end
