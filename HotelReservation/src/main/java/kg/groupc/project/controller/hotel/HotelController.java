@@ -1,9 +1,7 @@
 package kg.groupc.project.controller.hotel;
 
-import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kg.groupc.project.controller.BaseController;
-import kg.groupc.project.dto.account.BookingDto;
 import kg.groupc.project.dto.hotel.BookingFormDto;
+import kg.groupc.project.dto.hotel.HotelDetailFormDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.Room;
