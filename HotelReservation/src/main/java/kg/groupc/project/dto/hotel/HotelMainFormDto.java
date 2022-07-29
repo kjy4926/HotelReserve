@@ -24,4 +24,5 @@ public class HotelMainFormDto {//
 	private long status;
 	
 	private double avg; //평점
+	private String scoreString;//평점에 대한 별의 개수를 표현하기 위함
 }
