@@ -88,7 +88,7 @@ public class SeleniumUtil {
 			List<WebElement> hotelImg = driver.findElements(By.className("sc-jlCeNt"));
 			List<WebElement> hotelDetailLink = driver.findElements(By.className("sc-jWESwd"));
 			
-			for(int i=0;i<hotelName.size();i++){
+			for(int i=0;i<hotelName.size()&&i<10;i++){
 				String hname = hotelName.get(i).getText();
 				String haddr = hotelAddr.get(i).getText();
 				String himgLink = hotelImg.get(i).getAttribute("src");

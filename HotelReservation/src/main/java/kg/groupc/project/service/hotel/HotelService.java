@@ -1,16 +1,21 @@
 package kg.groupc.project.service.hotel;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import kg.groupc.project.dto.hotel.HotelAddFormDto;
 import kg.groupc.project.dto.hotel.HotelDetailFormDto;
 import kg.groupc.project.dto.hotel.HotelDetailRoomFormDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
@@ -32,6 +37,34 @@ import lombok.Setter;
 public class HotelService<T, ID extends Serializable> extends BaseService<Hotel, Long> {
 	private final HotelScoreRepository<HotelScore, Long> hotelScoreRepository;
 	private final HotelRepository<Hotel, Long> hotelRepository;
+	
+	public Hotel saveHotel(HotelAddFormDto hotelAddFormDto) {
+		Hotel hotel = new Hotel();
+
+		hotel.setName(hotelAddFormDto.getName());
+		hotel.setPhone(hotelAddFormDto.getPhone());
+		hotel.setAddress(hotelAddFormDto.getAddress()+" "+hotelAddFormDto.getAddressDetail());
+		hotel.setDescription(hotelAddFormDto.getDescription());
+		hotel.setStatus(1L);
+		hotelRepository.save(hotel);
+		
+		String filePath = System.getProperty("user.dir")+"\\src\\main\\webapp\\resources\\img\\hotel\\" + hotel.getSeq() + ".jpg";
+		MultipartFile mfile = hotelAddFormDto.getUploadFile();
+		
+		try {
+			mfile.transferTo(new File(filePath));
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		hotel.setImg(hotel.getSeq()+".jpg");
+		
+		return hotelRepository.save(hotel);
+	}
 	
 	public Hotel getHotelBySeq(Long seq) {
 		return hotelRepository.findById(seq).get();
