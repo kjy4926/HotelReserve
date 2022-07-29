@@ -10,10 +10,7 @@ import lombok.Setter;
 public class HotelDetailRoomFormDto {
 	
 	private Long seq;
-	private String img;
 	private String name;
 	private Long people;
-	private String desc;
-	
 	
 }
