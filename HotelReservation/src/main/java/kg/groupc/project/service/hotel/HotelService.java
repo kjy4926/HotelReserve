@@ -35,7 +35,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class HotelService<T, ID extends Serializable> extends BaseService<Hotel, Long> {
-	
+	private final HotelScoreRepository<HotelScore, Long> hotelScoreRepository;
 	private final HotelRepository<Hotel, Long> hotelRepository;
 	
 	public Hotel getHotelBySeq(Long seq) {
@@ -99,9 +99,7 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 		}
 		return hotelMainFormDtoList;
 	}
-	
-	@Autowired
-	HotelScoreRepository<HotelScore, Long> hotelScoreRepository;
+
 	
 	@Transactional
 	public HotelDetailFormDto getHotelDetail(long seq){
