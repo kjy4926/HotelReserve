@@ -57,8 +57,4 @@ public class BookingService<T, ID extends Serializable> extends BaseService<Book
 		}
 		return false;
 	}
-	
-	public void deleteBooking(Long seq) {
-		bookingRepository.deleteById(seq);
-	}
 }

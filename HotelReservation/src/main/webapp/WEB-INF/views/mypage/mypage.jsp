@@ -58,7 +58,7 @@
 					</c:forEach>
 					</tbody>
 				</table>
-				<small class="form-text"><a href="${pageContext.request.contextPath}/mypage/history" style="float:right;">상세 보기</a></small><br>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>
@@ -75,10 +75,10 @@
 						<tr>
 							<th style="width: 15%">호텔명</th>
 							<th style="width: 35%">방이름</th>
-							<th style="width: 13%">예약자</th>
+							<th style="width: 14%">예약자</th>
 							<th style="width: 13%">예약일</th>
 							<th style="width: 13%">종료일</th>
-							<th class="review-btn-field" style="width: 11%"></th>
+							<th class="review-btn-field" style="width: 10%"></th>
 						<tr>
 					</thead>
 					<tbody>
@@ -89,13 +89,12 @@
 								<td>${pbooking.reserver}</td>
 								<td>${pbooking.reserveDate}</td>
 								<td>${pbooking.reserveEndDate}</td>
-								<td class="cancle-btn-field"><button class="btn btn-secondary btn-sm" type="button" 
-									onclick="location.href='${pageContext.request.contextPath}/mypage/review/hotel/write/${pbooking.hotelSeq}'">리뷰작성</button></td>
+								<td class="review-btn-field"><a class="text-muted" href="${pageContext.request.contextPath}/mypage/review/hotel/write/${pbooking.hotelSeq}">리뷰 작성</a></td>
 							</tr>
 					</c:forEach>
 					</tbody>
 				</table>
-				<small class="form-text"><a href="${pageContext.request.contextPath}/mypage/history" style="float:right;">상세 보기</a></small><br>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>
@@ -127,7 +126,7 @@
 					</c:forEach>
 					</tbody>
 				</table>
-				<small class="form-text"><a href="${pageContext.request.contextPath}/mypage/review" style="float:right;">상세 보기</a></small><br>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 				<table class="table">
 		        	<thead>
 						<tr>
@@ -148,7 +147,7 @@
 					</c:forEach>
 					</tbody>
 				</table>
-				<small class="form-text"><a href="${pageContext.request.contextPath}/mypage/review" style="float:right;">상세 보기</a></small><br>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>
@@ -185,12 +184,12 @@
 							<tr>
 								<td>${stars.restaurantName}</td>
 								<td>${stars.restaurantPhone}</td>
-								<td class="cancle-btn-field"><button class="btn btn-secondary btn-sm" type="button" 
-									onclick="location.href='${pageContext.request.contextPath}/mypage/review/restaurant/write/${stars.restaurantSeq}'">리뷰작성</button></td>							</tr>
+								<td class="review-btn-field"><a class="text-muted" href="${pageContext.request.contextPath}/mypage/review/restaurant/write/${stars.restaurantSeq}">리뷰 작성</a></td>
+							</tr>
 					</c:forEach>
 					</tbody>
 				</table>
-				<small class="form-text"><a href="${pageContext.request.contextPath}/mypage/stars" style="float:right;">상세 보기</a></small><br>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>
