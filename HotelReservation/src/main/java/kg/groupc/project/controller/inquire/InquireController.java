@@ -1,7 +1,5 @@
 package kg.groupc.project.controller.inquire;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +25,18 @@ import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.inquire.Inquire;
 import kg.groupc.project.repository.inquire.InquireRepository;
-import kg.groupc.project.service.account.AccountService;
 import kg.groupc.project.service.inquire.InquireService;
 
-@SuppressWarnings("unused")
+
 @Controller
 public class InquireController extends BaseController{
 	@Autowired
-	private InquireService inquireService;
+	private InquireService<?, ?> inquireService;
 	
 	@Autowired
-	private InquireRepository inquireRepository;	
-	
-	@Autowired
-	private AccountService accountService;
+	private InquireRepository<?, ?> inquireRepository;
 	
 	// 문의글 목록
-	@SuppressWarnings("unchecked")
 	@GetMapping(value="/inquire")
 	public String list(Model model, 
 			@PageableDefault(size = 5, sort = "seq", direction = Sort.Direction.DESC) Pageable pageable,

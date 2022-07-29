@@ -51,19 +51,16 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 	public Page<Inquire> findAll(Pageable pageable){
 		return inquireRepository.findAll(pageable);
 	}
-
 	// 검색(작성자)
 	@Transactional(readOnly = true)
 	public Page<Inquire> search1(String searchKeyword, Pageable pageable) {
 		return inquireRepository.findByWriterContaining(searchKeyword, pageable);
 	}
-
 	// 검색(제목)
 	@Transactional(readOnly = true)
 	public Page<Inquire> search2(String searchKeyword, Pageable pageable) {
 		return inquireRepository.findByTitleContaining(searchKeyword, pageable);
 	}
-
 	// 문의 상세보기
 	@Transactional(readOnly = true)
 	public Inquire readInquire(Long seq) {
@@ -80,7 +77,6 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 	@Transactional
 	public Inquire delete(Long seq) {
 		Inquire inquire = inquireRepository.findById(seq).orElse(null);
-
 		if(inquire == null) {
 			return null;
 		}

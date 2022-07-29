@@ -89,8 +89,8 @@ public class HotelController extends BaseController{
 		return "/hotel/hotelDetail";
 	}
 	
-	@GetMapping(value="/reservation")
-	public String reservation(Model model) {
+	@GetMapping("/hotel/reservation/{seq}")
+	public String reservation(Model model, @PathVariable Long seq) {
 		
 		return "/hotel/reservation";
 	}	

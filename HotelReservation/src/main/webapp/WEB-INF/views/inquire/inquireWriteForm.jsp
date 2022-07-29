@@ -106,10 +106,10 @@
 			<%-- 등록 버튼 --%>
             <div id="reviewIU-container--bottom" align="center">
             	<button type="button" class="invisible"> 목록으로 </button>
-            	&nbsp
+            	
 				<button type="submit" onclick="uploadCanvasData(save);" id="inquire-btn-submit"
                         class="btn btn-danger"> 작성</button>
-				&nbsp
+				
 				<button type="button" onclick="location.href='/inquire'" class="btn btn-success"> 목록으로 </button>
             </div>
             

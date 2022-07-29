@@ -18,7 +18,6 @@ import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 // 문의글
 @Entity
