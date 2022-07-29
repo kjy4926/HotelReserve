@@ -35,8 +35,5 @@ public class HotelScoreService<T, ID extends Serializable> extends BaseService<H
 		return hotelScoreRepository.save(hotelScore);
 	}
 	
-	public void deleteHotelScore(Long seq) {
-		hotelScoreRepository.deleteById(seq);
-	}
 	
 }

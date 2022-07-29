@@ -10,5 +10,4 @@ public class StarsDto {
 	private Long restaurantSeq;
 	private String restaurantName;
 	private String restaurantPhone;
-	private String restaurantDesc;
 }

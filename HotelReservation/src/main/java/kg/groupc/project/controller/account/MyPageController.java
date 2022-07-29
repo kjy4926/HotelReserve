@@ -180,66 +180,28 @@ public class MyPageController extends BaseController{
 		return "redirect:/mypage";
 	}
 	
-	@GetMapping("/mypage/history")
-	public String history(@AuthenticationPrincipal User user, Model model) {
-		String userId = user.getUsername();
-		List<ArrayList<BookingDto>> bookingList = accountService.getBookingList(userId);
+	//test page
+	@GetMapping("/test/createStar")
+	public String createTestStar(@AuthenticationPrincipal User user) {
+		Account account = accountService.getAccountById(user.getUsername());
+		Restaurant r1 = rr.findById(24L).get();
+		Restaurant r2 = rr.findById(25L).get();
+		Restaurant r3 = rr.findById(26L).get();
+		Stars s1 = new Stars();
+		Stars s2 = new Stars();
+		Stars s3 = new Stars();
 		
-		bookingList.get(0).sort((Comparator.comparing(BookingDto::getReserveDate))); // 예약 현황은 빠른일 기준 먼저 출력
-		bookingList.get(1).sort((Comparator.comparing(BookingDto::getReserveDate).reversed())); // 이용 내역은 최신 내역 먼저 출력
+		s1.setUserId(account);
+		s1.setRestaurant(r1);
+		s2.setUserId(account);
+		s2.setRestaurant(r2);
+		s3.setUserId(account);
+		s3.setRestaurant(r3);
 		
-		model.addAttribute("reserveBookingList", bookingList.get(0));
-		model.addAttribute("progressedBookingList", bookingList.get(1));
+//		starsService.saveStars(s1);
+//		starsService.saveStars(s2);
+//		starsService.saveStars(s3);
 		
-		return "/mypage/list/historyList";
-	}
-	
-	@GetMapping("/mypage/review")
-	public String review(Model model, @AuthenticationPrincipal User user) {
-		String userId = user.getUsername();
-		List<HotelScoreDto> hotelScoreList = accountService.getHotelScoreList(userId);
-		List<RestaurantScoreDto> restaurantScoreList = accountService.getRestaurantScoreList(userId);
-		
-		model.addAttribute("hotelScoreList", hotelScoreList);
-		model.addAttribute("restaurantScoreList", restaurantScoreList);
-		
-		return "/mypage/list/reviewList";
-	}
-	
-	@GetMapping("/mypage/stars")
-	public String stars(Model model, @AuthenticationPrincipal User user) {
-		String userId = user.getUsername();
-		
-		List<StarsDto> starsList = accountService.getStarsList(userId);
-		model.addAttribute("starsDtoList", starsList);
-		
-		return "/mypage/list/starsList";
-	}
-	
-	@ResponseBody
-	@PostMapping("/mypage/review/delete")
-	public boolean reviewDelete(Long type, Long seq) {
-		if(type==1L) {
-			hotelScoreService.deleteHotelScore(seq);
-			return true;
-		}else if(type==2L) {
-			restaurantScoreService.deleteRestaurantScore(seq);
-			return true;
-		}
-		return false;
-	}
-	
-	@ResponseBody
-	@PostMapping("/mypage/reservation/delete")
-	public boolean reserveDelete(Long seq) {
-		bookingService.deleteBooking(seq);
-		return true;
-	}
-	
-	@ResponseBody
-	@PostMapping("/mypage/stars/delete")
-	public boolean starsDelete(Long seq) {
-		starsService.deleteStars(seq);
-		return true;
+		return "redirect:/";
 	}
 }

@@ -149,7 +149,6 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			starsDto.setRestaurantSeq(restaurant.getSeq());
 			starsDto.setRestaurantName(restaurant.getName());
 			starsDto.setRestaurantPhone(restaurant.getPhone());
-			starsDto.setRestaurantDesc(restaurant.getDescription());
 			starsDtoList.add(starsDto);
 		}
 		return starsDtoList;
