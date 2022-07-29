@@ -22,7 +22,7 @@ public class HotelDetailFormDto {//호텔 상세보기 페이지에서 사용합
 	private double avg;//호텔 평점, 리뷰테이블의 평균값을 가져옴
 	
 	private List<Long> hotelScore;//리뷰테이블 id
-	private List<Long> room;//room의 id
+	private List<HotelDetailRoomFormDto> roomList;//room의 id
 	
 
 }
