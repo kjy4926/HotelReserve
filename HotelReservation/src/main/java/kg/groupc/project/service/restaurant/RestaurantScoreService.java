@@ -34,4 +34,7 @@ public class RestaurantScoreService<T, ID extends Serializable> extends BaseServ
 		
 		return restaurantScoreRepository.save(restaurantScore);
 	}
+	public void deleteRestaurantScore(Long seq) {
+		restaurantScoreRepository.deleteById(seq);
+	}
 }
