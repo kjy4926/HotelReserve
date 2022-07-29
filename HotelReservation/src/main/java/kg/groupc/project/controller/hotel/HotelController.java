@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.account.BookingDto;
 import kg.groupc.project.dto.hotel.BookingFormDto;
+import kg.groupc.project.dto.hotel.HotelDetailFormDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.Room;
@@ -72,7 +73,6 @@ public class HotelController extends BaseController{
 		
 		int maxPage = HotelPageUtil.pageButtonInitialize((int) hotelMainFormDtoList.get(1).getDataCount(), pageable);
 		
-
 		model.addAttribute("num", num);//검색 조건 유지
 		model.addAttribute("keyword", keyword);//페이지 이동 후에도 keyword를 유지시키기 위함
 		model.addAttribute("hotelMainFormDtoList", hotelMainFormDtoList);//호텔 목록 전달
@@ -90,8 +90,7 @@ public class HotelController extends BaseController{
 	}
 	
 	@GetMapping("/hotel/detail/{seq}")
-	public String hotelDetail(@PathVariable int seq) {//호텔 상세보기/객실리스트 화면
-		
+	public String hotelDetail(@PathVariable int seq, Model model) {//호텔 상세보기/객실리스트 화면
 		
 		HotelDetailFormDto hotelDetailFormDto = hotelService.getHotelDetail(seq);
 		if(hotelDetailFormDto == null) {//에러방지용
@@ -101,8 +100,8 @@ public class HotelController extends BaseController{
 		for(int i = 0; i< hotelDetailFormDto.getRoomList().size(); i++) {
 			System.out.println("방이름" + hotelDetailFormDto.getRoomList().get(i).getName());
 		}
-
 		
+		model.addAttribute("hotelDetailFormDto", hotelDetailFormDto);
 		
 		return "/hotel/hotelDetail";
 	}

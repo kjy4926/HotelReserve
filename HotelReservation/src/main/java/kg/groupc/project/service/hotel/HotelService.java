@@ -7,15 +7,19 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import kg.groupc.project.dto.hotel.HotelDetailFormDto;
+import kg.groupc.project.dto.hotel.HotelDetailRoomFormDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.HotelScore;
 import kg.groupc.project.entity.hotel.Room;
 import kg.groupc.project.repository.hotel.HotelRepository;
+import kg.groupc.project.repository.hotel.HotelScoreRepository;
 import kg.groupc.project.repository.hotel.RoomRepository;
 import kg.groupc.project.service.BaseService;
 import lombok.Getter;
@@ -78,6 +82,8 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 			hotelMainFormDto.setAvg(avg);
 			hotelMainFormDto.setDataCount(count);
 			hotelMainFormDtoList.add(hotelMainFormDto);
+		}
+		return hotelMainFormDtoList;
 	}
 	
 	@Autowired

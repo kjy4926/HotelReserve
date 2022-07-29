@@ -23,5 +23,6 @@ public class HotelDetailFormDto {//호텔 상세보기 페이지에서 사용합
 	
 	private List<Long> hotelScore;//리뷰테이블 id
 	private List<HotelDetailRoomFormDto> roomList;//room의 id
+	
 
 }
