@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import kg.groupc.project.dto.restaurant.MenuAddFormDto;
 import kg.groupc.project.entity.BaseEntity;
@@ -30,6 +32,7 @@ public class Menu extends BaseEntity<Long>{
 	// 식당 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Restaurant.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Restaurant restaurant;
 	
 	// 메뉴 이름

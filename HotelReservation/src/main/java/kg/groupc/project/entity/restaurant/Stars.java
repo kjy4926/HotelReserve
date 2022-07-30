@@ -5,6 +5,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import lombok.Getter;
@@ -15,14 +18,23 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Stars extends BaseEntity<Long> {
+	
 	// 복합키 사용
 	// 계정 id(외래키)
 	@ManyToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Account userId;
 	
 	// 식당 id(외래키)
 	@ManyToOne(targetEntity = Restaurant.class, fetch =  FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
 	private Restaurant restaurant;
+	
+	public static Stars addStars(Account userId) {
+		Stars stars = new Stars();
+		stars.setUserId(userId);
+		return stars;
+	}
+	
 }

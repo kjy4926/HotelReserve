@@ -23,56 +23,8 @@
 <body>
 	<!-- 상단메뉴 -->
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
-	
-    <!-- 배너 -->
-	<div class="slideshow-container">
-	  <div class="mySlides fade">
-	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantBanner/banner1.jpg"/>" style="width:100%">
-	  </div>
-	  <div class="mySlides fade">
-	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantBanner/banner2.jpg"/>" style="width:100%">
-	  </div>
-	  <div class="mySlides fade">
-	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantBanner/banner3.jpg"/>" style="width:100%">
-	  </div>
-	</div>
-	<br>
-	
-	<div style="text-align:center">
-	  <span class="dot" onclick="currentSlide(1)"></span>
-	  <span class="dot" onclick="currentSlide(2)"></span>
-	  <span class="dot" onclick="currentSlide(3)"></span>
-	</div>
-    
-    <script>
-	let slideIndex = 0;
-	showSlides();
-	
-	function showSlides() {
-	  let i;
-	  let slides = document.getElementsByClassName("mySlides");
-	  let dots = document.getElementsByClassName("dot");
-	  for (i = 0; i < slides.length; i++) {
-	    slides[i].style.display = "none";  
-	  }
-	  slideIndex++;
-	  if (slideIndex > slides.length) {slideIndex = 1}    
-	  for (i = 0; i < dots.length; i++) {
-	    dots[i].className = dots[i].className.replace(" active", "");
-	  }
-	  slides[slideIndex-1].style.display = "block";  
-	  dots[slideIndex-1].className += " active";
-	  setTimeout(showSlides, 2000); // Change image every 2 seconds
-	}
-	</script>
-    
-    <!--
-    <div class="image-box">
-    	<img class="image-banner" src="${pageContext.request.contextPath}/resources/img/default.png">
-    </div>
-    -->
 		  	
-    <form action="/restaurant" class="form-inline d-flex justify-content-center" method="GET">
+    <form action="/admin/restaurant" class="form-inline d-flex justify-content-center" method="GET">
 		<div class="form-group">
 			<select class="form-select" id="field" name="field">
 				<option value="name">상호명</option>
@@ -84,7 +36,8 @@
       		<button class="btn btn-primary" type="submit">검색</button>
     	</div>
 	</form>
-	
+	<a class="btn btn-primary" href="/admin/restaurant/new">맛집 등록</a>
+
     <!-- 맛집 목록 -->
 	<table class="table table-hover">
 		<thead>
@@ -99,7 +52,7 @@
 	  		<c:forEach var="restaurant" items="${pageList.content}">
 	    		<tr class="table-active">
 	      		<td><img alt="" src="<c:url value="${pageContext.request.contextPath}/resources/img/restaurantImg/${restaurant.img}"/>" style="width: 100%; height: 150px; object-fit: cover;"/></td>
-	      		<td><a href="<c:url value="/restaurant/${restaurant.seq}"/>">${restaurant.name}</a></td>
+	      		<td><a href="<c:url value="/admin/restaurant/${restaurant.seq}"/>">${restaurant.name}</a></td>
 	      		<td>${restaurant.address}</td>
 	      		<td>${restaurant.phone}</td>
 	    		</tr>
@@ -114,8 +67,8 @@
 			<c:choose>
 				<c:when test="${pageList.first}"></c:when>
 				<c:otherwise>
-					<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=0">처음</a></li>
-					<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number-1}">&larr;</a></li>
+					<li class="page-item"><a class="page-link" href="/admin/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=0">처음</a></li>
+					<li class="page-item"><a class="page-link" href="/admin/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number-1}">&larr;</a></li>
 				</c:otherwise>
 			</c:choose>
 			
@@ -123,10 +76,10 @@
 			<c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
 				<c:choose>
 					<c:when test="${pageList.pageable.pageNumber+1 == i}">
-						<li class="page-item disabled"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i-1}">${i}</a></li>
+						<li class="page-item disabled"><a class="page-link" href="/admin/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i-1}">${i}</a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i-1}">${i}</a></li>
+						<li class="page-item"><a class="page-link" href="/admin/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${i-1}">${i}</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -135,8 +88,8 @@
 			<c:choose>
 				<c:when test="${pageList.last}"></c:when>
 				<c:otherwise>
-					<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number+1}">&rarr;</a></li>
-					<li class="page-item"><a class="page-link" href="/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.totalPages-1}">마지막</a></li>
+					<li class="page-item"><a class="page-link" href="/admin/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.number+1}">&rarr;</a></li>
+					<li class="page-item"><a class="page-link" href="/admin/restaurant/?field=${param.field}&searchKeyword=${param.searchKeyword}&page=${pageList.totalPages-1}">마지막</a></li>
 				</c:otherwise>
 			</c:choose>
 		</ul>		

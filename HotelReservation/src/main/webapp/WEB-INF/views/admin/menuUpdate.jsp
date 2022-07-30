@@ -44,30 +44,11 @@ img {
 	      <label for="description" class="form-label mt-4">소개</label>
 	      <input value="${menu.description}" type="text" class="form-control" id="description" name="description" placeholder="메뉴에 대한 정보를 입력하세요">
 	    </div>
-	    <div class="form-group">
-	      <label for="img" class="form-label mt-4">메뉴 사진</label>
-	      <input type="file" class="form-control" name="uploadFile" accept="image/*" onchange="setThumbnail(event);"/>
-	    </div>
-	    <table>
-        	<tr>
-        		<td rowspan="4" width="200" height="200">이미지 미리보기<div id="image_container"></div></td>
-        	</tr>
-        </table>
+	    <br>
         	<button type="submit" class="btn btn-primary">수정</button>
         	<a class="btn btn-primary" onClick="history.go(-1)">이전</a>
 	</fieldset>
 	</form>
-		<script>
-			function setThumbnail(event) {
-				var reader = new FileReader();
-				reader.onload = function(event) {
-					var img = document.createElement("img");
-					img.setAttribute("src", event.target.result);
-					document.querySelector("div#image_container").appendChild(img);
-				};
-				reader.readAsDataURL(event.target.files[0]);
-			}
-		</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
