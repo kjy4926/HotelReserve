@@ -32,7 +32,7 @@ public class MenuController {
 	@RequestMapping(value="/admin/{seq}/new", method=RequestMethod.GET)
 	public String newMenuPage(@PathVariable("seq") Long restaurant, Model model) {
 		model.addAttribute("restaurant", restaurantService.findRestaurant(restaurant));
-		return "/restaurant/menuAdd";
+		return "/admin/menuAdd";
 	}
 	
 	@RequestMapping(value="/admin/{seq}/new", method=RequestMethod.POST)
@@ -41,23 +41,23 @@ public class MenuController {
 		String path = req.getServletContext().getRealPath("/resources/img/menuImg/");
 		menuService.create(menuAddFormDto, img, path);
 		
-		return "redirect:/restaurant/{seq}";
+		return "redirect:/admin/restaurant/{seq}";
 	}
 	
 	// 메뉴 상세
-	@GetMapping("/restaurant/menu/{seq}")
+	@GetMapping("/admin/restaurant/menu/{seq}")
 	public String menuDetailPage(@PathVariable Long seq, Model model) {
 		Menu menu = menuService.findMenu(seq);
 		model.addAttribute("menu", menu);
 		
-		return "/restaurant/menuDetail";
+		return "/admin/menuDetail";
 	}
 	
 	// 메뉴 삭제
 	@GetMapping("/admin/restaurant/menu/delete/{seq}")
 	public String deleteMenuPage(@PathVariable Long seq) {
 		Menu menuDelete = menuService.delete(seq);
-		return "redirect:/restaurant";
+		return "redirect:/admin/restaurant";
 	}
 	
 	// 메뉴 수정
@@ -65,13 +65,13 @@ public class MenuController {
 	public String updateMenuPage(@PathVariable("seq") Long seq, Model model) {
 		Menu menu = menuService.findMenu(seq);
 		model.addAttribute("menu", menu);
-		return "/restaurant/menuUpdate";
+		return "/admin/menuUpdate";
 	}
 	
 	@PostMapping("/admin/restaurant/menu/update")
 	public String editMenu(Long seq, MenuAddFormDto menuAddFormDto, Menu menu) {
 		menuService.edit(seq, menuAddFormDto);
 		
-		return "redirect:/restaurant/menu/" + menu.getSeq();
+		return "redirect:/admin/restaurant/menu/" + menu.getSeq();
 	}
 }

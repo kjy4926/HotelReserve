@@ -62,7 +62,7 @@ img {
         	</tr>
         </table>
         	<button type="submit" class="btn btn-primary">확인</button>
-        	<a class="btn btn-primary" href="/restaurant">이전</a>
+        	<a class="btn btn-primary" href="/admin/restaurant">이전</a>
 	</fieldset>
 	</form>
 		<script>
