@@ -38,16 +38,17 @@ public class HotelController extends BaseController{
 	public String hotel(HttpServletRequest request, Model model,
 			@PageableDefault(size = 10)Pageable pageable) {
 //		@PageableDefault에 size로 한 페이지당 출력할 데이터 개수를 지정가능
-		int page;
+
 		String keyword = request.getParameter("keyword");
 		
-		int type;
+		int type;//검색 키워드 조건, 호텔명인지, 지역명인지
 		if(request.getParameter("type")== null) {//검색 키워드 조건
 			type = 0;
 		}else {
 			type = Integer.parseInt(request.getParameter("type"));
 		}
 
+		int page;//현재 페이지
 		if(request.getParameter("page") == null) {//페이지
 			page = 1;
 		}else {
@@ -56,16 +57,30 @@ public class HotelController extends BaseController{
 		
 		pageable = PageRequest.of(page-1, 10);
 		
-		List<HotelMainFormDto> hotelMainFormDtoList = //데이터 전체 반환
-				hotelService.getHotelList(keyword, type, pageable);
-
-		if(hotelMainFormDtoList.size() == 0) {//데이터 없을 때 에러페이지 방지용
-			return "redirect:/hotel";
+		int sortAvg;//정렬조건:별점
+		if(request.getParameter("sortAvg") == null) {//
+			sortAvg = 0;
+		}else {
+			sortAvg = Integer.parseInt(request.getParameter("sortAvg"));
 		}
 		
 		
-		int maxPage = hotelPageUtil.pageButtonInitialize((int) hotelMainFormDtoList.get(1).getDataCount(), pageable);
+		List<HotelMainFormDto> hotelMainFormDtoList = //데이터 전체 반환
+				hotelService.getHotelList(keyword, type, sortAvg, pageable);
+
 		
+		int dataCount;
+		if(hotelMainFormDtoList.size() == 0) {//데이터 없을 때 에러페이지 방지용
+			dataCount = 0;
+		}else {
+			dataCount = (int)hotelMainFormDtoList.get(0).getDataCount();
+		}
+		
+		
+		int maxPage = hotelPageUtil.pageButtonInitialize(dataCount, pageable);
+		
+		
+		model.addAttribute("sortAvg", sortAvg);//평점순 정렬조건
 		model.addAttribute("type", type);//검색 조건 유지
 		model.addAttribute("keyword", keyword);//페이지 이동 후에도 keyword를 유지시키기 위함
 		model.addAttribute("hotelMainFormDtoList", hotelMainFormDtoList);//호텔 목록 전달

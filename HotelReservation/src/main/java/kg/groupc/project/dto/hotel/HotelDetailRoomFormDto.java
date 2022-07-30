@@ -9,10 +9,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class HotelDetailRoomFormDto {
 	
-	private Long seq;
-	private String img;
-	private String name;
-	private Long people;
-	private String desc;
+	private Long seq;//room seq
+	private String img;//img경로
+	private String name;//방이름
+	private Long people;//최대 인원수
+	private String desc;//방 설명
 	
 }

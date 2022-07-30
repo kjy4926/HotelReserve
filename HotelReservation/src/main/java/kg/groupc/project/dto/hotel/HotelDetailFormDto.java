@@ -24,7 +24,7 @@ public class HotelDetailFormDto {//호텔 상세보기 페이지에서 사용합
 	
 	
 	
-	private List<Long> hotelScore;//리뷰테이블 id
+	private List<Long> hotelScore;//리뷰테이블 id, 현재 사용안하는 속성
 	private List<HotelDetailRoomFormDto> roomList;
 	//Room 엔티티에서 꺼내올 정보를 저장할 DTO
 	

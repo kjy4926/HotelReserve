@@ -24,20 +24,33 @@
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<!-- 검색바 -->
-	<form action="hotel" method="get">
-		<div class="form-group" style="width: 50%; margin: auto;">
-			<select class="form-select" name="type">
-			       <option value="1" id="op1">호텔명으로 검색</option>
-			       <option value="2" id="op2">지역명으로 검색</option>
-			</select>
-			<div class="input-group">
-				<input class="form-control me-sm-2" type="text" name="keyword" placeholder="주소 또는 호텔명으로 검색">
-				<button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
-			</div>
-			<br>
+
+	
+	<div class="form-group" style="width:100%; margin-top:5%; display: inline-flex;">
+		<div>
+			<a href="hotel?type=${type}&keyword=${keyword}&sortAvg=1"><button class="btn btn-secondary my-2 my-sm-0">평점순으로 정렬</button></a>
 		</div>
-	</form>
-	<div class="container-fluid" style="text-align: center;">
+		<div style="width: 30%">
+			<form action="hotel" method="get">
+				<div style="display: inline-flex;">
+					<div style="width: 80%">
+						<select class="form-select" name="type">
+						       <option value="1" id="op1">호텔명으로 검색</option>
+						       <option value="2" id="op2">지역명으로 검색</option>
+						</select>
+					</div>
+					<div class="input-group">
+						<input type="hidden" name="type" value="0"/>
+						<input class="form-control me-sm-2" type="text" name="keyword" placeholder="주소 또는 호텔명으로 검색">
+						<button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
+					</div>
+					<br>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="container-fluid" style="text-align: center; margin-top: 5%">
 		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}" > 
 			<div class="card mb-3" style="width: 18%; display: inline-flex;"
 				onclick="location.href='${pageContext.request.contextPath}/hotel/detail/${hotelMainFormDto.seq}'">
@@ -81,7 +94,7 @@
 			</c:if>
 			<c:if test="${firstPage != -1 }">
 				<li class="page-item">
-			    	<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&page=${firstPage}">&laquo;</a>
+			    	<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&sortAvg=${sortAvg}&page=${firstPage}">&laquo;</a>
 				</li>
 			</c:if>
 			
@@ -92,19 +105,19 @@
 			</c:if>
 			<c:if test="${prevPage != -1 }">
 				<li class="page-item">
-			    	<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&page=${prevPage}">&lt;</a>
+			    	<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&sortAvg=${sortAvg}&page=${prevPage}">&lt;</a>
 				</li>
 			</c:if>
 
 			<c:forEach var="i" begin="${startPage}" end="${lastPage}">
 				<c:if test="${page == i-1}">
 					<li class="page-item disabled">
-						<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&page=${i}"><c:out value="${i}"/></a>
+						<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&sortAvg=${sortAvg}&page=${i}"><c:out value="${i}"/></a>
 					</li>
 				</c:if>
 				<c:if test="${page != i-1}">
 					<li class="page-item">
-						<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&page=${i}"><c:out value="${i}"/></a>
+						<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&sortAvg=${sortAvg}&page=${i}"><c:out value="${i}"/></a>
 					</li>
 				</c:if>
 			</c:forEach>
@@ -117,7 +130,7 @@
 			</c:if>
 			<c:if test="${nextPage != -1}">
 				<li class="page-item">
-					<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&page=${nextPage}">&gt;</a>
+					<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&sortAvg=${sortAvg}&page=${nextPage}">&gt;</a>
 				</li>
 			</c:if>
 			<c:if test="${nextPage == -1}">
@@ -127,7 +140,7 @@
 			</c:if>
 			<c:if test="${nextPage != -1}">
 				<li class="page-item">
-					<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&page=${maxPage}">&raquo;</a>
+					<a class="page-link" href="hotel?type=${type}&keyword=${keyword}&sortAvg=${sortAvg}&page=${maxPage}">&raquo;</a>
 				</li>
 			</c:if>
 		</ul>
