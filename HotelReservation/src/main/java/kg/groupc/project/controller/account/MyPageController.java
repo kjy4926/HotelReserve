@@ -209,7 +209,6 @@ public class MyPageController extends BaseController{
 	@GetMapping("/mypage/stars")
 	public String stars(Model model, @AuthenticationPrincipal User user) {
 		String userId = user.getUsername();
-		
 		List<StarsDto> starsList = accountService.getStarsList(userId);
 		model.addAttribute("starsDtoList", starsList);
 		

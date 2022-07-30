@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import lombok.Getter;
@@ -26,6 +29,7 @@ public class HotelScore extends BaseEntity<Long> {
 	// 호텔 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Hotel hotel;
 	
 	// 작성자(외래키)

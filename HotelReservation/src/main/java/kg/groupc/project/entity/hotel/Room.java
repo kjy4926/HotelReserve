@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -29,6 +32,7 @@ public class Room extends BaseEntity<Long> {
 	// 호텔 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Hotel hotel;
 	
 	// 방 이름

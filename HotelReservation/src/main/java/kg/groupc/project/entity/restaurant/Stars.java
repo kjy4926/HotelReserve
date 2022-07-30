@@ -29,12 +29,6 @@ public class Stars extends BaseEntity<Long> {
 	// 식당 id(외래키)
 	@ManyToOne(targetEntity = Restaurant.class, fetch =  FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Restaurant restaurant;
-	
-	public static Stars addStars(Account userId) {
-		Stars stars = new Stars();
-		stars.setUserId(userId);
-		return stars;
-	}
-	
 }
