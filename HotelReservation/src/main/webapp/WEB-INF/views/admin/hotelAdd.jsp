@@ -15,17 +15,18 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<style type="text/css">
 		.img-field{
-			width: 200px;
-			height: 200px;
+			max-width: 200px;
+			max-height: 200px;
 			text-align: left;
 		}
 		.btn-field{float: right;}
+		img{width: 100%}
 	</style>
 </head>
 	<body>
 		<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 		
-		<form class="container" action="/admin/hotel/new" method="post" enctype="multipart/form-data">
+		<form onsubmit="return hotelAddConfirm()" class="container" action="/admin/hotel/new" method="post" enctype="multipart/form-data">
 		  <fieldset>
 		    <legend>호텔 등록</legend>
 		    <div class="form-group">
