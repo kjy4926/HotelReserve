@@ -14,6 +14,10 @@ function searchAddress(){
 	        }
 	    }).open();
 }
-function fileTransfer(){
-
+function hotelAddConfirm(){
+	if(confirm('호텔을 등록하시겠습니까?')){
+		alert('호텔이 등록되었습니다.')
+		return true;
+	}
+	return false;
 }
