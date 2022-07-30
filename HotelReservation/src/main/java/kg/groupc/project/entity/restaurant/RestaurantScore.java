@@ -8,6 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import lombok.Getter;
@@ -22,6 +25,7 @@ public class RestaurantScore extends BaseEntity<Long> {
 	// 점포 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Restaurant.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Restaurant restaurant;
 	
 	// 작성자

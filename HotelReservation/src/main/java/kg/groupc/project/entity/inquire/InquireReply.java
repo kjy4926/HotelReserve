@@ -8,6 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
 import lombok.Builder;
@@ -22,6 +25,7 @@ public class InquireReply extends BaseEntity<Long>{
 	// 문의글 id(외래키)
 	@ManyToOne(optional = false, targetEntity = Inquire.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "inquire")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Inquire inquire;
 	
 	// 작성자(관리자, 외래키)

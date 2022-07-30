@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.entity.account.Account;
@@ -96,19 +97,24 @@ public class RestaurantController extends BaseController{
 		List<Menu> menuList = menuService.menuList(seq);
 		model.addAttribute("menuList", menuList);
 		
-		Account account = accountRepository.findByUserId(userId);
-		model.addAttribute("userId", account);
+		model.addAttribute("userId", user.getUsername());
 		return "/restaurant/restaurantDetail";
 	}
 	
 	// 맛집 상세 및 찜하기(사용자)
 	@PostMapping("/restaurant/{seq}/choice")
-	public String choiceRestaurant(Stars stars) {
-		starsService.saveStars(stars);
-		
-		return "redirect:/restaurant";
+	public String choiceRestaurant(@PathVariable Long seq, @RequestParam Long restaurant, @RequestParam String userId) {
+		starsService.saveStars(restaurant, userId);
+		return "redirect:/restaurant/"+seq;
 	}
-				
+	
+	// 이미 찜하기 한 맛집일 경우 알림 출력
+	@PostMapping("/restaurant/{seq}/choiceCheck")
+	@ResponseBody
+	public boolean choiceRestaurantCheck(@RequestParam Long restaurant, @RequestParam String userId) {
+		return starsService.starsDupCheck(restaurant, userId);
+	}
+	
 	/*
 	// 맛집 등록
 	@RequestMapping(value="/admin/restaurant/new", method=RequestMethod.POST)

@@ -22,7 +22,7 @@
 	<div class="list-field">
 		<ul class="nav nav-tabs" role="tablist">
 		  <li class="nav-item" role="presentation">
-		    <a class="nav-link active" data-bs-toggle="tab" href="#hotel" aria-selected="true" role="tab">호텔 리뷰</a>
+		    <a class="nav-link active" data-bs-toggle="tab" href="#hotel" aria-selected="true" role="tab">맛집 목록</a>
 		  </li>
 		</ul>
 		<div id="myTabContent" class="tab-content">

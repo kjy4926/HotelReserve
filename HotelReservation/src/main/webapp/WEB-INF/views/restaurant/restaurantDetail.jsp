@@ -9,6 +9,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<link href="${pageContext.request.contextPath}/resources/css/restaurant.css" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style>
 	img {
 	width: 100%;
@@ -105,17 +106,30 @@
 	
 	<!-- 버튼 -->
 	<form action="/restaurant/${restaurant.seq}/choice" method="post" name="choicers">
-    	<input type="hidden" name="restaurant" value="${restaurant.seq}">
-    	<input type="hidden" name="userId" value="${account.seq}">
+    	<input type="hidden" id="restaurant" name="restaurant" value="${restaurant.seq}">
+    	<input type="hidden" id="userId" name="userId" value="${userId}">
     	<button type="button" class="btn btn-primary" style="float: right;" onclick="choiceRestaurant()">찜하기</button>
     	<a class="btn btn-primary" href="/restaurant">이전</a>&nbsp;
     </form>
     <script>
     function choiceRestaurant() {
+    	var restaurant = document.getElementById('restaurant').value
+    	var userId = document.getElementById('userId').value
     	if(confirm("찜하시겠습니까?") == true) {
-    		document.choicers.submit();
-    	} else {
-    		return false;
+    		$.ajax({
+    			url:`${pageContext.request.contextPath}/restaurant/${restaurant.seq}/choiceCheck`,
+    			type:'post',
+    			data:{restaurant: restaurant,
+    				userId: userId},
+    			success: function(result){
+    				if(result==true){
+    					alert('이미 찜하신 가게입니다.')
+    				}else{
+    					document.choicers.submit();
+    					alert('찜 목록에 등록이 완료되었습니다.\n마이페이지 나의 맛집에서 찜 목록을 확인하실 수 있습니다.')
+    				}
+    			}
+    		});
     	}
     }
     </script>
