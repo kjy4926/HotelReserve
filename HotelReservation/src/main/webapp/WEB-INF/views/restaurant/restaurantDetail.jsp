@@ -123,7 +123,7 @@
     				userId: userId},
     			success: function(result){
     				if(result==true){
-    					alert('이미 찜하신 가게입니다.')
+    					alert('이미 찜한 맛집입니다.')
     				}else{
     					document.choicers.submit();
     					alert('찜 목록에 등록이 완료되었습니다.\n마이페이지 나의 맛집에서 찜 목록을 확인하실 수 있습니다.')

@@ -10,45 +10,103 @@
 	<title>Hotel</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+	<link href="${pageContext.request.contextPath}/resources/css/hotel.css" rel="stylesheet" type="text/css">
 </head>
-<style>
-	div {
-		justify-content: center;
-	}
-	
-</style>
 <script type="text/javascript">
-
 </script>
 <body onload="setSearchType()">
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	<!-- 검색바 -->
-
 	
+	<!-- 배너 -->
+	<div class="slideshow-container">
+	  <div class="mySlides fade">
+	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/hotelBanner/hotelbanner1.jpg"/>" style="width:100%">
+	  </div>
+	  <div class="mySlides fade">
+	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/hotelBanner/hotelbanner2.jpg"/>" style="width:100%">
+	  </div>
+	  <div class="mySlides fade">
+	    <img src="<c:url value="${pageContext.request.contextPath}/resources/img/hotelBanner/hotelbanner3.jpg"/>" style="width:100%">
+	  </div>
+	</div>
+	<br>
+	
+	<div style="text-align:center">
+	  <span class="dot" onclick="currentSlide(1)"></span>
+	  <span class="dot" onclick="currentSlide(2)"></span>
+	  <span class="dot" onclick="currentSlide(3)"></span>
+	</div>
+    
+    <script>
+	let slideIndex = 0;
+	showSlides();
+	
+	function showSlides() {
+	  let i;
+	  let slides = document.getElementsByClassName("mySlides");
+	  let dots = document.getElementsByClassName("dot");
+	  for (i = 0; i < slides.length; i++) {
+	    slides[i].style.display = "none";  
+	  }
+	  slideIndex++;
+	  if (slideIndex > slides.length) {slideIndex = 1}    
+	  for (i = 0; i < dots.length; i++) {
+	    dots[i].className = dots[i].className.replace(" active", "");
+	  }
+	  slides[slideIndex-1].style.display = "block";  
+	  dots[slideIndex-1].className += " active";
+	  setTimeout(showSlides, 2000); // Change image every 2 seconds
+	}
+	</script>
+	
+	<!-- 검색바 수정 전
 	<div class="form-group" style="width:100%; margin-top:5%; display: inline-flex;">
 		<div>
-			<a href="hotel?type=${type}&keyword=${keyword}&sortAvg=1"><button class="btn btn-secondary my-2 my-sm-0">평점순으로 정렬</button></a>
+			<a href="hotel?type=${type}&keyword=${keyword}&sortAvg=1"><button class="btn btn-secondary my-2 my-sm-0">평점순 정렬</button></a>
 		</div>
-		<div style="width: 30%">
-			<form action="hotel" method="get">
+		<div style="width: 90%">
+			<form action="hotel" method="get" class="form-inline d-flex justify-content-center">
 				<div style="display: inline-flex;">
-					<div style="width: 80%">
+					<div style="width: 25%">
 						<select class="form-select" name="type">
-						       <option value="1" id="op1">호텔명으로 검색</option>
-						       <option value="2" id="op2">지역명으로 검색</option>
+						       <option value="1" id="op1">호텔명</option>
+						       <option value="2" id="op2">지역명</option>
 						</select>
 					</div>
-					<div class="input-group">
+					<div class="input-group mb-3 search-bar">
 						<input type="hidden" name="type" value="0"/>
-						<input class="form-control me-sm-2" type="text" name="keyword" placeholder="주소 또는 호텔명으로 검색">
-						<button class="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
+						<input class="form-control rounded-pill" type="text" name="keyword" placeholder="검색어">
+						<button class="btn btn-primary" type="submit">검색</button>
 					</div>
 					<br>
 				</div>
 			</form>
 		</div>
 	</div>
+	-->
+	
+	<!-- 검색바 -->
+	<br>
+	<br>
+	<div class="form-group" style="text-align: center;">
+		<div>
+			<a href="hotel?type=${type}&keyword=${keyword}&sortAvg=1"><button class="btn btn-secondary my-2 my-sm-0">평점순 정렬</button></a>
+		</div>
+	</div>
+		<br>
+		<form action="/hotel" method="GET" class="form-inline d-flex justify-content-center">
+			<div class="form-group">
+				<select class="form-select" name="type">
+					<option value="1" id="op1">호텔명</option>
+					<option value="2" id="op2">지역명</option>
+				</select>
+			</div>
+			<div class="input-group mb-3 search-bar">
+				<input type="hidden" name="type" value="0"/>
+				<input class="form-control rounded-pill" type="text" name="keyword" placeholder="검색어">
+				<button class="btn btn-primary" type="submit">검색</button>
+			</div>
+		</form>
 	
 	<div class="container-fluid" style="text-align: center; margin-top: 5%">
 		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}" > 
@@ -83,7 +141,7 @@
 			</div>   
 		</c:forEach>
 	</div>
-	
+		
 		<ul class="pagination pagination-lg container-fluid justify-content-center">
 
 
@@ -149,5 +207,6 @@
 			option = document.getElementById(`op${type}`).selected = 'selected'
 		}
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

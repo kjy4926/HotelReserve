@@ -9,5 +9,6 @@ import kg.groupc.project.repository.BaseRepository;
 
 // Stars Table 복합키를 담는 IdClass
 public interface StarsRepository<T, ID extends Serializable> extends BaseRepository<Stars, Long>{
+	
 	Stars findByUserIdAndRestaurant(Account userId, Restaurant restaurant);
 }
