@@ -33,6 +33,7 @@ public class RestaurantAddFormDto {
 						.build();
 		return restaurant;
 	}
+	
 	/*
 	@Builder
 	public RestaurantAddFormDto(String name, String address, String phone, String img, String description) {
@@ -41,19 +42,6 @@ public class RestaurantAddFormDto {
 		this.phone = phone;
 		this.img = img;
 		this.description = description;
-	}
-	
-	public Restaurant toEntity() {
-		return Restaurant.builder()
-				.name(name)
-				.address(address)
-				.phone(phone)
-				.img(img)
-				.description(description)
-				.build();
-	}
-	public Restaurant toRestaurant() {
-		return new Restaurant(seq, name, address, phone, img, description, status);
 	}
 	*/
 }

@@ -49,28 +49,6 @@ public class RestaurantService<T, ID extends Serializable> extends BaseService<R
 	public Page<Restaurant> search2(String searchKeyword, Pageable pageable) {
 		return restaurantRepository.findByAddressContaining(searchKeyword, pageable);
 	}
-	/*
-	// 맛집 등록(관리자)
-	public Restaurant create(RestaurantAddFormDto restaurantAddFormDto, 
-			MultipartFile file) throws Exception {
-		Restaurant restaurant = restaurantAddFormDto.toEntity();
-		
-		String img = null;
-		MultipartFile uploadFile = restaurantAddFormDto.getUploadFile();
-		if(!uploadFile.isEmpty()) {
-			String originalFileName = uploadFile.getOriginalFilename();
-			String ext = FilenameUtils.getExtension(originalFileName);
-			
-			//UUID uuid = UUID.randomUUID();
-			//img = uuid+"."+ext;
-			img = restaurant.getSeq()+"."+ext;
-			uploadFile.transferTo(new File("C:\\javastudy\\hotel\\HotelReserve\\HotelReservation\\src\\main\\webapp\\resources\\img\\restaurantImg\\" + img));
-		}
-		restaurant.setImg(img);
-		
-		return restaurantRepository.save(restaurant);
-	}
-	*/
 	
 	// 맛집 등록(관리자)
 	public Restaurant create(RestaurantAddFormDto restaurantAddFormDto, 

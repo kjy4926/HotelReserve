@@ -66,12 +66,7 @@
 	}
 	</script>
     
-    <!--
-    <div class="image-box">
-    	<img class="image-banner" src="${pageContext.request.contextPath}/resources/img/default.png">
-    </div>
-    -->
-		  	
+    <!-- 검색 -->		  	
     <form action="/restaurant" class="form-inline d-flex justify-content-center" method="GET">
 		<div class="form-group">
 			<select class="form-select" id="field" name="field">
