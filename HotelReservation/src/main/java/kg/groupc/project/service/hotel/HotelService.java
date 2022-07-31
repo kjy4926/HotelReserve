@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.io.FileUtils;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +28,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import kg.groupc.project.dto.hotel.HotelAddFormDto;
 import kg.groupc.project.dto.hotel.HotelDetailFormDto;
 import kg.groupc.project.dto.hotel.HotelDetailRoomFormDto;
+import kg.groupc.project.dto.hotel.HotelDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
@@ -78,8 +81,47 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 		return hotelRepository.save(hotel);
 	}
 	
+	public Hotel updateHotel(Long seq, HotelAddFormDto hotelAddFormDto) {
+		Hotel hotel = hotelRepository.findById(seq).get();
+		
+		hotel.setName(hotelAddFormDto.getName());
+		hotel.setPhone(hotelAddFormDto.getPhone());
+		if(hotelAddFormDto.getAddress().length() != 0) {
+			hotel.setAddress(hotelAddFormDto.getAddress()+" "+hotelAddFormDto.getAddressDetail());
+		}
+		hotel.setDescription(hotelAddFormDto.getDescription());
+		hotel.setStatus(1L);
+		
+		MultipartFile mfile = hotelAddFormDto.getUploadFile();
+		String filePath = System.getProperty("user.dir")+"\\src\\main\\webapp\\resources\\img\\hotel\\" + hotel.getSeq() + ".jpg";
+		
+		if(!mfile.isEmpty()) {
+			try {
+				mfile.transferTo(new File(filePath));
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return hotelRepository.save(hotel);
+	}
+	
 	public Hotel getHotelBySeq(Long seq) {
 		return hotelRepository.findById(seq).get();
+	}
+	
+	public HotelDto hotelToHotelDto(Hotel hotel) {
+		HotelDto hotelDto = new HotelDto();
+		hotelDto.setSeq(hotel.getSeq());
+		hotelDto.setName(hotel.getName());
+		hotelDto.setPhone(hotel.getPhone());
+		hotelDto.setAddress(hotel.getAddress());
+		hotelDto.setDescription(hotel.getDescription());
+		hotelDto.setImg(hotel.getImg());
+		return hotelDto;
 	}
 	
 	public List<Hotel> getAllHotel() {
@@ -96,6 +138,30 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 		scoreMap.put(5, "★★★★★");
 		
 		return scoreMap;
+	}
+	
+	public Page<Hotel> getHotelPage(int page) {
+		System.out.println(page);
+		return hotelRepository.findByStatus(1L, PageRequest.of(page, 20, Sort.Direction.ASC, "seq"));
+	}
+	
+	@Transactional
+	public List<HotelDto> getHotelList(Page<Hotel> hotelPage){
+		List<Hotel> hotelList = hotelPage.getContent();
+		List<HotelDto> hotelDtoList = new ArrayList<HotelDto>();
+		for(Hotel hotel : hotelList) {
+			HotelDto hotelDto = new HotelDto();
+			hotelDto.setSeq(hotel.getSeq());
+			hotelDto.setName(hotel.getName());
+			hotelDto.setPhone(hotel.getPhone());
+			hotelDto.setAddress(hotel.getAddress());
+			hotelDto.setDescription(hotel.getDescription());
+			hotelDto.setImg(hotel.getImg());
+			
+			hotelDtoList.add(hotelDto);
+		}
+		
+		return hotelDtoList;
 	}
 	
 	@Transactional

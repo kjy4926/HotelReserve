@@ -82,11 +82,12 @@ public class SeleniumUtil {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			List<WebElement> hotelName = driver.findElements(By.className("sc-jacqCo"));
 			List<WebElement> hotelAddr = driver.findElements(By.className("sc-eCVOVf"));
 			List<WebElement> hotelImg = driver.findElements(By.className("sc-jlCeNt"));
 			List<WebElement> hotelDetailLink = driver.findElements(By.className("sc-jWESwd"));
+			List<WebElement> hotelDesc = driver.findElements(By.className("sc-fBxREx"));
 			
 			for(int i=0;i<hotelName.size()&&i<10;i++){
 				String hname = hotelName.get(i).getText();
@@ -94,7 +95,7 @@ public class SeleniumUtil {
 				String himgLink = hotelImg.get(i).getAttribute("src");
 				String hdetailLink = hotelDetailLink.get(i).findElement(By.tagName("a")).getAttribute("href");
 				String hphone = null;
-				String hdesc = null;
+				String hdesc = hotelDesc.get(i).getText();
 								
 				// 호텔 세부정보 가져오기
 				try {
@@ -120,6 +121,7 @@ public class SeleniumUtil {
 					hotel.setPhone(hphone);
 					hotel.setAddress(haddr);
 					hotel.setStatus(1L);
+					hotel.setDescription(hdesc);
 					hotelRepository.save(hotel);
 										
 					hotel.setImg(hotel.getSeq()+".jpg");
@@ -128,40 +130,45 @@ public class SeleniumUtil {
 					hotelRepository.save(hotel);
 					
 					for(int j=0;j<roomName.size();j++) {
-						String rname = roomName.get(j).getText();
-						String rprice = priceField.get(j).getText().replaceAll("[0-9]박", "").replaceAll("[^0-9]", "");
-						String pad = peopleAndDescField.get(j).getText();
-						String rpeople = pad.split(" ")[4].replaceAll("[^0-9]", "");
-						String rdesc;
 						try {
-							rdesc = pad.split("/")[1].trim();
-						}catch(Exception e){
-							rdesc = null;
+							String rname = roomName.get(j).getText();
+							String rprice = priceField.get(j).getText().replaceAll("[0-9]박", "").replaceAll("[^0-9]", "");
+							String pad = peopleAndDescField.get(j).getText();
+							String rpeople = pad.split(" ")[4].replaceAll("[^0-9]", "");
+							String rdesc;
+							try {
+								rdesc = pad.split("/")[1].trim();
+							}catch(Exception e){
+								rdesc = null;
+							}
+							String rimgLink = roomImgLink.get(j).findElement(By.tagName("a")).getAttribute("href");
+							
+							driver3.get(rimgLink);
+							Thread.sleep(5000); // 페이지 로딩 대기
+	
+							
+							Room room = new Room();
+							room.setHotel(hotel);
+							room.setName(rname);
+							room.setPrice(Long.parseLong(rprice));
+							room.setPeople(Long.parseLong(rpeople));
+							room.setDescription(rdesc);
+							
+							roomRepository.save(room);
+							
+							room.setImg(room.getSeq()+".jpg");
+							URL rfileUrl = new URL(driver3.findElement(By.id("0")).getAttribute("src"));
+							String rfilePath = "src\\main\\webapp\\resources\\img\\room\\" + room.getSeq() + ".jpg";
+							FileUtils.copyURLToFile(rfileUrl, new File(rfilePath));
+							roomRepository.save(room);
+						}catch (Exception e) {
+							continue;
 						}
-						String rimgLink = roomImgLink.get(j).findElement(By.tagName("a")).getAttribute("href");
-						
-						driver3.get(rimgLink);
-						Thread.sleep(5000); // 페이지 로딩 대기
-
-						
-						Room room = new Room();
-						room.setHotel(hotel);
-						room.setName(rname);
-						room.setPrice(Long.parseLong(rprice));
-						room.setPeople(Long.parseLong(rpeople));
-						room.setDescription(rdesc);
-						
-						roomRepository.save(room);
-						
-						room.setImg(room.getSeq()+".jpg");
-						URL rfileUrl = new URL(driver3.findElement(By.id("0")).getAttribute("src"));
-						String rfilePath = "src\\main\\webapp\\resources\\img\\room\\" + room.getSeq() + ".jpg";
-						FileUtils.copyURLToFile(rfileUrl, new File(rfilePath));
-						roomRepository.save(room);
 					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					continue;
 				}
 			}
 		} catch (IOException e) {

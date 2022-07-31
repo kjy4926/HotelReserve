@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import kg.groupc.project.entity.BaseEntity;
@@ -22,6 +24,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
+@DynamicUpdate
 public class Hotel extends BaseEntity<Long>{
 	
 	// 호텔명

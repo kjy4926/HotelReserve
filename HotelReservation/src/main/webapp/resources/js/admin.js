@@ -21,3 +21,10 @@ function hotelAddConfirm(){
 	}
 	return false;
 }
+function hotelChangeConfirm(){
+	if(confirm('호텔을 수정하시겠습니까?')){
+		alert('호텔이 수정되었습니다.')
+		return true;
+	}
+	return false;
+}
