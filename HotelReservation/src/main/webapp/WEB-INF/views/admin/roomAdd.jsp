@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>호텔 추가</title>
+	<title>방 등록</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -26,31 +26,32 @@
 	<body>
 		<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 		
-		<form onsubmit="return hotelAddConfirm()" class="container" action="/admin/hotel/new" method="post" enctype="multipart/form-data">
+		<form onsubmit="return roomAddConfirm()" class="container" action="/admin/hotel/room/new/${hotelSeq}" method="post" enctype="multipart/form-data">
 		  <fieldset>
-		    <legend>호텔 등록</legend>
+		    <legend>방 등록</legend>
+		    <input type="hidden" name="hotelSeq" id="hotelSeq" value="${hotelSeq}">
 		    <div class="form-group">
-		      <label for="name" class="form-label mt-4">호텔명</label>
-		      <input type="text" class="form-control" id="name" name="name" placeholder="상호명을 입력하세요">
+		      <label for="name" class="form-label mt-4">방이름</label>
+		      <input type="text" class="form-control" id="name" name="name" placeholder="방이름을 입력하세요">
+		    </div>
+		    <div>
+		    	<label for="description" class="form-label mt-4">수용 인원</label>
+		    	<select class="form-select" id="people" name="people">
+		    		<c:forEach var="i" begin="1" end="20" varStatus="status">
+		    			<option value="${i}">${i}인</option>
+		    		</c:forEach>
+		    	</select>
 		    </div>
 		    <div class="form-group">
-		      <label for="address" class="form-label mt-4">주소</label>
-		      <div class="input-group">
-				<input type="text" class="form-control" id="address" name="address" placeholder="검색 버튼을 눌러 주소를 입력하세요" value="" readonly>
-				<input type="button" class="btn btn-outline-dark" value="검색" onclick="searchAddress()">
-		    </div>
-		    	<input type="text" class="form-control" id="addressDetail" name="addressDetail" placeholder="상세 주소" value="">
-		    </div>
-		    <div class="form-group">
-		      <label for="phone" class="form-label mt-4">연락처</label>
-		      <input type="text" class="form-control" id="phone" name="phone" placeholder="연락처를 입력하세요">
+		      <label for="price" class="form-label mt-4">가격</label>
+		      <input type="number" class="form-control" id="price" name="price" placeholder="가격을 입력하세요">
 		    </div>
 		    <div class="form-group">
 		      <label for="description" class="form-label mt-4">소개</label>
-		      <input type="text" class="form-control" id="description" name="description" placeholder="호텔에 대한 정보를 입력하세요">
+		      <input type="text" class="form-control" id="description" name="description" placeholder="방에 대한 정보를 입력하세요">
 		    </div>
 		    <div class="form-group">
-		      <label for="img" class="form-label mt-4">호텔 사진</label>
+		      <label for="img" class="form-label mt-4">방 사진</label>
 		      <input type="file" class="form-control" name="uploadFile" accept="image/*" onchange="setImg(this)"/>
 		    </div>
 		    	<label for="preview" class="form-label mt-4">이미지 미리보기</label>

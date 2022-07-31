@@ -18,4 +18,6 @@ public interface HotelRepository<T, ID extends Serializable> extends BaseReposit
 	
 	//검색어 : 지역명
 	Page<Hotel> findByAddressContainingAndStatusOrderByAddress(String address, Long status, Pageable pageable);
+	Page<Hotel> findByAddressContainingAndStatusOrderByName(String address, Long status, Pageable pageable);
+
 }

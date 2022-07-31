@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.hotel.HotelAddFormDto;
 import kg.groupc.project.dto.hotel.HotelDto;
+import kg.groupc.project.dto.hotel.RoomAddFormDto;
+import kg.groupc.project.dto.hotel.RoomDto;
 import kg.groupc.project.dto.restaurant.RestaurantAddFormDto;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.restaurant.Menu;
@@ -50,8 +54,14 @@ public class AdminController extends BaseController{
 	}
 	
 	@GetMapping("/admin/hotel")
-	public String hotel(Model model) {
-		Page<Hotel> hotelPage = hotelService.getHotelPage(0);
+	public String hotel(Model model, @RequestParam(value="search", required = false) String search,
+				@RequestParam(required=false) String searchType) {
+		Page<Hotel> hotelPage;
+		if(search==null) {
+			hotelPage = hotelService.getHotelPage(0);
+		}else {
+			hotelPage = hotelService.getSearchHotelPage(0, searchType, search);
+		}
 		List<HotelDto> hotelListDto = hotelService.getHotelList(hotelPage);
 		model.addAttribute("maxP", hotelPage.getTotalPages());
 		model.addAttribute("p", 1);
@@ -59,9 +69,26 @@ public class AdminController extends BaseController{
 		return "/admin/hotel";
 	}
 	
+	@PostMapping("/admin/hotel/search")
+	public String searchHotel(RedirectAttributes redirect, @RequestParam(required = false) String search,
+				@RequestParam(required=false) String searchType) {
+		if(search == null || search.trim().length()==0) {
+			return "redirect:/admin/hotel";
+		}
+		redirect.addAttribute("search", search);
+		redirect.addAttribute("searchType", searchType);
+		return "redirect:/admin/hotel";
+	}
+	
 	@GetMapping("/admin/hotel/{p}")
-	public String hotel(@PathVariable int p, Model model) {
-		Page<Hotel> hotelPage = hotelService.getHotelPage(p-1);
+	public String hotel(@PathVariable int p, Model model, @RequestParam(required = false) String search,
+				@RequestParam(required=false) String searchType) {
+		Page<Hotel> hotelPage;
+		if(search==null) {
+			hotelPage = hotelService.getHotelPage(p-1);
+		}else {
+			hotelPage = hotelService.getSearchHotelPage(p-1, searchType, search);
+		}
 		List<HotelDto> hotelListDto = hotelService.getHotelList(hotelPage);
 		model.addAttribute("maxP", hotelPage.getTotalPages());
 		model.addAttribute("p", p);
@@ -91,6 +118,33 @@ public class AdminController extends BaseController{
 	@PostMapping("/admin/hotel/change/{seq}")
 	public String postHotelChange(@PathVariable Long seq, Model model, HotelAddFormDto hotelAddFormDto) {
 		hotelService.updateHotel(seq, hotelAddFormDto);
+		return "redirect:/admin/hotel";
+	}
+	
+	@PostMapping("/admin/hotel/delete")
+	@ResponseBody
+	public boolean hotelDelete(Long seq) {
+		return hotelService.deleteHotel(seq);
+	}
+	
+	@GetMapping("/admin/room/{seq}")
+	public String room(@PathVariable Long seq, Model model) {
+		HotelDto hotelDto = hotelService.hotelToHotelDto(hotelService.getHotelBySeq(seq));
+		List<RoomDto> roomDtoList = hotelService.getHotelRoomList(seq);
+		model.addAttribute("hotel", hotelDto);
+		model.addAttribute("roomDtoList", roomDtoList);
+		return "/admin/room";
+	}
+	
+	@GetMapping("/admin/hotel/room/new/{seq}")
+	public String roomAdd(@PathVariable Long seq, Model model) {
+		model.addAttribute("hotelSeq", seq);
+		return "/admin/roomAdd";
+	}
+	
+	@PostMapping("/admin/hotel/room/new/{seq}")
+	public String postRoomAdd(RoomAddFormDto roomAddFormDto) {
+		roomService.saveRoom(roomAddFormDto);
 		return "redirect:/admin/hotel";
 	}
 	
@@ -175,7 +229,7 @@ public class AdminController extends BaseController{
 	// 맛집 삭제
 	@GetMapping("/admin/restaurant/delete/{seq}")
 	public String deleteRestaurantPage(@PathVariable Long seq) {
-		Restaurant restaurantDelete = restaurantService.delete(seq);
+		restaurantService.delete(seq);
 		return "redirect:/admin/restaurant";
 	}
 }

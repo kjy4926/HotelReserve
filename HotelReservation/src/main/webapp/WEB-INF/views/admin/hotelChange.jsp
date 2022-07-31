@@ -19,6 +19,7 @@
 			max-height: 200px;
 			text-align: left;
 		}
+		.del-btn-field{float: left;}
 		.btn-field{float: right;}
 		img{width: 100%}
 	</style>
@@ -61,6 +62,9 @@
 			<div class="img-field">
 	        	<img id="img" name="img" src="">
 			</div>
+				<div class="del-btn-field">
+					<button type="button" class="btn btn-outline-secondary" onclick="hotelDeleteConfirm(${hotel.seq})">호텔삭제</button>
+				</div>
 				<div class="btn-field">
 		        	<button type="submit" class="btn btn-outline-secondary">수정완료</button>
 		        	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/admin/hotel">취소하기</a>
