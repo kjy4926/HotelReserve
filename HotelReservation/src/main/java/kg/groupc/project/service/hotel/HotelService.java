@@ -30,6 +30,7 @@ import kg.groupc.project.dto.hotel.HotelDetailFormDto;
 import kg.groupc.project.dto.hotel.HotelDetailRoomFormDto;
 import kg.groupc.project.dto.hotel.HotelDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
+import kg.groupc.project.dto.hotel.RoomDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.HotelScore;
@@ -109,9 +110,20 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 		return hotelRepository.save(hotel);
 	}
 	
+	public boolean deleteHotel(Long seq) {
+		try {
+			hotelRepository.deleteById(seq);
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public Hotel getHotelBySeq(Long seq) {
 		return hotelRepository.findById(seq).get();
 	}
+	
 	
 	public HotelDto hotelToHotelDto(Hotel hotel) {
 		HotelDto hotelDto = new HotelDto();
@@ -122,6 +134,26 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 		hotelDto.setDescription(hotel.getDescription());
 		hotelDto.setImg(hotel.getImg());
 		return hotelDto;
+	}
+	
+	@Transactional
+	public List<RoomDto> getHotelRoomList(Long seq){
+		Hotel hotel = hotelRepository.findById(seq).get();
+		List<Room> roomList = hotel.getRooms();
+		List<RoomDto> roomDtoList = new ArrayList<RoomDto>();
+		for(Room room : roomList) {
+			RoomDto roomDto = new RoomDto();
+			roomDto.setSeq(room.getSeq());
+			roomDto.setHotelSeq(hotel.getSeq());
+			roomDto.setName(room.getName());
+			roomDto.setPeople(room.getPeople());
+			roomDto.setPrice(room.getPrice());
+			roomDto.setDescription(room.getDescription());
+			roomDto.setImg(room.getImg());
+			
+			roomDtoList.add(roomDto);
+		}		
+		return roomDtoList;
 	}
 	
 	public List<Hotel> getAllHotel() {
@@ -140,8 +172,16 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 		return scoreMap;
 	}
 	
+	public Page<Hotel> getSearchHotelPage(int page, String searchType, String search){
+		if(searchType.equals("name")) {
+			return hotelRepository.findByNameContainingAndStatusOrderByName(search, 1L, PageRequest.of(page, 20));
+		}else if(searchType.equals("addr")){
+			return hotelRepository.findByAddressContainingAndStatusOrderByName(search, 1L, PageRequest.of(page, 20));
+		}
+		return null;
+	}
+	
 	public Page<Hotel> getHotelPage(int page) {
-		System.out.println(page);
 		return hotelRepository.findByStatus(1L, PageRequest.of(page, 20, Sort.Direction.ASC, "seq"));
 	}
 	
