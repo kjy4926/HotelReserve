@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -27,6 +28,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
+@DynamicUpdate
 public class Room extends BaseEntity<Long> {
 	
 	// 호텔 id(외래키)

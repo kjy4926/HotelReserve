@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.hotel.HotelAddFormDto;
+import kg.groupc.project.dto.hotel.HotelDto;
 import kg.groupc.project.dto.restaurant.RestaurantAddFormDto;
+import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.restaurant.Menu;
 import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.repository.restaurant.RestaurantRepository;
@@ -47,6 +49,26 @@ public class AdminController extends BaseController{
 		return "/admin/admin";
 	}
 	
+	@GetMapping("/admin/hotel")
+	public String hotel(Model model) {
+		Page<Hotel> hotelPage = hotelService.getHotelPage(0);
+		List<HotelDto> hotelListDto = hotelService.getHotelList(hotelPage);
+		model.addAttribute("maxP", hotelPage.getTotalPages());
+		model.addAttribute("p", 1);
+		model.addAttribute("hotelListDto", hotelListDto);
+		return "/admin/hotel";
+	}
+	
+	@GetMapping("/admin/hotel/{p}")
+	public String hotel(@PathVariable int p, Model model) {
+		Page<Hotel> hotelPage = hotelService.getHotelPage(p-1);
+		List<HotelDto> hotelListDto = hotelService.getHotelList(hotelPage);
+		model.addAttribute("maxP", hotelPage.getTotalPages());
+		model.addAttribute("p", p);
+		model.addAttribute("hotelListDto", hotelListDto);
+		return "/admin/hotel";
+	}
+	
 	@GetMapping("/admin/hotel/new")
 	public String hotelAdd() {
 		return "/admin/hotelAdd";
@@ -56,6 +78,20 @@ public class AdminController extends BaseController{
 	public String postHotelAdd(HotelAddFormDto hotelAddFormDto) {
 		hotelService.saveHotel(hotelAddFormDto);
 		return "redirect:/admin";
+	}
+	
+	@GetMapping("/admin/hotel/change/{seq}")
+	public String hotelChange(@PathVariable Long seq, Model model) {
+		Hotel hotel = hotelService.getHotelBySeq(seq);
+		HotelDto hotelDto = hotelService.hotelToHotelDto(hotel);
+		model.addAttribute("hotel", hotelDto);		
+		return "/admin/hotelChange";
+	}
+	
+	@PostMapping("/admin/hotel/change/{seq}")
+	public String postHotelChange(@PathVariable Long seq, Model model, HotelAddFormDto hotelAddFormDto) {
+		hotelService.updateHotel(seq, hotelAddFormDto);
+		return "redirect:/admin/hotel";
 	}
 	
 	@GetMapping("/denied")

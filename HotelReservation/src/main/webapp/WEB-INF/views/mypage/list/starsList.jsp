@@ -42,7 +42,7 @@
 								<td>${stars.restaurantName}</td>
 								<td>${stars.restaurantPhone}</td>
 								<td>${stars.restaurantDesc}</td>
-								<td class="cancle-btn-field input-group">
+								<td>
 									<button class="btn btn-secondary btn-sm" type="button" 
 										onclick="location.href='${pageContext.request.contextPath}/mypage/review/restaurant/write/${stars.restaurantSeq}'">리뷰작성</button>
 									<button class="btn btn-outline-secondary btn-sm" type="button" 
