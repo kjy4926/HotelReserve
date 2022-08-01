@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,11 +26,13 @@ import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
 import kg.groupc.project.dto.account.RestaurantScoreDto;
 import kg.groupc.project.dto.account.StarsDto;
+import kg.groupc.project.dto.inquire.InquireDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Booking;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.HotelScore;
 import kg.groupc.project.entity.hotel.Room;
+import kg.groupc.project.entity.inquire.Inquire;
 import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.entity.restaurant.RestaurantScore;
 import kg.groupc.project.entity.restaurant.Stars;
@@ -193,6 +196,24 @@ public class AccountService<T, ID extends Serializable> extends BaseService<Acco
 			restaurantScoreDtoList.add(restaurantScoreDto);
 		}
 		return restaurantScoreDtoList;
+	}
+	
+	@Transactional
+	public List<InquireDto> getInquireList(String userId){
+		Account account = accountRepository.findByUserId(userId);
+		List<Inquire> inquireList = account.getInquires();
+		List<InquireDto> inquireDtoList = new ArrayList<InquireDto>();
+		for(Inquire inquire : inquireList) {
+			InquireDto inquireDto = new InquireDto();
+			inquireDto.setSeq(inquire.getSeq());
+			inquireDto.setWriter(account.getUserId());
+			inquireDto.setTitle(inquire.getTitle());
+			inquireDto.setDay(inquire.getDay());
+			inquireDto.setCategory(inquire.getCategory());
+			inquireDto.setStatus(inquire.getStatus());
+			inquireDtoList.add(inquireDto);
+		}
+		return inquireDtoList;
 	}
 	
 	public boolean idDuplicateCheck(String userId) {

@@ -17,7 +17,6 @@ import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.hotel.Booking;
 import kg.groupc.project.entity.hotel.HotelScore;
 import kg.groupc.project.entity.inquire.Inquire;
-import kg.groupc.project.entity.inquire.InquireReply;
 import kg.groupc.project.entity.restaurant.RestaurantScore;
 import kg.groupc.project.entity.restaurant.Stars;
 import lombok.Getter;
@@ -79,9 +78,6 @@ public class Account extends BaseEntity<Long>{
 	
 	@OneToMany(mappedBy = "writer", targetEntity = Inquire.class, fetch = FetchType.LAZY)
 	private List<Inquire> inquires;
-	
-	@OneToMany(mappedBy = "admin", targetEntity = InquireReply.class, fetch = FetchType.LAZY)
-	private List<InquireReply> inquireReplys;
 	
 	public static Account createAccount(SignupFormDto signupFormDto, PasswordEncoder passwordEncoder) {
 		Account account = new Account();

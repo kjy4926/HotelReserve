@@ -50,6 +50,11 @@ public class Inquire extends BaseEntity<Long>{
 	@Column(nullable = false, length = 1000)
 	private String description;
 	
+	// 답변자(관리자 계정)
+	@ManyToOne(optional = true, targetEntity = Account.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "reply")
+	private Account reply;
+	
 	//답변내용
 	@Column(nullable = true, length = 1000)
 	private String comments;
@@ -63,13 +68,8 @@ public class Inquire extends BaseEntity<Long>{
 	@Column(nullable = false)
 	private String category;
 	
-	
 	@Column(nullable = false, columnDefinition = "number(1) default 1")
 	private Long status;
-	
-	@OneToMany(mappedBy = "inquire", targetEntity = InquireReply.class, fetch = FetchType.LAZY)
-	private List<InquireReply> replys;
-	
 	
 	@Builder
 	public Inquire(Account writer, String category, Hotel hotel, String title, String description, String comments, Date day, Long status) {

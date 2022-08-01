@@ -160,7 +160,27 @@
 		    </h2>
 		    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample" style="">
 		      <div class="accordion-body">
-		        <strong>Four</strong>
+		        <table class="table">
+		        	<thead>
+						<tr>
+							<th style="width: 10%">카테고리</th>
+							<th style="width: 40%">제목</th>
+							<th style="width: 25%">작성일</th>
+							<th style="width: 25%">작성자</th>
+						<tr>
+					</thead>
+					<tbody>
+					<c:forEach var="inquire" items="${inquireList}" varStatus="status" end="4">
+							<tr onclick="location.href='${pageContext.request.contextPath}/inquire/read/${inquire.seq}'">
+								<td>${inquire.category}</td>
+								<td>${inquire.title}</td>
+								<td>${inquire.day}</td>
+								<td>${inquire.writer}</td>
+							</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+				<small class="form-text"><a href="${pageContext.request.contextPath}/mypage/inquire" style="float:right;">상세 보기</a></small><br>
 		      </div>
 		    </div>
 		  </div>

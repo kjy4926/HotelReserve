@@ -26,6 +26,7 @@ import kg.groupc.project.dto.account.InfoChangeFormDto;
 import kg.groupc.project.dto.account.PwdChangeFormDto;
 import kg.groupc.project.dto.account.RestaurantScoreDto;
 import kg.groupc.project.dto.account.StarsDto;
+import kg.groupc.project.dto.inquire.InquireDto;
 import kg.groupc.project.dto.review.ReviewFormDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
@@ -48,6 +49,7 @@ public class MyPageController extends BaseController{
 		List<StarsDto> starsList = accountService.getStarsList(userId);
 		List<HotelScoreDto> hotelScoreList = accountService.getHotelScoreList(userId);
 		List<RestaurantScoreDto> restaurantScoreList = accountService.getRestaurantScoreList(userId);
+		List<InquireDto> inquireList = inquireService.getMypageInquire(userId);
 		
 		bookingList.get(0).sort((Comparator.comparing(BookingDto::getReserveDate))); // 예약 현황은 빠른일 기준 먼저 출력
 		bookingList.get(1).sort((Comparator.comparing(BookingDto::getReserveDate).reversed())); // 이용 내역은 최신 내역 먼저 출력
@@ -57,6 +59,7 @@ public class MyPageController extends BaseController{
 		model.addAttribute("starsDtoList", starsList);
 		model.addAttribute("hotelScoreList", hotelScoreList);
 		model.addAttribute("restaurantScoreList", restaurantScoreList);
+		model.addAttribute("inquireList", inquireList);
 
 		return "/mypage/mypage";
 	}
@@ -204,6 +207,16 @@ public class MyPageController extends BaseController{
 		model.addAttribute("restaurantScoreList", restaurantScoreList);
 		
 		return "/mypage/list/reviewList";
+	}
+	
+	@GetMapping("/mypage/inquire")
+	public String inquire(Model model, @AuthenticationPrincipal User user) {
+		String userId = user.getUsername();
+		List<InquireDto> inquireList = inquireService.getMypageInquire(userId);
+		
+		model.addAttribute("inquireList", inquireList);
+		
+		return "/mypage/list/inquireList";
 	}
 	
 	@GetMapping("/mypage/stars")

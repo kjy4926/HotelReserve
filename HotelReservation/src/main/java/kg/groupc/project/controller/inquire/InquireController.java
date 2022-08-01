@@ -76,7 +76,12 @@ public class InquireController extends BaseController{
 	@GetMapping("/inquire/read/{seq}")
 	public String inquireDetail(@PathVariable Long seq, Model model,
 					@AuthenticationPrincipal User user) {
-		InquireDto inquireDto = inquireService.inquireToInquireDto(seq, user.getUsername());
+		InquireDto inquireDto = new InquireDto();
+		if(user != null) {
+			inquireDto = inquireService.inquireToInquireDto(seq, user.getUsername());
+		}else {
+			inquireDto = inquireService.inquireToInquireDto(seq, null);
+		}
 		model.addAttribute("inquire", inquireDto);
 		return "/inquire/read";
 	}
@@ -155,11 +160,12 @@ public class InquireController extends BaseController{
 	}
 	
 	//답변 등록 process
-	@PostMapping(value="/inquire/reply")
-	public String inquireReply(@RequestParam("seq") Long seq, InquireWriteForm idto, BindingResult result, Model model) {
+	@PostMapping(value="/inquire/reply/{seq}")
+	public String inquireReply(@PathVariable Long seq, InquireWriteForm idto, BindingResult result, Model model,
+							@AuthenticationPrincipal User user) {
 		Inquire inquire = inquireService.readInquire(seq);
 		model.addAttribute("inquire", inquire);
-		inquireService.edit(seq, idto);
+		inquireService.reply(seq, idto, user.getUsername());
 		idto.setStatus(2L);
 		return "redirect:/inquire/read/" + inquire.getSeq();
 	}

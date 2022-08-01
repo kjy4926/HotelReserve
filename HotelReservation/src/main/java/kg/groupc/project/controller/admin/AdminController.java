@@ -105,7 +105,7 @@ public class AdminController extends BaseController{
 	@PostMapping("/admin/hotel/new")
 	public String postHotelAdd(HotelAddFormDto hotelAddFormDto) {
 		hotelService.saveHotel(hotelAddFormDto);
-		return "redirect:/admin";
+		return "redirect:/admin/hotel";
 	}
 	
 	@GetMapping("/admin/hotel/change/{seq}")
