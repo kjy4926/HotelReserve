@@ -36,57 +36,6 @@
 	  <span class="dot" onclick="currentSlide(2)"></span>
 	  <span class="dot" onclick="currentSlide(3)"></span>
 	</div>
-    
-    <script>
-	let slideIndex = 0;
-	showSlides();
-	
-	function showSlides() {
-	  let i;
-	  let slides = document.getElementsByClassName("mySlides");
-	  let dots = document.getElementsByClassName("dot");
-	  for (i = 0; i < slides.length; i++) {
-	    slides[i].style.display = "none";  
-	  }
-	  slideIndex++;
-	  if (slideIndex > slides.length) {slideIndex = 1}    
-	  for (i = 0; i < dots.length; i++) {
-	    dots[i].className = dots[i].className.replace(" active", "");
-	  }
-	  slides[slideIndex-1].style.display = "block";  
-	  dots[slideIndex-1].className += " active";
-	  setTimeout(showSlides, 2000); // Change image every 2 seconds
-	}
-	</script>
-	
-	<!-- 검색바 수정 전
-	<div class="form-group" style="width:100%; margin-top:5%; display: inline-flex;">
-		<div>
-			<a href="hotel?type=${type}&keyword=${keyword}&sortAvg=1"><button class="btn btn-secondary my-2 my-sm-0">평점순 정렬</button></a>
-		</div>
-		<div style="width: 90%">
-			<form action="hotel" method="get" class="form-inline d-flex justify-content-center">
-				<div style="display: inline-flex;">
-					<div style="width: 25%">
-						<select class="form-select" name="type">
-						       <option value="1" id="op1">호텔명</option>
-						       <option value="2" id="op2">지역명</option>
-						</select>
-					</div>
-					<div class="input-group mb-3 search-bar">
-						<input type="hidden" name="type" value="0"/>
-						<input class="form-control rounded-pill" type="text" name="keyword" placeholder="검색어">
-						<button class="btn btn-primary" type="submit">검색</button>
-					</div>
-					<br>
-				</div>
-			</form>
-		</div>
-	</div>
-	-->
-	
-	<!-- 검색바 -->
-	<br>
 	<br>
 	<div class="form-group" style="text-align: center;">
 		<div>
@@ -102,7 +51,6 @@
 				</select>
 			</div>
 			<div class="input-group mb-3 search-bar">
-				<input type="hidden" name="type" value="0"/>
 				<input class="form-control rounded-pill" type="text" name="keyword" placeholder="검색어">
 				<button class="btn btn-primary" type="submit">검색</button>
 			</div>
@@ -113,21 +61,16 @@
 			<div class="card mb-3" style="width: 18%; display: inline-flex;"
 				onclick="location.href='${pageContext.request.contextPath}/hotel/detail/${hotelMainFormDto.seq}'">
 				<div style="height: 40%">
-					<h3 class="card-header"><c:out value="${hotelMainFormDto.name}" /></h3>
+					<h5 class="card-header"><c:out value="${hotelMainFormDto.name}" /></h5>
 				</div>
 				<div class="card-body">
-					<h5 class="card-title">
+					<h5 class="card-title"></h5>
 						<div class="card-body">
 							<p class="card-text"><c:out value="${hotelMainFormDto.description}"/></p>
 						</div>
-					</h5>
 					<h6 class="card-subtitle text-muted">부가설명 : (없을 시 빼기) </h6>
 				</div>
-				<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-				<image href="${pageContext.request.contextPath}/resources/img/hotel/${hotelMainFormDto.img}" width="100%" height="100%"/>
-				<text x="50%" y="50%" fill="#dee2e6" dy=".3em"></text>
-				</svg>
-				
+					<img src="${pageContext.request.contextPath}/resources/img/hotel/${hotelMainFormDto.img}" style="width:100%; height: 100%;"/>		
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">호텔 전화번호 : <c:out value="${hotelMainFormDto.phone}" /></li>
 					<li class="list-group-item">호텔 주소 : <c:out value="${hotelMainFormDto.address}" /></li>
@@ -143,8 +86,6 @@
 	</div>
 		
 		<ul class="pagination pagination-lg container-fluid justify-content-center">
-
-
 			<c:if test="${firstPage == -1 }">
 				<li class="page-item disabled">
 			    	<a class="page-link" href="#">&laquo;</a>
@@ -179,8 +120,6 @@
 					</li>
 				</c:if>
 			</c:forEach>
-			
-			
 			<c:if test="${nextPage == -1}">
 				<li class="page-item disabled">
 					<a class="page-link" href="#">&gt;</a>
@@ -202,9 +141,31 @@
 				</li>
 			</c:if>
 		</ul>
+		
 	<script type="text/javascript">
 		function setSearchType(type){
 			option = document.getElementById(`op${type}`).selected = 'selected'
+		}
+	</script>
+	    <script>
+		let slideIndex = 0;
+		showSlides();
+		
+		function showSlides() {
+		  let i;
+		  let slides = document.getElementsByClassName("mySlides");
+		  let dots = document.getElementsByClassName("dot");
+		  for (i = 0; i < slides.length; i++) {
+		    slides[i].style.display = "none";  
+		  }
+		  slideIndex++;
+		  if (slideIndex > slides.length) {slideIndex = 1}    
+		  for (i = 0; i < dots.length; i++) {
+		    dots[i].className = dots[i].className.replace(" active", "");
+		  }
+		  slides[slideIndex-1].style.display = "block";  
+		  dots[slideIndex-1].className += " active";
+		  setTimeout(showSlides, 2000); // Change image every 2 seconds
 		}
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

@@ -43,7 +43,7 @@ public class InquireReply extends BaseEntity<Long>{
 	
 	//답변내용
 	@Column(nullable = false, length = 1000)
-	private String comment;
+	private String comments;
 	
 	// 작성일
 	@Column(nullable = false)
