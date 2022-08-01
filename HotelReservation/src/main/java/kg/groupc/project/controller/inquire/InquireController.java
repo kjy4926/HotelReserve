@@ -21,6 +21,7 @@ import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.inquire.InquireWriteForm;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.inquire.Inquire;
+import kg.groupc.project.entity.inquire.InquireReply;
 import kg.groupc.project.repository.inquire.InquireRepository;
 import kg.groupc.project.service.inquire.InquireService;
 
@@ -36,7 +37,7 @@ public class InquireController extends BaseController{
 	// 문의글 목록
 	@GetMapping(value="/inquire")
 	public String inquireList(Model model, 
-			@PageableDefault(size = 5, sort = "seq", direction = Sort.Direction.DESC) Pageable pageable,
+			@PageableDefault(size = 10, sort = "seq", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String cat,
 			@RequestParam(required = false, defaultValue = "") String keyword) {
 			
@@ -45,6 +46,8 @@ public class InquireController extends BaseController{
 			list = inquireService.search1(keyword, pageable);
 		} else if(cat.equals("title")) {
 			list = inquireService.search2(keyword, pageable);
+		} else if(cat.equals("description")) {
+			list = inquireService.search3(keyword, pageable);
 		}
 		
 		int pageNumber = list.getPageable().getPageNumber();
@@ -90,7 +93,6 @@ public class InquireController extends BaseController{
 		}
 		idto.setWriter(account);
 		inquireService.saveInquire(idto);
-		System.out.println("문의글 작성되었습니다.");
 		return "redirect:/inquire";
 	}
 	
@@ -128,7 +130,7 @@ public class InquireController extends BaseController{
 	@GetMapping(value="/inquire/reply/{seq}")
 	public String inquireReply(@PathVariable("seq") Long seq, Model model) {
 		Inquire inquire = inquireService.readInquire(seq);
-		model.addAttribute("inquire", inquire);
+		model.addAttribute("inquireReply", inquire);
 		return "/inquire/reply";		
 	}
 	

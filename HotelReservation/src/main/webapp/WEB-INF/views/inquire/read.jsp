@@ -46,9 +46,9 @@
 			</div><hr><br>
 			<%-- Drill Down --%>
 			<span class="common-top_drillDownBox">
-				<a href="#" style="font-size: 20px; color: #F78181">문의 하기</a>
+				<a style="font-size: 20px; color: #F78181">문의 하기</a>
 				<span> > </span>
-				<a href="#" style="font-size: 20px">문의글 보기</a>
+				<a style="font-size: 20px; color: #F78181" >문의글 보기</a>
 			</span>
 		</div><br>
 		
@@ -85,13 +85,19 @@
 						<textarea class="form-control" id="readOnlyInput" value="${inquire.description}" readonly="">${inquire.description}</textarea>
 					</td>
 				</tr>
+				<tr>
+					<td align="center">Comment</td>
+					<td colspan="4">
+						<textarea class="form-control" name="comment" value="${inquireReply.comment}" readonly="">${inquireReply.comment}</textarea>
+					</td>
+				</tr>
 			</table>
 		</div><br>
 		<div class="inqbutton" align="center">
 			<button type="button" class="invisible"> 목록으로 지금 당장 빨리 가기 </button>
-			<button class="btn btn-outline-info" onclick="location.href='/inquire'">목록</button>
 			<button class="btn btn-outline-success" onclick="location.href='/inquire/edit/${inquire.seq}'">수정</button>
 			<button class="btn btn-outline-danger" onclick="location.href='/inquire/delete/${inquire.seq}'">삭제</button>
+			<button class="btn btn-outline-info" onclick="location.href='/inquire'">목록</button>
 			<button class="btn btn-primary" onclick="location.href='/inquire/reply/${inquire.seq}'">답변등록</button>
 		</div>
 	<%-- 풋터 --%>

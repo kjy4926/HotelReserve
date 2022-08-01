@@ -29,14 +29,19 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 	}
 	// 검색(작성자)
 	@Transactional(readOnly = true)
-	public Page<Inquire> search1(String searchKeyword, Pageable pageable) {
-		return inquireRepository.findByWriterContaining(searchKeyword, pageable);
+	public Page<Inquire> search1(String keyword, Pageable pageable) {
+		return inquireRepository.findByUsernameContaining(keyword, pageable);
 	}
 	// 검색(제목)
 	@Transactional(readOnly = true)
-	public Page<Inquire> search2(String searchKeyword, Pageable pageable) {
-		return inquireRepository.findByTitleContaining(searchKeyword, pageable);
+	public Page<Inquire> search2(String keyword, Pageable pageable) {
+		return inquireRepository.findByTitleContaining(keyword, pageable);
 	}
+	// 검색(내용)
+		@Transactional(readOnly = true)
+		public Page<Inquire> search3(String keyword, Pageable pageable) {
+			return inquireRepository.findByDescriptionContaining(keyword, pageable);
+	}	
 	// 문의 상세보기
 	@Transactional(readOnly = true)
 	public Inquire readInquire(Long seq) {

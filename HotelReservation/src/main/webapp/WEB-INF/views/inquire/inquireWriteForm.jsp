@@ -7,7 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <title>문의 작성</title>
-<link rel="icon" href="resources/img/hotel.png">
+
+<script>
+function selectHotel(e){
+	var code = ["1234", "5678"]
+	var target = document.getElementById("hotelcode")
+	
+	if(e.value == "숙소") var x = code;
+	
+	target.options.length = 0;
+	
+	for (i in x){
+		var opt = docuemnt.createElement("option");
+		opt.value = x[i];
+		opt.innerHTML = x[i];
+		target.appenChild(opt);
+	}
+}
+</script>
 
 <!-- include css -->
    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
@@ -59,7 +76,7 @@
                     <td style="width: 170px" align="center"> Category </td>
                     <td>
 						<div class="cat-select">
-                        <select id="category" name="category" class="form-select" style="width:150px;height:40px;">
+                        <select id="category" name="category" class="form-select" style="width:150px;height:40px;" onchange="selectHotel(this)">
                             <option selected disabled> 선택 </option>
                             <option value="숙소"> 숙소 </option>
                             <option value="맛집"> 맛집 </option>
@@ -68,15 +85,14 @@
                             <option value="개선사항"> 개선사항 </option>
                             <option value="기타"> 기타 </option>
                         </select>
-                        
-                        
-							<select name="hotelCode" class="form-select" style="width:200px;height:40px;">
+                        <div display:none>
+							<select id="hotelCode" name="hotelCode" class="form-select" style="width:200px;height:40px;">
 	                        	<%-- 호텔코드 선택하는 메뉴 출력--%>
 	                        	<option selected disabled> hotel code 선택 </option>
 	                        	<option value="${hotel.code}">${hotel.code}</option>
 	                            <option value="${hotel.code}">${hotel.code}</option>
 	                        </select>
-                        
+                        </div>
                         </div>
                     </td>
                 </tr>
