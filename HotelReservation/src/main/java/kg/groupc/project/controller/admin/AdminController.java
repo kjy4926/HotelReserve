@@ -30,6 +30,7 @@ import kg.groupc.project.dto.hotel.RoomAddFormDto;
 import kg.groupc.project.dto.hotel.RoomDto;
 import kg.groupc.project.dto.restaurant.RestaurantAddFormDto;
 import kg.groupc.project.entity.hotel.Hotel;
+import kg.groupc.project.entity.hotel.Room;
 import kg.groupc.project.entity.restaurant.Menu;
 import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.repository.restaurant.RestaurantRepository;
@@ -146,6 +147,27 @@ public class AdminController extends BaseController{
 	public String postRoomAdd(RoomAddFormDto roomAddFormDto) {
 		roomService.saveRoom(roomAddFormDto);
 		return "redirect:/admin/hotel";
+	}
+	
+	@GetMapping("/admin/room/change/{hseq}/{rseq}")
+	public String roomChange(@PathVariable Long hseq, @PathVariable Long rseq, Model model) {
+		Room room = roomService.getRoomBySeq(rseq);
+		RoomDto roomDto = roomService.RoomToRoomDto(room);
+		model.addAttribute("room", roomDto);		
+		model.addAttribute("hotelSeq", hseq);
+		return "/admin/roomChange";
+	}
+	
+	@PostMapping("/admin/room/change/{hseq}/{rseq}")
+	public String postRoomChange(@PathVariable Long hseq, @PathVariable Long rseq, Model model, RoomAddFormDto roomAddFormDto) {
+		roomService.updateRoom(rseq, roomAddFormDto);
+		return "redirect:/admin/room/" + hseq;
+	}
+	
+	@PostMapping("/admin/room/delete")
+	@ResponseBody
+	public boolean roomDelete(Long seq) {
+		return roomService.deleteRoom(seq);
 	}
 	
 	@GetMapping("/denied")

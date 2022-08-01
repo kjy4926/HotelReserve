@@ -51,7 +51,7 @@ public class HotelPageUtil {
 		this.setMaxPage(limit);//maxPage 지정
 		
 		
-		if(num >= this.getMaxPage()/buttonNum) {//다음페이지(>)로 이동용도
+		if(num >= this.getMaxPage()/buttonNum || this.getNextPage()<=10) {//다음페이지(>)로 이동용도
 			this.setNextPage(-1);//nextPage가 -1이면 버튼 비활성
 		}else {
 			this.setNextPage(num*buttonNum + buttonNum + 1);

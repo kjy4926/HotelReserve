@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import kg.groupc.project.entity.BaseEntity;
 import kg.groupc.project.entity.account.Account;
@@ -37,6 +39,7 @@ public class Inquire extends BaseEntity<Long>{
 	// 호텔 id(외래키) -> 카테고리 호텔 문의 일 경우만 값이 입력됨(nullable)
 	@ManyToOne(optional = true, targetEntity = Hotel.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hotel")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Hotel hotel;
 	
 	// 문의글 제목
