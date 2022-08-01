@@ -3,7 +3,6 @@ package kg.groupc.project.service.hotel;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.apache.commons.io.FileUtils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +30,6 @@ import kg.groupc.project.dto.hotel.HotelDetailRoomFormDto;
 import kg.groupc.project.dto.hotel.HotelDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
 import kg.groupc.project.dto.hotel.RoomDto;
-import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.HotelScore;
 import kg.groupc.project.entity.hotel.QHotel;
@@ -42,7 +39,6 @@ import kg.groupc.project.repository.hotel.HotelRepository;
 import kg.groupc.project.repository.hotel.HotelScoreRepository;
 import kg.groupc.project.repository.hotel.RoomRepository;
 import kg.groupc.project.service.BaseService;
-import kg.groupc.project.service.account.AccountService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -285,7 +281,7 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 				.having(hotel.name.contains(keyword)
 						//contiains(keyword): keyword를 포함하고 있으면 출력
 						.and(hotel.status.eq(1L)))//status가 1인것만
-				.orderBy(hotel.name.asc())//정렬조건 (호텔이름 가나다순)
+				.orderBy(hotelScore.score.avg().desc().nullsLast())//null이 뒤에오도록
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())//limit는 한 화면에 보여줄 데이터 개수입니다.
 				.fetchResults();
@@ -307,7 +303,7 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 				.having(hotel.address.contains(keyword)
 						//contiains(keyword): keyword를 포함하고 있으면 출력
 						.and(hotel.status.eq(1L)))//status가 1인것만
-				.orderBy(hotel.name.asc())//정렬조건 (호텔이름 가나다순)
+				.orderBy(hotelScore.score.avg().desc().nullsLast())//null이 뒤에오도록
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())//limit는 한 화면에 보여줄 데이터 개수입니다.
 				.fetchResults();
@@ -384,27 +380,4 @@ public class HotelService<T, ID extends Serializable> extends BaseService<Hotel,
 	public List<Room> getRoomList(Hotel hotel){//해당 방의 seq값으로 방 목록을 가져옵니다.
 		return roomRepository.findAllByHotel(hotel);
 	}
-	
-	@Autowired
-	private AccountService<Account, Long> accountService;//샘플 스코어 생성 용도
-	
-//	@Transactional
-//	public void addSampleScore() {//샘플 스코어 생성 용도
-//		List<Hotel> hotelList = getAllHotel();
-//		for(Hotel hotel : hotelList) {
-//			for(int i = 0; i < 5; i++) {
-//				HotelScore hotelScore = new HotelScore();
-//				Account account = accountService.getAccountById("yangchi97");
-//				hotelScore.setHotel(hotel);
-//				hotelScore.setWriter(account);
-//				hotelScore.setScore(5L);
-//				hotelScore.setDescription("아주 편한 호텔이요 개추" + i);
-//				hotelScore.setDay(Date.valueOf(LocalDate.now()));
-//				hotelScoreRepository.save(hotelScore);
-//				
-//			}
-//		}
-//		
-//	}
-	
 }
