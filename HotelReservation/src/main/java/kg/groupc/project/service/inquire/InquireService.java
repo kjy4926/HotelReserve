@@ -8,8 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kg.groupc.project.dto.inquire.InquireDto;
 import kg.groupc.project.dto.inquire.InquireWriteForm;
+import kg.groupc.project.entity.account.Account;
+import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.inquire.Inquire;
+import kg.groupc.project.repository.account.AccountRepository;
+import kg.groupc.project.repository.hotel.HotelRepository;
 import kg.groupc.project.repository.inquire.InquireRepository;
 import kg.groupc.project.service.BaseService;
 import lombok.AllArgsConstructor;
@@ -21,6 +26,10 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 
 	@Autowired
 	private InquireRepository<Inquire, Long> inquireRepository;
+	@Autowired
+	private AccountRepository<Account, Long> accountRepository;
+	@Autowired
+	private HotelRepository<Hotel, Long> hotelRepository;
 	
 	// 문의 전체 리스트
 	@Transactional(readOnly = true)
@@ -75,6 +84,25 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 		}
 		inquireRepository.delete(inquire);
 		return inquire;
+	}
+	
+	@Transactional
+	public InquireDto inquireToInquireDto(Long seq, String userId) {
+		Inquire inquire = inquireRepository.findById(seq).get();
+		InquireDto inquireDto = new InquireDto();
+		inquireDto.setSeq(inquire.getSeq());
+		inquireDto.setWriter(accountRepository.findByUserId(userId).getUserId());
+		if(inquire.getHotel() != null) {
+			inquireDto.setHotel(inquire.getHotel().getName());
+			inquireDto.setHotelSeq(inquire.getHotel().getSeq());
+		}
+		inquireDto.setTitle(inquire.getTitle());
+		inquireDto.setDescription(inquire.getDescription());
+		inquireDto.setDay(inquire.getDay());
+		inquireDto.setCategory(inquire.getCategory());
+		inquireDto.setStatus(inquire.getStatus());
+		
+		return inquireDto;
 	}
 }
 

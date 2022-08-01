@@ -26,7 +26,7 @@
 		}
 		textarea{
 			width:500px;
-			height:500px;
+			height:250px;
 			resize:none;			
 		}			
 	</style>
@@ -46,9 +46,9 @@
 			</div><hr><br>
 			<%-- Drill Down --%>
 			<span class="common-top_drillDownBox">
-				<a style="font-size: 20px; color: #F78181">문의 하기</a>
+				<a href="/inquire" style="font-size: 20px; color: #F78181">문의 하기</a>
 				<span> > </span>
-				<a style="font-size: 20px; color: #F78181" >문의글 보기</a>
+				<a href="#" style="font-size: 20px; color: #F78181" >문의글 보기</a>
 			</span>
 		</div><br>
 		
@@ -58,37 +58,44 @@
 				<tr>
 					<td style="width:80px" align="center">Number</td>
 					<td style="width:80px" align="center">
-						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.seq}" readonly="">
+						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.seq}" readonly>
 					</td>
 					<td style="width:80px" align="center">Date</td>
 					<td style="width:140px" align="left">
-						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.day}" readonly="">
+						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.day}" readonly>
 					</td>
 					
 				</tr>
 				<tr>
 					<td style="width:80px" align="center">Category</td>
-					<td colspan="2">
-						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.category}" readonly="">
+					<td>
+						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.category}" readonly>
 					</td>
+					<c:choose>
+						<c:when test="${inquire.hotel ne 'null'}">
+						<td>
+							<input class="form-control" id="readOnlyInput" type="text" value="${inquire.hotel}" readonly>
+						</td>
+						</c:when>
+					</c:choose>
 				</tr>
 				<tr>
 					<td align="center">title</td>
 					<td colspan="4" align="left">
-						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.title}" readonly="">
+						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.title}" readonly>
 					</td>
 					
 				</tr>
 				<tr>
 					<td align="center">Description</td>
 					<td colspan="4">
-						<textarea class="form-control" id="readOnlyInput" value="${inquire.description}" readonly="">${inquire.description}</textarea>
+						<textarea class="form-control" id="readOnlyInput" readonly>${inquire.description}</textarea>
 					</td>
 				</tr>
 				<tr>
 					<td align="center">Comment</td>
 					<td colspan="4">
-						<textarea class="form-control" name="comment" value="${inquireReply.comment}" readonly="">${inquireReply.comment}</textarea>
+						<textarea class="form-control" name="comment" readonly>${inquireReply.comment}</textarea>
 					</td>
 				</tr>
 			</table>
