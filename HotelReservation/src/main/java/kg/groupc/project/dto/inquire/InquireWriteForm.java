@@ -30,6 +30,7 @@ public class InquireWriteForm {
 	private Account writer; // 작성자
 	@NotBlank(message = "내용을 입력해주세요.")
 	private String description; // 내용
+	private String comments;
 	private Date day; // 등록일
 	private Long status; // 처리상태
 	
@@ -44,6 +45,7 @@ public class InquireWriteForm {
 				.category(category)
 				.title(title)
 				.description(description)
+				.comments(comments)
 				.day(day)
 				.hotel(getHotel())
 				.writer(getWriter()) //외래키
@@ -53,11 +55,12 @@ public class InquireWriteForm {
 	}
 	
 	@Builder
-	public InquireWriteForm(Long seq, String category, Hotel hotel, String title, String description, Account writer, Date day, Long status) {
+	public InquireWriteForm(Long seq, String category, Hotel hotel, String title, String description, String comments, Account writer, Date day, Long status) {
 		this.category = category;
 		this.hotel = hotel;
 		this.title = title;
 		this.description = description;
+		this.comments = comments;
 		this.writer = writer;
 		this.day = day;
 		this.status = status;

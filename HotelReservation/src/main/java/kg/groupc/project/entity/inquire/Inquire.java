@@ -50,6 +50,10 @@ public class Inquire extends BaseEntity<Long>{
 	@Column(nullable = false, length = 1000)
 	private String description;
 	
+	//답변내용
+	@Column(nullable = true, length = 1000)
+	private String comments;
+	
 	// 작성일
 	@CreationTimestamp
 	@Column(nullable = false)
@@ -68,12 +72,13 @@ public class Inquire extends BaseEntity<Long>{
 	
 	
 	@Builder
-	public Inquire(Account writer, String category, Hotel hotel, String title, String description, Date day, Long status) {
+	public Inquire(Account writer, String category, Hotel hotel, String title, String description, String comments, Date day, Long status) {
 		this.writer = writer;
 		this.category = category;
 		this.hotel = hotel;
 		this.title = title;
 		this.description = description;
+		this.comments = comments;
 		this.day = day;
 		this.status = status;
 	}
@@ -91,6 +96,9 @@ public class Inquire extends BaseEntity<Long>{
 		}
 		if (inquire.description != null) {
 			this.description = inquire.description;
+		}
+		if (inquire.comments != null) {
+			this.comments = inquire.comments;
 		}
 		if (inquire.day != null) {
 			this.day = inquire.day;

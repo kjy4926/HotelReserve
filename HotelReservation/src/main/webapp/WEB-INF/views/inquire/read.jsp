@@ -72,11 +72,12 @@
 						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.category}" readonly>
 					</td>
 					<c:choose>
-						<c:when test="${inquire.hotel ne 'null'}">
+						<c:when test="${inquire.hotel ne null}">
 						<td>
 							<input class="form-control" id="readOnlyInput" type="text" value="${inquire.hotel}" readonly>
 						</td>
 						</c:when>
+						<c:otherwise></c:otherwise>
 					</c:choose>
 				</tr>
 				<tr>
@@ -95,7 +96,7 @@
 				<tr>
 					<td align="center">Comment</td>
 					<td colspan="4">
-						<textarea class="form-control" name="comment" readonly>${inquireReply.comment}</textarea>
+						<textarea class="form-control" name="comment" readonly>${inquire.comments}</textarea>
 					</td>
 				</tr>
 			</table>

@@ -26,7 +26,6 @@ import kg.groupc.project.dto.inquire.InquireWriteForm;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.inquire.Inquire;
-import kg.groupc.project.repository.account.AccountRepository;
 import kg.groupc.project.repository.hotel.HotelRepository;
 import kg.groupc.project.repository.inquire.InquireRepository;
 import kg.groupc.project.service.inquire.InquireService;
@@ -105,9 +104,9 @@ public class InquireController extends BaseController{
 			return "/inquire/inquireWriteForm";
 		}
 		
-		if(hotelCode.equals("-1")) {
-			return "/inquire/inquireWriteForm";
-		}
+//		if(hotelCode.equals("-1")) {
+//			return "/inquire/inquireWriteForm";
+//		}
 		
 		Hotel hotel = hotelRepository.findByName(hotelCode);
 		
@@ -149,11 +148,20 @@ public class InquireController extends BaseController{
 	
 	//문의 답변 등록
 	@GetMapping(value="/inquire/reply/{seq}")
-	public String inquireReply(@PathVariable("seq") Long seq, Model model) {
+	public String inquireReplyPage(@PathVariable("seq") Long seq, Model model) {
 		Inquire inquire = inquireService.readInquire(seq);
 		model.addAttribute("inquire", inquire);
-		inquire.setStatus(2L);
 		return "/inquire/reply";		
+	}
+	
+	//답변 등록 process
+	@PostMapping(value="/inquire/reply")
+	public String inquireReply(@RequestParam("seq") Long seq, InquireWriteForm idto, BindingResult result, Model model) {
+		Inquire inquire = inquireService.readInquire(seq);
+		model.addAttribute("inquire", inquire);
+		inquireService.edit(seq, idto);
+		idto.setStatus(2L);
+		return "redirect:/inquire/read/" + inquire.getSeq();
 	}
 	
 }
