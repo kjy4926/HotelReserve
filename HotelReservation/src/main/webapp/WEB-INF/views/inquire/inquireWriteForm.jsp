@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>문의 작성</title>
-<link rel="icon" href="resources/img/hotel.png">
 
 <!-- include css -->
    	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
@@ -22,11 +21,6 @@
 		    width:50%;
 		    box-sizing: border-box;
 		}		
-		.form-select {
-		    float:left;
-		    width:50%;
-		    box-sizing: border-box;
-		}
 		.invisible {
 			display: inline;
 		}
@@ -58,8 +52,8 @@
                 <tr>
                     <td style="width: 170px" align="center"> Category </td>
                     <td>
-						<div class="cat-select">
-                        <select id="category" name="category" class="form-select" style="width:150px;height:40px;">
+						<div class="catSelect">
+                        <select id="category" name="category" class="form-select" style="width:150px;height:40px;" onchange="selectHotel()">
                             <option selected disabled> 선택 </option>
                             <option value="숙소"> 숙소 </option>
                             <option value="맛집"> 맛집 </option>
@@ -68,15 +62,15 @@
                             <option value="개선사항"> 개선사항 </option>
                             <option value="기타"> 기타 </option>
                         </select>
-                        
-                        
-							<select name="hotelCode" class="form-select" style="width:200px;height:40px;">
+                        </div>
+                        <div class="inputCode">
+	                        <select id="hotelCode" name="hotelCode" class="form-select" onchange="selectHotel()" style="width:200px;height:40px;">
 	                        	<%-- 호텔코드 선택하는 메뉴 출력--%>
 	                        	<option selected disabled> hotel code 선택 </option>
-	                        	<option value="${hotel.code}">${hotel.code}</option>
-	                            <option value="${hotel.code}">${hotel.code}</option>
+	                        	<c:forEach var="hotel" items="${hotels}">
+ 									<option value="${hotel.name}">${hotel.name}</option>	                        	
+	                        	</c:forEach>
 	                        </select>
-                        
                         </div>
                     </td>
                 </tr>

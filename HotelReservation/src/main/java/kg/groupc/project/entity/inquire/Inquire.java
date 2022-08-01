@@ -68,9 +68,10 @@ public class Inquire extends BaseEntity<Long>{
 	
 	
 	@Builder
-	public Inquire(Account writer, String category, String title, String description, Date day, Long status) {
+	public Inquire(Account writer, String category, Hotel hotel, String title, String description, Date day, Long status) {
 		this.writer = writer;
 		this.category = category;
+		this.hotel = hotel;
 		this.title = title;
 		this.description = description;
 		this.day = day;

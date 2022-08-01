@@ -46,9 +46,11 @@
 			</div><hr><br>
 			<%-- Drill Down --%>
 			<span class="common-top_drillDownBox">
-				<a href="#" style="font-size: 20px; color: #F78181">문의 하기</a>
+				<a href="/inquire" style="font-size: 20px; color: #F78181">문의 하기</a>
 				<span> > </span>
-				<a href="#" style="font-size: 20px">문의글 보기</a>
+				<a href="/inquire/read/${seq}" style="font-size: 20px; color: #F78181">문의글 보기</a>
+				<span> > </span>
+				<a href="#" style="font-size: 20px; color: #F78181">답변 등록</a>
 			</span>
 		</div><br>
 		
@@ -89,17 +91,16 @@
 				<tr>
 					<td align="center">Comment</td>
 					<td colspan="4">
-						<textarea class="form-control" name="comment"></textarea>
+						<textarea class="form-control" name="comments"></textarea>
 					</td>
 				</tr>
 			</table><br>
 			
 			<div class="inqbutton" align="center">
-			<button type="button" class="invisible"> 목록으로 지금당장가기 </button>
-			<button type="button" class="btn btn-outline-info" onclick="location.href='/inquire'" > 목록 </button>	
-			<button type="submit" class="btn btn-outline-success">수정</button>
-			<button type="button" class="btn btn-outline-danger" onclick="location.href='/inquire/delete/${inquire.seq}'">삭제</button>
-					
+				<button type="button" class="invisible"> 목록으로 지금당장가기 </button>
+				<button type="submit" class="btn btn-outline-success">답변 등록</button>	
+				<button type="button" class="btn btn-outline-danger" onclick="location.href='/inquire/delete/${inquire.seq}'">삭제</button>
+				<button type="button" class="btn btn-outline-info" onclick="location.href='/inquire'" > 목록 </button>		
 			</div>
 		</form>			
 	</div>			

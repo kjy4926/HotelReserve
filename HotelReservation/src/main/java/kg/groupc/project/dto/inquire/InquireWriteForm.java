@@ -45,6 +45,7 @@ public class InquireWriteForm {
 				.title(title)
 				.description(description)
 				.day(day)
+				.hotel(getHotel())
 				.writer(getWriter()) //외래키
 				.status(1L)
 				.build();

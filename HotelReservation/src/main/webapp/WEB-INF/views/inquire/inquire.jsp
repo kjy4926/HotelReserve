@@ -75,7 +75,6 @@
 	<%-- 글쓰기 버튼 --%>
 	<div id="inquire-top-buttonbox" align="right">
 		<button class="btn btn-outline-danger"  onclick="location.href='/inquire/write'">글쓰기</button>
-
 	</div>
 
 	<%-- 글 목록 --%>	
@@ -96,10 +95,15 @@
 		  		<tr class="table-active" align="center">
 			      <td>${inquire.seq}</td>
 			      <td>${inquire.category}</td>
-			      <td><a href="<c:url value="/inquire/read/${inquire.seq}"/>">${inquire.title}</a></td>
+			      <td><a href="<c:url value="/inquire/read/${inquire.seq}"/>" style=" color:navy">${inquire.title}</a></td>
 			      <td>${inquire.day}</td>
 			      <td>${inquire.username}</td>
-			      <td>${inquire.status}</td>
+			      <td>
+			      	<c:choose>
+			      		<c:when test="${inquire.status == 1}"> 처리중 </c:when>
+			      		<c:otherwise>처리완료</c:otherwise>
+			      	</c:choose>
+			      </td>
 			    </tr>		  	
 		  	</c:forEach>		    
 		  </tbody>

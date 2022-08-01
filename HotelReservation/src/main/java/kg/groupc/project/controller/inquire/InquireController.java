@@ -1,5 +1,7 @@
 package kg.groupc.project.controller.inquire;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kg.groupc.project.controller.BaseController;
+import kg.groupc.project.dto.hotel.HotelDto;
+import kg.groupc.project.dto.inquire.InquireDto;
 import kg.groupc.project.dto.inquire.InquireWriteForm;
 import kg.groupc.project.entity.account.Account;
+import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.inquire.Inquire;
+import kg.groupc.project.repository.account.AccountRepository;
+import kg.groupc.project.repository.hotel.HotelRepository;
 import kg.groupc.project.repository.inquire.InquireRepository;
 import kg.groupc.project.service.inquire.InquireService;
 
@@ -33,10 +40,13 @@ public class InquireController extends BaseController{
 	@Autowired
 	private InquireRepository<Inquire, Long> inquireRepository;
 	
+	@Autowired
+	private HotelRepository<Hotel, Long> hotelRepository;
+	
 	// 문의글 목록
 	@GetMapping(value="/inquire")
 	public String inquireList(Model model, 
-			@PageableDefault(size = 5, sort = "seq", direction = Sort.Direction.DESC) Pageable pageable,
+			@PageableDefault(size = 10, sort = "seq", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String cat,
 			@RequestParam(required = false, defaultValue = "") String keyword) {
 			
@@ -45,6 +55,8 @@ public class InquireController extends BaseController{
 			list = inquireService.search1(keyword, pageable);
 		} else if(cat.equals("title")) {
 			list = inquireService.search2(keyword, pageable);
+		} else if(cat.equals("description")) {
+			list = inquireService.search3(keyword, pageable);
 		}
 		
 		int pageNumber = list.getPageable().getPageNumber();
@@ -63,16 +75,20 @@ public class InquireController extends BaseController{
 	
 	// 문의 상세 페이지
 	@GetMapping("/inquire/read/{seq}")
-	public String inquireDetail(@PathVariable Long seq, Model model) {
-		Inquire inquire = inquireService.readInquire(seq);
-		model.addAttribute("inquire", inquire);		
+	public String inquireDetail(@PathVariable Long seq, Model model,
+					@AuthenticationPrincipal User user) {
+		InquireDto inquireDto = inquireService.inquireToInquireDto(seq, user.getUsername());
+		model.addAttribute("inquire", inquireDto);
 		return "/inquire/read";
 	}
 		
 	// 문의글 작성 페이지
 	@GetMapping(value="/inquire/write")
-	public String inquireWritePage(Model model) {
-		model.addAttribute("inquireWriteForm", new InquireWriteForm(null, null, null, null, null, null, null, null));
+	public String inquireWritePage(@AuthenticationPrincipal User user,Model model) {
+		String userId = user.getUsername(); System.out.println("userId: "+userId);		
+		List<HotelDto> hotels = roomService.getReserveHotel(userId);
+		model.addAttribute("hotels", hotels);
+		
 		return "/inquire/inquireWriteForm";
 	}
 	
@@ -80,7 +96,7 @@ public class InquireController extends BaseController{
 	@PostMapping(value="/inquire/write")
 	public String inquireWrite(@Valid InquireWriteForm idto, BindingResult br, 
 						@AuthenticationPrincipal User user,
-						Long seq, Model model) {
+						Long seq, Model model, @RequestParam(required = false, defaultValue="-1") String hotelCode) {
 		Account account = accountService.getAccountById(user.getUsername());
 //		Hotel hotel = hotelService.getHotelBySeq(seq);
 		if(br.hasErrors()) {
@@ -88,9 +104,16 @@ public class InquireController extends BaseController{
 			model.addAttribute("inquireWriteForm", inquireService);			
 			return "/inquire/inquireWriteForm";
 		}
+		
+		if(hotelCode.equals("-1")) {
+			return "/inquire/inquireWriteForm";
+		}
+		
+		Hotel hotel = hotelRepository.findByName(hotelCode);
+		
 		idto.setWriter(account);
+		idto.setHotel(hotel);
 		inquireService.saveInquire(idto);
-		System.out.println("문의글 작성되었습니다.");
 		return "redirect:/inquire";
 	}
 	
@@ -129,6 +152,7 @@ public class InquireController extends BaseController{
 	public String inquireReply(@PathVariable("seq") Long seq, Model model) {
 		Inquire inquire = inquireService.readInquire(seq);
 		model.addAttribute("inquire", inquire);
+		inquire.setStatus(2L);
 		return "/inquire/reply";		
 	}
 	
