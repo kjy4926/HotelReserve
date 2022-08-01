@@ -14,6 +14,7 @@ public class InquireDto {
 	private Long hotelSeq;
 	private String title;
 	private String description;
+	private String comments;
 	private Date day;
 	private String category;
 	private Long status;

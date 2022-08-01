@@ -98,6 +98,7 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 		}
 		inquireDto.setTitle(inquire.getTitle());
 		inquireDto.setDescription(inquire.getDescription());
+		inquireDto.setComments(inquire.getComments());		
 		inquireDto.setDay(inquire.getDay());
 		inquireDto.setCategory(inquire.getCategory());
 		inquireDto.setStatus(inquire.getStatus());

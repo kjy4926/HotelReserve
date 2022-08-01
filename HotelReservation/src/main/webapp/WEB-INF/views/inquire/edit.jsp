@@ -61,18 +61,18 @@
 				<tr>
 					<td style="width:80px" align="center">Number</td>
 					<td style="width:80px" align="center">
-						<input class="form-control" id="readOnlyInput" name="seq" value="${inquire.seq}" type="text" readonly="">
+						<input class="form-control" id="readOnlyInput" name="seq" value="${inquire.seq}" type="text" readonly>
 					</td>
 					<td style="width:80px" align="center">Date</td>
 					<td style="width:140px" align="left">
-						<input class="form-control" id="readOnlyInput" name="day" value="${inquire.day}" type="text" readonly="">
+						<input class="form-control" id="readOnlyInput" name="day" value="${inquire.day}" type="text" readonly>
 					</td>
 					
 				</tr>
 				<tr>
 					<td style="width:80px" align="center">Category</td>
 					<td colspan="2">
-						<input class="form-control" id="readOnlyInput" type="text" name="category" value="${inquire.category}" readonly="">
+						<input class="form-control" id="readOnlyInput" type="text" name="category" value="${inquire.category}" readonly>
 					</td>
 				</tr>
 				<tr>

@@ -61,37 +61,37 @@
 				<tr>
 					<td style="width:80px" align="center">Number</td>
 					<td style="width:80px" align="center">
-						<input class="form-control" id="disabledInput" name="seq" value="${inquire.seq}" type="text" readonly="">
+						<input class="form-control" id="disabledInput" name="seq" value="${inquire.seq}" type="text" readonly>
 					</td>
 					<td style="width:80px" align="center">Date</td>
 					<td style="width:140px" align="left">
-						<input class="form-control" id="readOnlyInput" name="day" value="${inquire.day}" type="text" readonly="">
+						<input class="form-control" id="readOnlyInput" name="day" value="${inquire.day}" type="text" readonly>
 					</td>
 					
 				</tr>
 				<tr>
 					<td style="width:80px" align="center">Category</td>
 					<td colspan="2">
-						<input class="form-control" id="readOnlyInput" type="text" name="category" value="${inquire.category}" readonly="">
+						<input class="form-control" id="readOnlyInput" type="text" name="category" value="${inquire.category}" readonly>
 					</td>
 				</tr>
 				<tr>
 					<td align="center">title</td>
 					<td colspan="4" align="left">
-						<input type="text" name="title" class="form-control" value="${inquire.title}" readonly="">
+						<input type="text" name="title" class="form-control" value="${inquire.title}" readonly>
 					</td>
 					
 				</tr>
 				<tr>
 					<td align="center">Description</td>
 					<td colspan="4">
-						<textarea class="form-control" name="description" readonly="">${inquire.description}</textarea>
+						<textarea class="form-control" name="description" readonly>${inquire.description}</textarea>
 					</td>
 				</tr>
 				<tr>
 					<td align="center">Comment</td>
 					<td colspan="4">
-						<textarea class="form-control" name="comments"></textarea>
+						<textarea class="form-control" name="comments">${inquire.comments}</textarea>
 					</td>
 				</tr>
 			</table><br>
