@@ -37,20 +37,44 @@ function hotelChangeConfirm(){
 	}
 	return false;
 }
+function roomChangeConfirm(){
+	if(confirm('방을 수정하시겠습니까?')){
+		alert('방이 수정되었습니다.')
+		return true;
+	}
+	return false;
+}
 function hotelDeleteConfirm(seq){
 	if(confirm('호텔을 삭제하시겠습니까?')){
 		$.ajax({
-				url:`${SERVER_ADDRESS}/admin/hotel/delete`,
-				type:'post',
-				data:{seq: seq},
-		        success: function(result){
-		        	if(result){
-		        		alert('호텔이 삭제되었습니다.')
-		        		location.href=`${SERVER_ADDRESS}/admin/hotel`
-		        	}else{
-		        		alert('알 수 없는 이유로 인하여 삭제하지 못했습니다.')
-		        	}
-		        }
-			});
+			url:`${SERVER_ADDRESS}/admin/hotel/delete`,
+			type:'post',
+			data:{seq: seq},
+		       success: function(result){
+		       	if(result){
+		       		alert('호텔이 삭제되었습니다.')
+		       		location.href=`${SERVER_ADDRESS}/admin/hotel`
+		       	}else{
+		       		alert('알 수 없는 이유로 인하여 삭제하지 못했습니다.')
+		       	}
+		       }
+		});
+	}
+}
+function roomDeleteConfirm(hseq, rseq){
+	if(confirm('방을 삭제하시겠습니까?')){
+		$.ajax({
+			url:`${SERVER_ADDRESS}/admin/room/delete`,
+			type:'post',
+			data:{seq: rseq},
+	        success: function(result){
+	        	if(result){
+	        		alert('방이 삭제되었습니다.')
+	        		location.href=`${SERVER_ADDRESS}/admin/room/${hseq}`
+	        	}else{
+	        		alert('알 수 없는 이유로 인하여 삭제하지 못했습니다.')
+	        	}
+	        }
+		});
 	}
 }

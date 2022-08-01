@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kg.groupc.project.dto.hotel.RoomAddFormDto;
+import kg.groupc.project.dto.hotel.RoomDto;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.Room;
 import kg.groupc.project.repository.hotel.HotelRepository;
@@ -52,5 +53,51 @@ public class RoomService<T, ID extends Serializable> extends BaseService<Room, L
 		room.setImg(room.getSeq()+".jpg");
 		
 		return roomRepository.save(room);
+	}
+	
+	public RoomDto RoomToRoomDto(Room room) {
+		Hotel hotel = room.getHotel();
+		RoomDto roomDto = new RoomDto();
+		roomDto.setSeq(room.getSeq());
+		roomDto.setHotelSeq(hotel.getSeq());
+		roomDto.setName(room.getName());
+		roomDto.setPeople(room.getPeople());
+		roomDto.setPrice(room.getPrice());
+		roomDto.setDescription(room.getDescription());
+		roomDto.setImg(room.getImg());
+		return roomDto;
+	}
+	
+	public Room updateRoom(Long seq, RoomAddFormDto roomAddFormDto) {
+		Room room = roomRepository.findById(seq).get();
+		room.setName(roomAddFormDto.getName());
+		room.setPrice(roomAddFormDto.getPrice());
+		room.setPeople(roomAddFormDto.getPeople());
+		room.setDescription(roomAddFormDto.getDescription());
+		
+		String filePath = System.getProperty("user.dir")+"\\src\\main\\webapp\\resources\\img\\room\\" + room.getSeq() + ".jpg";
+		MultipartFile mfile = roomAddFormDto.getUploadFile();
+		
+		if(!mfile.isEmpty()) {
+			try {
+				mfile.transferTo(new File(filePath));
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return roomRepository.save(room);
+	}
+	
+	public boolean deleteRoom(Long seq) {
+		try {
+			roomRepository.deleteById(seq);
+			return true;
+		}catch (Exception e) {
+			return false;
+		}
 	}
 }

@@ -35,7 +35,7 @@
 		<div class="menu-div" onclick="location.href='${pageContext.request.contextPath}/admin/hotel'">
 			<img src="${pageContext.request.contextPath}/resources/img/home/man1.jpg">
 		</div>
-		<div class="menu-div" onclick="location.href='${pageContext.request.contextPath}/restaurant'">
+		<div class="menu-div" onclick="location.href='${pageContext.request.contextPath}/admin/restaurant'">
 			<img src="${pageContext.request.contextPath}/resources/img/home/man2.jpg">
 		</div>
 	</div>
