@@ -13,15 +13,15 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
 		td{vertical-align: middle;}
-		.search-field{width: 60%}
+		.search-field{display: flex;}
 	</style>
 </head>
 <body>
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	
 	<div style="width: 90%; margin: auto;">
-		<div class="search-field">
-			<form class="d-flex" method="post" action="${pageContext.request.contextPath}/admin/hotel/search">
+		<div class="search-field justify-content-between">
+			<form class="d-flex" method="post" action="${pageContext.request.contextPath}/admin/hotel/search" style="width: 60%">
 				<select class="form-select" id="searchType" name="searchType" style="width: 20%">
 						<option value="name">호텔명</option>
 						<option value="addr">지역</option>
@@ -29,6 +29,9 @@
 		        <input class="form-control me-sm-2" type="text" placeholder="Search" id="search" name="search">
 		        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
 			</form>
+			<div style="float: right;">
+				<button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/admin/hotel/new'">호텔 등록</button>
+			</div>
 		</div>
 		<table class="table">
 		    <thead>
@@ -43,12 +46,12 @@
 			</thead>
 			<tbody>
 				<c:forEach var="hotel" items="${hotelListDto}" varStatus="status">
-					<tr onclick="location.href='${pageContext.request.contextPath}/admin/room/${hotel.seq}'">
-						<td>${hotel.seq}</td>
-						<td>${hotel.name}</td>
-						<td>${hotel.address}</td>
-						<td>${hotel.phone}</td>
-						<td>${hotel.description}</td>
+					<tr>
+						<td onclick="location.href='${pageContext.request.contextPath}/admin/room/${hotel.seq}'">${hotel.seq}</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/admin/room/${hotel.seq}'">${hotel.name}</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/admin/room/${hotel.seq}'">${hotel.address}</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/admin/room/${hotel.seq}'">${hotel.phone}</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/admin/room/${hotel.seq}'">${hotel.description}</td>
 						<td>
 							<button class="btn btn-secondary btn-sm" type="button" 
 								onclick="location.href='${pageContext.request.contextPath}/admin/hotel/change/${hotel.seq}'">호텔수정</button>

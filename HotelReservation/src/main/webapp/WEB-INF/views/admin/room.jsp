@@ -11,6 +11,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
 	<style type="text/css">
 		td{vertical-align: middle;}
 		img{width: 100%;}
@@ -21,6 +22,7 @@
 	
 	<div style="width: 90%; margin: auto;">
 		<fieldset>
+			<input type="hidden" id="hotelSeq" name="hotelSeq" value="${room.hotelSeq}">
 			<legend>호텔 정보</legend>
 			<table class="table">
 		    <thead>
@@ -55,8 +57,8 @@
 						<th style="width: 20%">방 이름</th>
 						<th style="width: 10%">수용 인원</th>
 						<th style="width: 10%">가격</th>
-						<th style="width: 25%">설명</th>
-						<th style="width: 10%"></th>
+						<th style="width: 20 %">설명</th>
+						<th style="width: 15%"></th>
 					<tr>
 				</thead>
 				<tbody>
@@ -70,9 +72,9 @@
 							<td>${room.description}</td>
 							<td>
 								<button class="btn btn-secondary btn-sm" type="button" 
-									onclick="location.href='${pageContext.request.contextPath}/admin/room/change/${hotel.seq}'">방 수정</button>
+									onclick="location.href='${pageContext.request.contextPath}/admin/room/change/${hotel.seq}/${room.seq}'">방 수정</button>
 								<button class="btn btn-outline-secondary btn-sm" type="button" 
-									onclick="location.href='${pageContext.request.contextPath}/admin/room/delete/${hotel.seq}'">방 삭제</button>
+									onclick="roomDeleteConfirm(${hotel.seq}, ${room.seq})">방 삭제</button>
 							</td>
 						</tr>
 					</c:forEach>

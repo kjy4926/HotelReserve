@@ -59,7 +59,7 @@
 	        	<img id="img" name="img" src="">
 			</div>
 				<div class="btn-field">
-		        	<button type="submit" class="btn btn-outline-secondary">호텔등록</button>
+		        	<button type="submit" class="btn btn-outline-secondary">방등록</button>
 		        	<a class="btn btn-outline-secondary" href="location.href='${pageContext.request.contextPath}/admin'">취소하기</a>
 		        </div>
 			</fieldset>
