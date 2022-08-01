@@ -102,7 +102,7 @@
 				</select>
 			</div>
 			<div class="input-group mb-3 search-bar">
-				<input type="hidden" name="type" value="0"/>
+<!-- 				<input type="hidden" name="type" value="0"/> -->
 				<input class="form-control rounded-pill" type="text" name="keyword" placeholder="검색어">
 				<button class="btn btn-primary" type="submit">검색</button>
 			</div>
@@ -113,7 +113,7 @@
 			<div class="card mb-3" style="width: 18%; display: inline-flex;"
 				onclick="location.href='${pageContext.request.contextPath}/hotel/detail/${hotelMainFormDto.seq}'">
 				<div style="height: 40%">
-					<h3 class="card-header"><c:out value="${hotelMainFormDto.name}" /></h3>
+					<h5 class="card-header"><c:out value="${hotelMainFormDto.name}" /></h5>
 				</div>
 				<div class="card-body">
 					<h5 class="card-title">
@@ -121,10 +121,10 @@
 							<p class="card-text"><c:out value="${hotelMainFormDto.description}"/></p>
 						</div>
 					</h5>
-					<h6 class="card-subtitle text-muted">부가설명 : (없을 시 빼기) </h6>
+					
 				</div>
-				<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-				<image href="${pageContext.request.contextPath}/resources/img/hotel/${hotelMainFormDto.img}" width="100%" height="100%"/>
+				<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="0" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
+				<img src="${pageContext.request.contextPath}/resources/img/hotel/${hotelMainFormDto.img}" width="100%" height="100%"/>
 				<text x="50%" y="50%" fill="#dee2e6" dy=".3em"></text>
 				</svg>
 				
