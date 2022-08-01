@@ -37,8 +37,6 @@
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	
-	
-	
 		<div class="inquire-container-top">
 			<%-- title --%>
 			<div class="common-top_title" style="font-size: 30px; color: #F6CECE">
@@ -56,7 +54,7 @@
 		
 	<%-- Inquire main volume --%>
 		<div class="edit-form">
-			<form class="edit-form" action="/inquire/edit" method="post">
+			<form class="edit-form" action="/inquire/reply/${inquire.seq}" method="post">
 			<table style="margin:auto; width:800px">
 				<tr>
 					<td style="width:80px" align="center">Number</td>

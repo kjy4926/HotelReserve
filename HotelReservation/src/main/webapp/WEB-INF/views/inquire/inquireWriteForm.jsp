@@ -53,7 +53,7 @@
                     <td style="width: 170px" align="center"> Category </td>
                     <td>
 						<div class="catSelect">
-                        <select id="category" name="category" class="form-select" style="width:150px;height:40px;" onchange="selectHotel()">
+                        <select id="category" name="category" class="form-select" style="width:150px;height:40px;" onchange="categoryCheck()">
                             <option selected disabled> 선택 </option>
                             <option value="숙소"> 숙소 </option>
                             <option value="맛집"> 맛집 </option>
@@ -64,11 +64,11 @@
                         </select>
                         </div>
                         <div class="inputCode">
-	                        <select id="hotelCode" name="hotelCode" class="form-select" onchange="selectHotel()" style="width:200px;height:40px;">
+	                        <select id="hotelCode" name="hotelCode" class="form-select" onchange="selectHotel()" style="width:200px;height:40px; visibility: hidden;">
 	                        	<%-- 호텔코드 선택하는 메뉴 출력--%>
-	                        	<option selected disabled> hotel code 선택 </option>
+	                        	<option value="0" selected> hotel code 선택 </option>
 	                        	<c:forEach var="hotel" items="${hotels}">
- 									<option value="${hotel.name}">${hotel.name}</option>	                        	
+ 									<option value="${hotel.seq}">${hotel.name}</option>	                        	
 	                        	</c:forEach>
 	                        </select>
                         </div>
@@ -110,6 +110,15 @@
 	</div>
 	 <br><br>
 	<%-- footer --%>
-	
+	<script type="text/javascript">
+		function categoryCheck(){
+			var category = document.getElementById('category')
+			if(category.value == '숙소'){
+				document.getElementById('hotelCode').style.visibility = 'visible'
+			}else{
+				document.getElementById('hotelCode').style.visibility = 'hidden'
+			}
+		}
+	</script>
 </body>
 </html>

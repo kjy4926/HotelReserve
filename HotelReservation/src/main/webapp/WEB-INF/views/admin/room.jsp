@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
    
 <!DOCTYPE html>
 <html>
@@ -68,7 +69,7 @@
 							<td><img src="${pageContext.request.contextPath}/resources/img/room/${room.img}"></td>
 							<td>${room.name}</td>
 							<td>${room.people}</td>
-							<td>${room.price}</td>
+							<td><fmt:formatNumber value="${room.price}" pattern="#,###원"></fmt:formatNumber></td>
 							<td>${room.description}</td>
 							<td>
 								<button class="btn btn-secondary btn-sm" type="button" 

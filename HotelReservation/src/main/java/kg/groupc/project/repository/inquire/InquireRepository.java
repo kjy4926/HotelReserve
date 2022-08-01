@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.inquire.Inquire;
 import kg.groupc.project.repository.BaseRepository;
 
@@ -33,6 +34,9 @@ public interface InquireRepository<T, ID extends Serializable> extends BaseRepos
 	
 	//페이징
 	Page<Inquire> findAll(Pageable pageable);
+	
+	//마이페이지 데이터 용도
+	Page<Inquire> findByWriterOrderBySeqDesc(Account account, Pageable pageable);
 	
 	Inquire findBySeq(Long seq);	
 }

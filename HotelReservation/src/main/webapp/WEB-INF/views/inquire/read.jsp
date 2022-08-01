@@ -64,7 +64,6 @@
 					<td style="width:140px" align="left">
 						<input class="form-control" id="readOnlyInput" type="text" value="${inquire.day}" readonly>
 					</td>
-					
 				</tr>
 				<tr>
 					<td style="width:80px" align="center">Category</td>
@@ -106,7 +105,9 @@
 			<button class="btn btn-outline-success" onclick="location.href='/inquire/edit/${inquire.seq}'">수정</button>
 			<button class="btn btn-outline-danger" onclick="location.href='/inquire/delete/${inquire.seq}'">삭제</button>
 			<button class="btn btn-outline-info" onclick="location.href='/inquire'">목록</button>
-			<button class="btn btn-primary" onclick="location.href='/inquire/reply/${inquire.seq}'">답변등록</button>
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+				<button class="btn btn-primary" onclick="location.href='/inquire/reply/${inquire.seq}'">답변등록</button>
+			</sec:authorize>
 		</div>
 	<%-- 풋터 --%>
 	
