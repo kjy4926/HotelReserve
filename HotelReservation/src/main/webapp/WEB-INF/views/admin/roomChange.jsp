@@ -26,7 +26,7 @@
 	<c:import url="${pageContext.request.contextPath}/nav"></c:import>
 	<form onsubmit="return roomChangeConfirm()" class="container" action="/admin/room/change/${hotelSeq}/${room.seq}" method="post" enctype="multipart/form-data">
 		  <fieldset>
-		    <legend>방 등록</legend>
+		    <legend>방 수정</legend>
 		    <small class="fomr-text text-muted">
 				수정할 부분만 입력해 주시면 됩니다.<br>
 				주소, 사진의 경우 입력값이 없을 경우 기존 값으로 유지됩니다.

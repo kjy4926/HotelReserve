@@ -58,19 +58,15 @@
 	
 	<div class="container-fluid" style="text-align: center; margin-top: 5%">
 		<c:forEach var="hotelMainFormDto" items="${hotelMainFormDtoList}" > 
-			<div class="card mb-3" style="width: 18%; display: inline-flex;"
+			<div class="card mb-3" style="width: 18%; height: 600px; display: inline-flex;"
 				onclick="location.href='${pageContext.request.contextPath}/hotel/detail/${hotelMainFormDto.seq}'">
-				<div style="height: 40%">
+				<div style="max-height: 40%">
 					<h5 class="card-header"><c:out value="${hotelMainFormDto.name}" /></h5>
 				</div>
 				<div class="card-body">
-					<h5 class="card-title"></h5>
-						<div class="card-body">
-							<p class="card-text"><c:out value="${hotelMainFormDto.description}"/></p>
-						</div>
-					<h6 class="card-subtitle text-muted">부가설명 : (없을 시 빼기) </h6>
+					<p class="card-text"><c:out value="${hotelMainFormDto.description}"/></p>
 				</div>
-					<img src="${pageContext.request.contextPath}/resources/img/hotel/${hotelMainFormDto.img}" style="width:100%; height: 100%;"/>		
+					<img src="${pageContext.request.contextPath}/resources/img/hotel/${hotelMainFormDto.img}" style="width:100%; height: 200px;"/>		
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">호텔 전화번호 : <c:out value="${hotelMainFormDto.phone}" /></li>
 					<li class="list-group-item">호텔 주소 : <c:out value="${hotelMainFormDto.address}" /></li>
