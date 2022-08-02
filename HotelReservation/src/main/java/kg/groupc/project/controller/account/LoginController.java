@@ -2,18 +2,12 @@ package kg.groupc.project.controller.account;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import kg.groupc.project.controller.BaseController;
-import kg.groupc.project.entity.account.Account;
-import kg.groupc.project.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
 
 @Controller

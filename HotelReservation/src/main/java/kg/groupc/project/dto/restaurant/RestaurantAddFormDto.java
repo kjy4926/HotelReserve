@@ -33,15 +33,4 @@ public class RestaurantAddFormDto {
 						.build();
 		return restaurant;
 	}
-	
-	/*
-	@Builder
-	public RestaurantAddFormDto(String name, String address, String phone, String img, String description) {
-		this.name = name;
-		this.address = address;
-		this.phone = phone;
-		this.img = img;
-		this.description = description;
-	}
-	*/
 }

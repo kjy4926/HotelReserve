@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kg.groupc.project.controller.BaseController;
-import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.restaurant.Menu;
 import kg.groupc.project.entity.restaurant.Restaurant;
 import kg.groupc.project.entity.restaurant.Stars;
-import kg.groupc.project.repository.account.AccountRepository;
 import kg.groupc.project.repository.restaurant.RestaurantRepository;
 import kg.groupc.project.service.restaurant.MenuService;
 import kg.groupc.project.service.restaurant.RestaurantService;
@@ -43,9 +41,6 @@ public class RestaurantController extends BaseController{
 	
 	@Autowired
 	private StarsService<Stars, Long> starsService;
-	
-	@Autowired
-	private AccountRepository<Account, Long> accountRepository;
 	
 	// 맛집 리스트 + 검색 + 페이징
 	@RequestMapping(value="/restaurant")

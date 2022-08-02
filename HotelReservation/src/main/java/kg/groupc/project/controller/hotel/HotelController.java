@@ -23,9 +23,7 @@ import kg.groupc.project.controller.BaseController;
 import kg.groupc.project.dto.hotel.BookingFormDto;
 import kg.groupc.project.dto.hotel.HotelDetailFormDto;
 import kg.groupc.project.dto.hotel.HotelMainFormDto;
-import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.hotel.Room;
-import kg.groupc.project.service.hotel.HotelService;
 import kg.groupc.project.util.HotelPageUtil;
 
 @Controller
