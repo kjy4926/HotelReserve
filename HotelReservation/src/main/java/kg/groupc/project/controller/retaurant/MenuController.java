@@ -56,7 +56,7 @@ public class MenuController {
 	// 메뉴 삭제
 	@GetMapping("/admin/restaurant/menu/delete/{seq}")
 	public String deleteMenuPage(@PathVariable Long seq) {
-		Menu menuDelete = menuService.delete(seq);
+		menuService.delete(seq);
 		return "redirect:/admin/restaurant";
 	}
 	

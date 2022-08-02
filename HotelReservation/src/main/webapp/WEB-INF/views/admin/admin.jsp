@@ -14,7 +14,7 @@
 	<style type="text/css">
 		.menu-div-field{
 			width: 90%;
-			margin: 5% auto;
+			margin: 3% auto;
 			display: flex;
 		}
 		.menu-div{
@@ -26,6 +26,7 @@
 		.menu-img{
 			width: 100%;
 		}
+		.menu-text-field{text-align: center; width: 50%}
 	</style>
 </head>
 <body>
@@ -33,10 +34,18 @@
 	<!-- 나중에 사진 수정 -->
 	<div class="menu-div-field">
 		<div class="menu-div" onclick="location.href='${pageContext.request.contextPath}/admin/hotel'">
-			<img src="${pageContext.request.contextPath}/resources/img/home/man1.jpg">
+			<img class="menu-img" src="${pageContext.request.contextPath}/resources/img/adminMenu/hotelManage.jpg">
 		</div>
 		<div class="menu-div" onclick="location.href='${pageContext.request.contextPath}/admin/restaurant'">
-			<img src="${pageContext.request.contextPath}/resources/img/home/man2.jpg">
+			<img class="menu-img" src="${pageContext.request.contextPath}/resources/img/adminMenu/restaurantManage.jpg">
+		</div>
+	</div>
+	<div class="menu-div-field">
+		<div class="menu-div">
+			<h3>Hotel Management</h3>
+		</div>
+		<div class="menu-div">
+			<h3>Restaurant Management</h3>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

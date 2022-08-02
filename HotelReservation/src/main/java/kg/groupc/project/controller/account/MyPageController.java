@@ -31,15 +31,11 @@ import kg.groupc.project.dto.review.ReviewFormDto;
 import kg.groupc.project.entity.account.Account;
 import kg.groupc.project.entity.hotel.Hotel;
 import kg.groupc.project.entity.restaurant.Restaurant;
-import kg.groupc.project.entity.restaurant.Stars;
-import kg.groupc.project.repository.restaurant.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class MyPageController extends BaseController{
-	//test
-	private final RestaurantRepository<Restaurant, Long> rr;
 	private final PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/mypage")

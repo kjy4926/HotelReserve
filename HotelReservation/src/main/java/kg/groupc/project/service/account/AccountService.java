@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
