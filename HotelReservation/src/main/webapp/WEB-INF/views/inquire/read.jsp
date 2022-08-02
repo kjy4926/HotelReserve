@@ -17,12 +17,10 @@
 			justify-center: center;
 			width: 50%
 		}
-		.invisible {
-			display: inline;
-		}
-		table{
-			margin-left:auto; 
-			margin-right:auto;
+		.btn-field {
+			margin: auto;
+			text-align: right;
+			width: 800px;
 		}
 		textarea{
 			width:500px;
@@ -100,14 +98,22 @@
 				</tr>
 			</table>
 		</div><br>
-		<div class="inqbutton" align="center">
-			<button type="button" class="invisible"> 목록으로 지금 당장 빨리 가기 </button>
-			<button class="btn btn-outline-success" onclick="location.href='/inquire/edit/${inquire.seq}'">수정</button>
-			<button class="btn btn-outline-danger" onclick="location.href='/inquire/delete/${inquire.seq}'">삭제</button>
-			<button class="btn btn-outline-info" onclick="location.href='/inquire'">목록</button>
-			<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-				<button class="btn btn-primary" onclick="location.href='/inquire/reply/${inquire.seq}'">답변등록</button>
-			</sec:authorize>
+		<div class="btn-field" align="center">
+				<button class="btn btn-outline-info" onclick="location.href='/inquire'">목록</button>
+				<sec:authorize access="isAuthenticated()">
+					<sec:authentication var="principal" property="principal"/>
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+						<button class="btn btn-outline-success" onclick="location.href='/inquire/edit/${inquire.seq}'">수정</button>
+						<button class="btn btn-outline-danger" onclick="location.href='/inquire/delete/${inquire.seq}'">삭제</button>
+						<button class="btn btn-primary" onclick="location.href='/inquire/reply/${inquire.seq}'">답변등록</button>
+					</sec:authorize>
+					<sec:authorize access="hasAnyRole('ROLE_CLIENT')">
+						<c:if test="${principal.username eq inquire.writer}">
+							<button class="btn btn-outline-success" onclick="location.href='/inquire/edit/${inquire.seq}'">수정</button>
+							<button class="btn btn-outline-danger" onclick="location.href='/inquire/delete/${inquire.seq}'">삭제</button>
+						</c:if>
+					</sec:authorize>
+				</sec:authorize>
 		</div>
 	<%-- 풋터 --%>
 	
