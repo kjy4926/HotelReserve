@@ -105,7 +105,7 @@ public class InquireService<T, ID extends Serializable> extends BaseService<Inqu
 		InquireDto inquireDto = new InquireDto();
 		inquireDto.setSeq(inquire.getSeq());
 		if(userId != null) {
-			inquireDto.setWriter(accountRepository.findByUserId(userId).getUserId());
+			inquireDto.setWriter(inquire.getWriter().getUserId());
 		}
 		if(inquire.getHotel() != null) {
 			inquireDto.setHotel(inquire.getHotel().getName());
